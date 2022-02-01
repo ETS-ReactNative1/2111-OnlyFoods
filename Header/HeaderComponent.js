@@ -1,9 +1,8 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import React from "react";
-import FooterComponent from "../Footer/FooterComponent";
 
-const NavbarComponent = () => {
+const HeaderComponent = () => {
   return (
     <>
       <View style={styles.mainContainer}>
@@ -30,7 +29,6 @@ const NavbarComponent = () => {
         </View>
         {/* FOOTER */}
       </View>
-      <FooterComponent />
     </>
   );
 };
@@ -54,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NavbarComponent;
+export default HeaderComponent;
