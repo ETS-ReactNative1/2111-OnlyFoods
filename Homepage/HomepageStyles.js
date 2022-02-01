@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  container: {
+    backgroundColor: "black",
+    flex: 1,
+  },
 });
 
-export default styles
+export default styles;

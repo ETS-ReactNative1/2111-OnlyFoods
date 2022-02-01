@@ -1,0 +1,10 @@
+ "node_modules/@expo/json-file": {
+      "version": "8.2.33",
+      "resolved": "https://registry.npmjs.org/@expo/json-file/-/json-file-8.2.33.tgz",
+      "integrity": "sha512-CDnhjdirUs6OdN5hOSTJ2y3i9EiJMk7Z5iDljC5xyCHCrUex7oyI8vbRsZEojAahxZccgL/PrO+CjakiFFWurg==",
+      "dependencies": {
+        "@babel/code-frame": "~7.10.4",
+        "json5": "^1.0.1",
+        "write-file-atomic": "^2.3.0"
+      }
+    },
