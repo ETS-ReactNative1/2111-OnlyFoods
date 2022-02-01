@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
@@ -7,62 +7,90 @@ import {
   Button,
   Pressable,
   Image,
-  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import styles from "./LoginStyle"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebase } from "../firebase_config";
 
-function LoginComponent() {
+const auth = getAuth(firebase)
+let user = auth.currentUser;
+
+function LoginComponent({navigation}) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = () => {
+    try{
+      signInWithEmailAndPassword(auth, email, password)
+      .then(userCredentials => {
+        const login = userCredentials.user
+        console.log(login.email)
+        user = auth.currentUser
+        navigation.replace('Homepage')
+      })
+      .catch(error => alert(error.message))
+    } catch (error) {
+      alert(error.message)
+      console.log(error)
+    }
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <View style={styles.logo}>
-          <Image
-            source={{
-              uri: "https://uspto.report/TM/90307472/mark.png",
-              height: 150,
-              width: 150,
-            }}
-          />
-          {/* <Text>OnlyFoods</Text> */}
-        </View>
+    <KeyboardAvoidingView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <View style={styles.logo}>
+            <Image
+              source={{
+                uri: "https://uspto.report/TM/90307472/mark.png",
+                height: 150,
+                width: 150,
+              }}
+            />
+          </View>
 
+          <View style={styles.input}>
+            <TextInput
+              placeholderTextColor="#444"
+              placeholder="Email"
+              autoCapitalize="none"
+              onChangeText={text => setEmail(text)}
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              autoFocus={true}
+            />
+
+            <View />
+          </View>
+        </View>
         <View style={styles.input}>
           <TextInput
             placeholderTextColor="#444"
-            placeholder="Username or Email"
+            placeholder="Password"
+            onChangeText={text => setPassword(text)}
             autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoFocus={true}
+            autoCorrect={false}
+            secureTextEntry={true}
+            textContentType="password"
           />
+        </View>
+        <Pressable
+          titleSize={20}
+          style={styles.button}
+          onPress={handleLogin}
+        >
+          <Text style={styles.buttonText}> Log In </Text>
+        </Pressable>
 
-          <View />
+        <View style={styles.signupContainer}>
+          <Text>Don't have an account?</Text>
+          <Pressable>
+            <Text style={{ color: "#6BB0F5" }} onPress={() => navigation.navigate('SignUp')}> Sign Up</Text>
+          </Pressable>
         </View>
       </View>
-      <View style={styles.input}>
-        <TextInput
-          placeholderTextColor="#444"
-          placeholder="Password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry={true}
-          textContentType="password"
-        />
-      </View>
-      <Pressable
-        titleSize={20}
-        style={styles.button}
-        onPress={() => console.log("pressed login!")}
-      >
-        <Text style={styles.buttonText}> Log In </Text>
-      </Pressable>
-      <View style={styles.signupContainer}>
-        <Text>Don't have an account?</Text>
-        <TouchableOpacity>
-          <Text style={{ color: "#6BB0F5" }}> Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

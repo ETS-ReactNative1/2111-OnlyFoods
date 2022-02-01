@@ -1,29 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   ImageBackground,
   Text,
   SafeAreaView,
+  View,
   StyleSheet,
 } from "react-native";
 import LoginComponent from "./Login/LoginComponent";
-import NavbarComponent from "./Navbar/NavbarComponent";
+import SignupComponent from "./Signup/SignupComponent";
+import Homepage from "./Homepage/HomepageComponent";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { getAuth } from "firebase/auth";
+import { firebase } from "./firebase_config";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // const [loading, setLoading] = useState(true)
+  // const [user, setUser] = useState(null)
+
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <Text>Hello World</Text>
-      <Text>This is a test</Text>
-      <Text>Lets make this work</Text> */}
-      {/* <LoginComponent /> */}
-      <NavbarComponent />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={LoginComponent}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SignUp"
+          component={SignupComponent}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Homepage"
+          component={Homepage}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "black",
-    flex: 1,
-  },
-});
