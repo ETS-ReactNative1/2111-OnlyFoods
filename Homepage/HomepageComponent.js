@@ -6,22 +6,22 @@ import {
   SafeAreaView,
   View,
   Pressable,
-  StyleSheet,
 } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 import { firebase } from "../firebase_config";
 import styles from "./HomepageStyles";
-import NavbarComponent from "../Navbar/NavbarComponent";
+import HeaderComponent from "../Header/HeaderComponent";
+import FooterComponent from "../Footer/FooterComponent";
 
 const Homepage = ({ navigation }) => {
   const auth = getAuth(firebase);
   let user = auth.currentUser;
 
   return (
-    <>
-      <NavbarComponent />
+    <View style={styles.container}>
+      <HeaderComponent />
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>LoggedIn {user.email}</Text>
+        <Text style={styles.buttonText}>LoggedIn {user.email}</Text>
 
         <Pressable
           titleSize={20}
@@ -34,7 +34,8 @@ const Homepage = ({ navigation }) => {
           <Text style={styles.buttonText}> Log Out </Text>
         </Pressable>
       </View>
-    </>
+      <FooterComponent />
+    </View>
   );
 };
 
