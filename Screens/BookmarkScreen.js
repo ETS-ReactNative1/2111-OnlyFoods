@@ -1,16 +1,16 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 import React from "react";
 
-const HomeScreen = ({ navigation }) => {
+const BookmarkScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Button title="Home Screen" onPress={() => alert("Button Clicked")} />
+      <Text>Bookmark Screen</Text>
+      <Button title="Bookmark Screen" onPress={() => alert("Button Clicked")} />
     </View>
   );
 };
 
-export default HomeScreen;
+export default BookmarkScreen;
 
 const styles = StyleSheet.create({
   container: {
