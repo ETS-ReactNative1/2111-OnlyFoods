@@ -17,7 +17,7 @@ import { getAuth } from "firebase/auth";
 import { firebase } from "./firebase_config";
 import BottomTabs from "./Navigation/BottomTabs";
 import ProfileScreen from "./Screens/ProfileScreen";
-
+import SinglePostScreen from "./Screens/SinglePostScreen";
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -49,6 +49,9 @@ function App() {
             options={{
               headerShown: false,
             }}
+            options={{ headerShown: false }}
+            name="SinglePost"
+            component={SinglePostScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

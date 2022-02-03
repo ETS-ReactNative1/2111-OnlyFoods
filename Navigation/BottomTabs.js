@@ -4,6 +4,7 @@ import HomeScreen from "../Screens/HomeScreen";
 import BookmarkScreen from "../Screens/BookmarkScreen";
 import AddScreen from "../Screens/AddScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
+import SinglePostScreen from "../Screens/SinglePostScreen";
 import {
   Ionicons,
   AntDesign,
@@ -81,6 +82,19 @@ const BottomTabs = () => {
               name="user"
               size={35}
               color={focused ? "rgb(71, 190, 255)" : "white"}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SinglePost"
+        component={SinglePostScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="file1"
+              size={24}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
             />
           ),
         }}
