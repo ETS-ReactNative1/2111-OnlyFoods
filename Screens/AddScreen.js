@@ -5,7 +5,6 @@ const AddScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Add Screen</Text>
-      <Button title="Add Post Screen" onPress={() => alert("Button Clicked")} />
     </View>
   );
 };

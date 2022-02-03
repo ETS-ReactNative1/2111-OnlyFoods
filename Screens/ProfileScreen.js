@@ -5,7 +5,6 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Profile Screen</Text>
-      <Button title="Profile Screen" onPress={() => alert("Button Clicked")} />
     </View>
   );
 };
