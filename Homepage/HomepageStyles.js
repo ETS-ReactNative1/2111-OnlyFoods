@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   container: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     flex: 1,
   },
 });

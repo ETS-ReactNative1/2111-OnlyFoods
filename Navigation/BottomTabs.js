@@ -1,10 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import HomeScreen from "../Screens/HomeScreen";
-import SearchScreen from "../Screens/SearchScreen";
+import BookmarkScreen from "../Screens/BookmarkScreen";
 import AddScreen from "../Screens/AddScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
@@ -12,18 +16,18 @@ const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        showLabel: false,
-        style: {
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: {
           position: "absolute",
-          bottom: 25,
-          left: 20,
-          right: 20,
+          bottom: 15,
+          left: 15,
+          right: 15,
           elevation: 0,
-          backgroundColor: "red",
-          borderRadius: 15,
-          height: 90,
-          ...styles.shadow,
+          backgroundColor: "black",
+          borderRadius: 13,
+          height: 60,
+          ...style.shadow,
         },
       }}
     >
@@ -33,17 +37,25 @@ const BottomTabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View>
-              <AntDesign name="home" size={35} color="black" />
+              <AntDesign
+                name="home"
+                size={35}
+                color={focused ? "rgb(71, 190, 255)" : "white"}
+              />
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchScreen}
+        name="Bookmark"
+        component={BookmarkScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="ios-search" size={35} color="black" />
+            <MaterialCommunityIcons
+              name="bookmark-outline"
+              size={40}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+            />
           ),
         }}
       />
@@ -52,7 +64,11 @@ const BottomTabs = () => {
         component={AddScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="add-circle-outline" size={35} color="black" />
+            <Ionicons
+              name="add-circle-outline"
+              size={37}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+            />
           ),
         }}
       />
@@ -61,7 +77,11 @@ const BottomTabs = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <AntDesign name="user" size={35} color="black" />
+            <AntDesign
+              name="user"
+              size={35}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+            />
           ),
         }}
       />
@@ -69,9 +89,9 @@ const BottomTabs = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   shadow: {
-    shadowColor: "red",
+    shadowColor: "black",
     shadowOffset: {
       width: 0,
       height: 10,
