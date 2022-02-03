@@ -10,8 +10,6 @@ import {
 import { getAuth, signOut } from "firebase/auth";
 import { firebase } from "../firebase_config";
 import styles from "./HomepageStyles";
-import HeaderComponent from "../Header/HeaderComponent";
-import FooterComponent from "../Footer/FooterComponent";
 
 const Homepage = ({ navigation }) => {
   const auth = getAuth(firebase);
@@ -19,7 +17,6 @@ const Homepage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <HeaderComponent />
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text style={styles.buttonText}>LoggedIn {user.email}</Text>
 
@@ -34,7 +31,6 @@ const Homepage = ({ navigation }) => {
           <Text style={styles.buttonText}> Log Out </Text>
         </Pressable>
       </View>
-      <FooterComponent />
     </View>
   );
 };
