@@ -14,7 +14,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getAuth } from "firebase/auth";
 import { firebase } from "./firebase_config";
 import BottomTabs from "./Navigation/BottomTabs";
-
+import SinglePostScreen from "./Screens/SinglePostScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -39,6 +39,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Homepage"
             component={BottomTabs}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SinglePost"
+            component={SinglePostScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
