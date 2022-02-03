@@ -1,21 +1,19 @@
-import { auth } from '../firebase_config'
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
 import React, {useState} from "react";
+import { auth, db } from '../firebase_config'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore"
+import styles from "./SignupStyle"
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
-  Button,
   Pressable,
   Image,
   KeyboardAvoidingView
 } from "react-native";
-import styles from "./SignupStyle"
 
 function SignupComponent({navigation}) {
-  const usersRef = collection(db, "users");
+  const usersRef = collection(db, "user");
 
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -56,7 +54,7 @@ function SignupComponent({navigation}) {
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
-              placeholder="Username"
+              placeholder="Username: Max 8 characters"
               onChangeText={text => setUsername(text)}
               autoCapitalize="none"
               keyboardType="default"
@@ -81,7 +79,7 @@ function SignupComponent({navigation}) {
         <View style={styles.input}>
           <TextInput
             placeholderTextColor="#444"
-            placeholder="Password"
+            placeholder="Password: Min 6 characters"
             autoCapitalize="none"
             onChangeText={text => setPassword(text)}
             autoCorrect={false}
