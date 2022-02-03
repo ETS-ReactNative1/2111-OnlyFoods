@@ -6,6 +6,8 @@ import {
   SafeAreaView,
   View,
   StyleSheet,
+  Image,
+  ScrollView,
 } from "react-native";
 import LoginComponent from "./Login/LoginComponent";
 import SignupComponent from "./Signup/SignupComponent";
@@ -14,10 +16,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getAuth } from "firebase/auth";
 import { firebase } from "./firebase_config";
 import BottomTabs from "./Navigation/BottomTabs";
+import ProfileScreen from "./Screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   // const [loading, setLoading] = useState(true)
   // const [user, setUser] = useState(null)
 
@@ -40,8 +43,17 @@ export default function App() {
             name="Homepage"
             component={BottomTabs}
           />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
+
+export default App;
