@@ -15,17 +15,23 @@ import {
 import styles from "./SignupStyle"
 
 function SignupComponent({navigation}) {
+  const usersRef = collection(db, "users");
 
-  const [email, setEmail] = useState('')
-  //const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignup = () => {
     try{
       createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user
-        navigation.replace('Homepage')
+        addDoc(usersRef, {
+          Email: email,
+          UserId: user.uid,
+          Username: username,
+        })
+        navigation.replace("Homepage")
       })
       .catch(error => alert(error.message))
     } catch (error) {
@@ -47,7 +53,18 @@ function SignupComponent({navigation}) {
               }}
             />
           </View>
-
+          <View style={styles.input}>
+            <TextInput
+              placeholderTextColor="#444"
+              placeholder="Username"
+              onChangeText={text => setUsername(text)}
+              autoCapitalize="none"
+              keyboardType="default"
+              textContentType="username"
+              autoFocus={true}
+              maxLength={8}
+            />
+          </View>
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
@@ -58,9 +75,9 @@ function SignupComponent({navigation}) {
               textContentType="emailAddress"
               autoFocus={true}
             />
-
           </View>
         </View>
+
         <View style={styles.input}>
           <TextInput
             placeholderTextColor="#444"
