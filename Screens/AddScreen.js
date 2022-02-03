@@ -1,8 +1,7 @@
-    // <View style={styles.container}>
-    //   <Text>Add Screen</Text>
-    //   <Button title="Add Post Screen" onPress={() => alert("Button Clicked")} />
-    // </View>
-
+// <View style={styles.container}>
+//   <Text>Add Screen</Text>
+//   <Button title="Add Post Screen" onPress={() => alert("Button Clicked")} />
+// </View>
 
 // const styles = StyleSheet.create({
 //   container: {
@@ -13,7 +12,7 @@
 //   },
 // });
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -22,55 +21,61 @@ import {
   Button,
   Pressable,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
-import styles from "./AddScreenStyle"
+import styles from "./AddScreenStyle";
 import { firebase, auth, db } from "../firebase_config";
-import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore"
-import { Picker } from '@react-native-picker/picker';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { Picker } from "@react-native-picker/picker";
 
-function AddScreen({navigation}) {
-  const user = auth.currentUser
-  const recipesRef = collection(db, 'recipes')
+function AddScreen({ navigation }) {
+  const user = auth.currentUser;
+  const recipesRef = collection(db, "recipes");
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [cuisine, setCuisine] = useState('')
-  const [publicSetting, setPublicSetting] = useState(false)
-  const [time, setTime] = useState({ hours: 0, minutes: 0})
-  const [instructions, setInstructions] = useState([])
-  const [ingredients, setIngredients] = useState([])
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [cuisine, setCuisine] = useState("");
+  const [publicSetting, setPublicSetting] = useState(false);
+  const [time, setTime] = useState({ hours: 0, minutes: 0 });
+  const [instructions, setInstructions] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   const handlePost = () => {
-    console.log('post clicked, currentuserId:', user.uid)
+    console.log("post clicked, currentuserId:", user.uid);
     addDoc(recipesRef, {
-      'Name': name,
-      'Description': description,
-      'CreatedAt': serverTimestamp(),
-      'Creator': user.uid,
+      Name: name,
+      Description: description,
+      CreatedAt: serverTimestamp(),
+      Creator: user.uid,
       // 'ImageURL': '',
       // 'Ingredients': ingredients,
-      'Public': publicSetting,
+      Public: publicSetting,
       // 'Instructions': instructions,
       // 'Time': time,
       // 'Cuisine': cuisine
     })
-      .then(() => navigation.navigate('Home'))
-      .catch(error => console.log(error))
-  }
+      .then(() => navigation.navigate("Home"))
+      .catch((error) => console.log(error));
+  };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+    <KeyboardAvoidingView
+      style={{ flex: 1, width: "100%" }}
+      keyboardShouldPersistTaps="always"
+    >
       <View style={styles.container}>
         <View style={styles.wrapper}>
-
-
           <View style={styles.input}>
             <TextInput
               placeholderTextColor="#444"
               placeholder="Name"
               autoCapitalize="none"
-              onChangeText={text => setName(text)}
+              onChangeText={(text) => setName(text)}
               textContentType="none"
               autoFocus={true}
             />
@@ -82,25 +87,21 @@ function AddScreen({navigation}) {
           <TextInput
             placeholderTextColor="#444"
             placeholder="Description"
-            onChangeText={text => setDescription(text)}
+            onChangeText={(text) => setDescription(text)}
             autoCapitalize="none"
             textContentType="none"
           />
         </View>
         <Picker
           selectedValue={publicSetting}
-          onValueChange={(itemValue) => setPublicSetting(itemValue) }>
+          onValueChange={(itemValue) => setPublicSetting(itemValue)}
+        >
           <Picker.Item label="Public" value={true} />
           <Picker.Item label="Private" value={false} />
         </Picker>
-        <Pressable
-          titleSize={20}
-          style={styles.button}
-          onPress={handlePost}
-        >
+        <Pressable titleSize={20} style={styles.button} onPress={handlePost}>
           <Text style={styles.buttonText}> Post! </Text>
         </Pressable>
-
       </View>
     </KeyboardAvoidingView>
   );

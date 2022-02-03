@@ -81,7 +81,7 @@ const BottomTabs = () => {
             <AntDesign
               name="user"
               size={35}
-              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+              color={focused ? "rgb(71, 190, 255)" : "white"}
             />
           ),
         }}
