@@ -25,11 +25,6 @@ import {
 } from "react-native";
 import styles from "./AddScreenStyle";
 import { firebase, auth, db } from "../firebase_config";
-<<<<<<< HEAD
-import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore"
-import { Picker } from '@react-native-picker/picker';
-import {unsubProfile} from './ProfileScreenTest'
-=======
 import {
   collection,
   getDocs,
@@ -37,7 +32,6 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
->>>>>>> main
 
 function AddScreen({ navigation }) {
   const user = auth.currentUser;

@@ -6,13 +6,39 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Pressable
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect} from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { firebase, auth, db } from "../firebase_config";
+import { collection, getDocs, addDoc, serverTimestamp, query, where, onSnapshot } from "firebase/firestore"
 // import firestore from "@react-native-firebase/firestore";
 
 const ProfileScreen = ({ navigation }) => {
   // const {user, logout} = useContext(AuthContext)
+  const user = auth.currentUser
+  const recipesRef = collection(db, 'recipes')
+  const recipesQuery = query(recipesRef, where('Creator', '==', user.uid))
+
+  const [recipes, setRecipes] = useState([])
+  //const [loading, setLoading] = useState(true)
+
+  const refresh = () => {
+    getDocs(recipesQuery)
+      .then( (snapshot) => {
+        let snapRecipes = []
+        snapshot.docs.forEach( (doc) => {
+          snapRecipes.push(doc.data())
+        })
+        setRecipes(snapRecipes)
+      })
+      .catch(error => console.log(error))
+  }
+
+  useEffect(() => {
+    refresh()
+    console.log('useEffect triggered')
+  }, [])
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -34,6 +60,25 @@ const ProfileScreen = ({ navigation }) => {
             <AntDesign name="setting" size={30} color="black" />
           </View>
         </View>
+
+
+        {/* lines below are to check that firestore queries work */}
+        <Pressable
+            titleSize={20}
+            style={styles.button}
+            onPress={refresh}
+          >
+            <Text style={styles.buttonText}> Refresh Page </Text>
+          </Pressable>
+
+        <Text>{user.email}'s page</Text>
+          <View>
+            <Text>{user.email}'s Recipes:</Text>
+            {
+              recipes.map( (recipe, index) => <Text key={index}>{recipe['Name']}</Text>)
+            }
+          </View>
+
         <View style={styles.images}>
           <Image style={styles.img} source={require("../Assets/food1.jpeg")} />
           <Image style={styles.img} source={require("../Assets/food2.jpeg")} />
@@ -102,5 +147,17 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginBottom: 10,
+  },
+  button: {
+    backgroundColor: "#0096F6",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 42,
+    borderRadius: 4,
+  },
+  buttonText: {
+    fontWeight: "600",
+    color: "#fff",
+    fontSize: 20,
   },
 });
