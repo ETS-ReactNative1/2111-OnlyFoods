@@ -22,10 +22,14 @@ const SinglePostScreen = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <View style={styles.userinfo}>
-            <Octicons name="octoface" size={35} color="white" />
+            <Image
+              style={styles.userImg}
+              source={require("../Assets/Cook1.png")}
+            />
             <View style={styles.username}>
-              <Text style={{ color: "white" }}> rachel_username</Text>
+              <Text> rachel_username</Text>
             </View>
+            <Feather name="edit-2" size={24} style={styles.edit} />
           </View>
 
           <View style={styles.fire}>
@@ -38,8 +42,6 @@ const SinglePostScreen = ({ navigation }) => {
                 uri: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg",
               }}
             />
-
-            <Feather name="edit-2" size={24} color="white" />
           </View>
           <View style={styles.icons}>
             <TouchableOpacity onPress={() => alert("Added to Bookmark!")}>
@@ -51,17 +53,12 @@ const SinglePostScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
 
-            <MaterialCommunityIcons
-              name="food-fork-drink"
-              size={40}
-              color="white"
-            />
+            <MaterialCommunityIcons name="food-fork-drink" size={40} />
           </View>
           <View style={styles.recipe}>
             <View style={styles.recipeInfo}>
               <Text
                 style={{
-                  color: "white",
                   textDecorationLine: "underline",
                   alignItems: "center",
                 }}
@@ -70,21 +67,21 @@ const SinglePostScreen = ({ navigation }) => {
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text style={{ color: "white" }}>
+              <Text>
                 Description: Like your date? Want to see her again? This recipe
                 is all you need to score the next date with your boo
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text style={{ color: "white" }}>
+              <Text>
                 Ingredients: Your time, your love, your dedication, yo money{" "}
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text style={{ color: "white" }}>Time: 1hr 20min</Text>
+              <Text>Time: 1hr 20min</Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text style={{ color: "white" }}>
+              <Text>
                 Recipe Steps: Sopa de fideo is a quick and comforting Mexican
                 staple that is particularly good on a chilly weeknight. The
                 acidity from tomatoes, the bold garlic flavor and the luscious
@@ -115,11 +112,10 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
-    textDecorationColor: "white",
+    backgroundColor: "white",
   },
   userinfo: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     justifyContent: "flex-start",
     flexDirection: "row",
     marginHorizontal: 30,
@@ -128,7 +124,7 @@ const styles = StyleSheet.create({
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
-    marginHorizontal: 30,
+    marginHorizontal: 10,
   },
   image: {
     marginLeft: 30,
@@ -170,7 +166,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  bookmark: {
-    color: "white",
+
+  edit: {
+    marginLeft: 70,
+    marginTop: 10,
+  },
+  userImg: {
+    height: 80,
+    width: 80,
+    borderRadius: 75,
   },
 });
