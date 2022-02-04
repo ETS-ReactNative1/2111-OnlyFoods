@@ -24,7 +24,7 @@ const SinglePostScreen = ({ navigation }) => {
           <View style={styles.userinfo}>
             <Image
               style={styles.userImg}
-              source={require("../Assets/Cook1.png")}
+              source={require("../../Assets/Cook1.png")}
             />
             <View style={styles.username}>
               <Text> rachel_username</Text>

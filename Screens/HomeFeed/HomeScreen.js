@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,52 +10,50 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { db } from "../firebase_config";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
+import { db } from "../../firebase_config";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 const HomeScreen = ({ navigation, loggedInUser }) => {
-
   //const user = auth.currentUser
-  const recipesRef = collection(db, 'recipes')
-  const recipesQuery = query(recipesRef, where('Public', '==', true), orderBy("CreatedAt", 'desc'))
+  const recipesRef = collection(db, "recipes");
+  const recipesQuery = query(
+    recipesRef,
+    where("Public", "==", true),
+    orderBy("CreatedAt", "desc")
+  );
 
-  const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState([]);
 
   const refresh = () => {
     getDocs(recipesQuery)
-      .then( (snapshot) => {
-        let snapRecipes = []
-        snapshot.docs.forEach( (doc) => {
-          snapRecipes.push(doc.data())
-        })
-        setRecipes(snapRecipes)
+      .then((snapshot) => {
+        let snapRecipes = [];
+        snapshot.docs.forEach((doc) => {
+          snapRecipes.push(doc.data());
+        });
+        setRecipes(snapRecipes);
       })
-      .catch(error => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
-  useEffect(() => refresh(), [])
+  useEffect(() => refresh(), []);
 
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
 
       {/* Code beloww is purely to check that data is being fetched properly */}
-      <TouchableOpacity
-        titleSize={20}
-        style={styles.button}
-        onPress={refresh}
-      >
+      <TouchableOpacity titleSize={20} style={styles.button} onPress={refresh}>
         <Text style={styles.buttonText}> Refresh Page </Text>
       </TouchableOpacity>
       <View>
         <Text>All Public Recipes:</Text>
-        {
-          recipes.map( (recipe, index) => <Text key={index}>{recipe['Name']}</Text>)
-        }
+        {recipes.map((recipe, index) => (
+          <Text key={index}>{recipe["Name"]}</Text>
+        ))}
       </View>
-
     </View>
   );
 };

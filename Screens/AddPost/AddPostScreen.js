@@ -24,7 +24,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import styles from "./AddScreenStyle";
-import { firebase, auth, db } from "../firebase_config";
+import { firebase, auth, db } from "../../firebase_config";
 import {
   collection,
   getDocs,
@@ -33,7 +33,7 @@ import {
 } from "firebase/firestore";
 import { Picker } from "react-native";
 
-function AddScreen({ navigation, loggedInUser }) {
+function AddPostScreen({ navigation, loggedInUser }) {
   //const user = auth.currentUser;
   const recipesRef = collection(db, "recipes");
 
@@ -60,17 +60,17 @@ function AddScreen({ navigation, loggedInUser }) {
       // 'Cuisine': cuisine
     })
       .then(() => {
-        setName('')
-        setDescription('')
-        setCuisine('')
-        setPublicSetting(false)
-        setTime({ hours: 0, minutes: 0})
-        setInstructions([])
-        setIngredients([])
-        navigation.navigate('Home')
+        setName("");
+        setDescription("");
+        setCuisine("");
+        setPublicSetting(false);
+        setTime({ hours: 0, minutes: 0 });
+        setInstructions([]);
+        setIngredients([]);
+        navigation.navigate("Home");
       })
-      .catch(error => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
   return (
     <KeyboardAvoidingView
@@ -84,7 +84,7 @@ function AddScreen({ navigation, loggedInUser }) {
               placeholderTextColor="#444"
               placeholder="Name"
               autoCapitalize="none"
-              onChangeText={text => setName(text)}
+              onChangeText={(text) => setName(text)}
               value={name}
               textContentType="none"
               autoFocus={true}
@@ -97,7 +97,7 @@ function AddScreen({ navigation, loggedInUser }) {
           <TextInput
             placeholderTextColor="#444"
             placeholder="Description"
-            onChangeText={text => setDescription(text)}
+            onChangeText={(text) => setDescription(text)}
             value={description}
             autoCapitalize="none"
             textContentType="none"
@@ -118,4 +118,4 @@ function AddScreen({ navigation, loggedInUser }) {
   );
 }
 
-export default AddScreen;
+export default AddPostScreen;
