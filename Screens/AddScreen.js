@@ -33,8 +33,8 @@ import {
 } from "firebase/firestore";
 import { Picker } from "react-native";
 
-function AddScreen({ navigation }) {
-  const user = auth.currentUser;
+function AddScreen({ navigation, loggedInUser }) {
+  //const user = auth.currentUser;
   const recipesRef = collection(db, "recipes");
 
   const [name, setName] = useState("");
@@ -46,12 +46,12 @@ function AddScreen({ navigation }) {
   const [ingredients, setIngredients] = useState([]);
 
   const handlePost = () => {
-    console.log("post clicked, currentuserId:", user.uid);
     addDoc(recipesRef, {
       Name: name,
       Description: description,
       CreatedAt: serverTimestamp(),
-      Creator: user.uid,
+      Creator: loggedInUser.UserId,
+      CreatorUsername: loggedInUser.Username,
       // 'ImageURL': '',
       // 'Ingredients': ingredients,
       Public: publicSetting,
@@ -59,9 +59,18 @@ function AddScreen({ navigation }) {
       // 'Time': time,
       // 'Cuisine': cuisine
     })
-      .then(() => navigation.navigate("Home"))
-      .catch((error) => console.log(error));
-  };
+      .then(() => {
+        setName('')
+        setDescription('')
+        setCuisine('')
+        setPublicSetting(false)
+        setTime({ hours: 0, minutes: 0})
+        setInstructions([])
+        setIngredients([])
+        navigation.navigate('Home')
+      })
+      .catch(error => console.log(error))
+  }
 
   return (
     <KeyboardAvoidingView
@@ -75,7 +84,8 @@ function AddScreen({ navigation }) {
               placeholderTextColor="#444"
               placeholder="Name"
               autoCapitalize="none"
-              onChangeText={(text) => setName(text)}
+              onChangeText={text => setName(text)}
+              value={name}
               textContentType="none"
               autoFocus={true}
             />
@@ -87,7 +97,8 @@ function AddScreen({ navigation }) {
           <TextInput
             placeholderTextColor="#444"
             placeholder="Description"
-            onChangeText={(text) => setDescription(text)}
+            onChangeText={text => setDescription(text)}
+            value={description}
             autoCapitalize="none"
             textContentType="none"
           />

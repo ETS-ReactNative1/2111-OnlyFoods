@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import HomeScreen from "../Screens/HomeScreen";
 import BookmarkScreen from "../Screens/BookmarkScreen";
 import AddScreen from "../Screens/AddScreen";
@@ -11,10 +11,32 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { auth, db } from "../firebase_config";
+import { collection, getDocs, query, where } from "firebase/firestore"
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
+  const [loggedInUser, setLoggedInUser] = useState({})
+
+  const user = auth.currentUser
+
+  const usersRef = collection(db, 'user')
+  const userQuery = query(usersRef, where('Email', '==', user.email))
+  //console.log('loggedin, uid:', user.uid)
+
+  const refresh = () => {
+      getDocs(userQuery)
+      .then( (snapshot) => {
+        snapshot.docs.forEach( (doc) => {
+          setLoggedInUser(doc.data())
+        })
+      })
+      .catch(error => console.log(error))
+  }
+
+  useEffect(() => refresh(), [])
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -34,7 +56,8 @@ const BottomTabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        children={(props)=><HomeScreen {...props}loggedInUser={loggedInUser}/>}
+        // component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View>
@@ -49,7 +72,8 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Bookmark"
-        component={BookmarkScreen}
+        children={(props)=><BookmarkScreen {...props} loggedInUser={loggedInUser}/>}
+        // component={BookmarkScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
@@ -62,7 +86,8 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Add Post"
-        component={AddScreen}
+        children={(props)=><AddScreen {...props}loggedInUser={loggedInUser}/>}
+        // component={AddScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
@@ -75,7 +100,8 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        children={(props)=><ProfileScreen {...props} loggedInUser={loggedInUser}/>}
+        // component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign
