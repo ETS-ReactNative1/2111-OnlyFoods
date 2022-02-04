@@ -37,21 +37,23 @@ function LoginComponent({navigation}) {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+    <KeyboardAvoidingView style={{ flex: 1, width: '100%', backgroundColor: "white" }} keyboardShouldPersistTaps="always">
       <View style={styles.container}>
         <View style={styles.wrapper}>
+
           <View style={styles.logo}>
             <Image
               source={{
                 uri: "https://uspto.report/TM/90307472/mark.png",
                 height: 150,
-                width: 150,
+                width: 220,
               }}
             />
           </View>
 
-          <View style={styles.input}>
+          <View >
             <TextInput
+              style={styles.input}
               placeholderTextColor="#444"
               placeholder="Email"
               autoCapitalize="none"
@@ -60,14 +62,14 @@ function LoginComponent({navigation}) {
               textContentType="emailAddress"
               autoFocus={true}
             />
-
-            <View />
           </View>
+
         </View>
-        <View style={styles.input}>
+        <View >
           <TextInput
+            style={styles.input}
             placeholderTextColor="#444"
-            placeholder="Password"
+            placeholder="Password: Min 6 characters"
             onChangeText={text => setPassword(text)}
             autoCapitalize="none"
             autoCorrect={false}
@@ -75,6 +77,7 @@ function LoginComponent({navigation}) {
             textContentType="password"
           />
         </View>
+
         <Pressable
           titleSize={20}
           style={styles.button}
@@ -86,9 +89,10 @@ function LoginComponent({navigation}) {
         <View style={styles.signupContainer}>
           <Text>Don't have an account?</Text>
           <Pressable>
-            <Text style={{ color: "#6BB0F5" }} onPress={() => navigation.navigate('SignUp')}> Sign Up</Text>
+            <Text style={{ fontWeight: "bold", color: "dodgerblue" }} onPress={() => navigation.navigate('SignUp')}> Sign Up</Text>
           </Pressable>
         </View>
+
       </View>
     </KeyboardAvoidingView>
   );

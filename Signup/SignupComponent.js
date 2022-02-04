@@ -39,7 +39,7 @@ function SignupComponent({navigation}) {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, width: '100%' }} keyboardShouldPersistTaps="always">
+    <KeyboardAvoidingView style={{ flex: 1, width: '100%', backgroundColor: "white" }} keyboardShouldPersistTaps="always">
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.logo}>
@@ -51,8 +51,9 @@ function SignupComponent({navigation}) {
               }}
             />
           </View>
-          <View style={styles.input}>
+          <View >
             <TextInput
+              style={styles.input}
               placeholderTextColor="#444"
               placeholder="Username: Max 8 characters"
               onChangeText={text => setUsername(text)}
@@ -63,8 +64,9 @@ function SignupComponent({navigation}) {
               maxLength={8}
             />
           </View>
-          <View style={styles.input}>
+          <View>
             <TextInput
+              style={styles.input}
               placeholderTextColor="#444"
               placeholder="Email"
               onChangeText={text => setEmail(text)}
@@ -76,8 +78,9 @@ function SignupComponent({navigation}) {
           </View>
         </View>
 
-        <View style={styles.input}>
+        <View>
           <TextInput
+            style={styles.input}
             placeholderTextColor="#444"
             placeholder="Password: Min 6 characters"
             autoCapitalize="none"
@@ -97,7 +100,7 @@ function SignupComponent({navigation}) {
         <View style={styles.signupContainer}>
           <Text>Already have an account?</Text>
           <Pressable>
-            <Text style={{ color: "#6BB0F5" }} onPress={() => navigation.navigate('Login')}>Login</Text>
+            <Text style={{ fontWeight: "bold", color: "dodgerblue" }} onPress={() => navigation.navigate('Login')}> Login</Text>
           </Pressable>
         </View>
       </View>
