@@ -11,13 +11,13 @@ import {
 import React, { useState, useEffect} from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { db } from "../firebase_config";
-import { collection, getDocs, query, where } from "firebase/firestore"
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
 
   //const user = auth.currentUser
   const recipesRef = collection(db, 'recipes')
-  const recipesQuery = query(recipesRef, where('Creator', '==', loggedInUser['UserId']))
+  const recipesQuery = query(recipesRef, where('Creator', '==', loggedInUser['UserId']), orderBy('CreatedAt', 'desc'))
 
   const [recipes, setRecipes] = useState([])
 

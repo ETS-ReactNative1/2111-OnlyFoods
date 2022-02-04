@@ -13,13 +13,13 @@ import {
   TouchableOpacity
 } from "react-native";
 import { db } from "../firebase_config";
-import { collection, getDocs, query, where } from "firebase/firestore"
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore"
 
 const HomeScreen = ({ navigation, loggedInUser }) => {
 
   //const user = auth.currentUser
   const recipesRef = collection(db, 'recipes')
-  const recipesQuery = query(recipesRef, where('Public', '==', true))
+  const recipesQuery = query(recipesRef, where('Public', '==', true), orderBy("CreatedAt", 'desc'))
 
   const [recipes, setRecipes] = useState([])
 

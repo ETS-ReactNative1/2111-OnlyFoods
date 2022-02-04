@@ -33,8 +33,8 @@ import {
 } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
 
-function AddScreen({ navigation }) {
-  const user = auth.currentUser;
+function AddScreen({ navigation, loggedInUser }) {
+  //const user = auth.currentUser;
   const recipesRef = collection(db, "recipes");
 
   const [name, setName] = useState("");
@@ -50,7 +50,8 @@ function AddScreen({ navigation }) {
       Name: name,
       Description: description,
       CreatedAt: serverTimestamp(),
-      Creator: user.uid,
+      Creator: loggedInUser.UserId,
+      CreatorUsername: loggedInUser.Username,
       // 'ImageURL': '',
       // 'Ingredients': ingredients,
       Public: publicSetting,
