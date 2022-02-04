@@ -16,13 +16,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getAuth } from "firebase/auth";
 import { firebase } from "./firebase_config";
 import BottomTabs from "./Navigation/BottomTabs";
-import ProfileScreen from "./Screens/ProfileScreen";
-import SinglePostScreen from "./Screens/SinglePostScreen";
+import ProfileScreen from "./Screens/ProfileAllPost/ProfileScreen";
+import SinglePostScreen from "./Screens/SinglePost/SinglePostScreen";
 
 const Stack = createNativeStackNavigator();
 
 function App() {
-
   return (
     <>
       <NavigationContainer>
