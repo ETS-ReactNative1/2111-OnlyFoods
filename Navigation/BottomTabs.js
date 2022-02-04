@@ -4,6 +4,8 @@ import HomeScreen from "../Screens/HomeScreen";
 import BookmarkScreen from "../Screens/BookmarkScreen";
 import AddScreen from "../Screens/AddScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
+import HomeScreenTest from "../Screens/HomeScreenTest";
+import ProfileScreenTest from "../Screens/ProfileScreenTest";
 import {
   Ionicons,
   AntDesign,
@@ -33,7 +35,8 @@ const BottomTabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        // component={HomeScreen}
+        component={HomeScreenTest}
         options={{
           tabBarIcon: ({ focused }) => (
             <View>
@@ -74,7 +77,8 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        // component={ProfileScreen}
+        component={ProfileScreenTest}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign

@@ -28,6 +28,7 @@ import styles from "./AddScreenStyle"
 import { firebase, auth, db } from "../firebase_config";
 import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore"
 import { Picker } from '@react-native-picker/picker';
+import {unsubProfile} from './ProfileScreenTest'
 
 function AddScreen({navigation}) {
   const user = auth.currentUser
@@ -42,7 +43,14 @@ function AddScreen({navigation}) {
   const [ingredients, setIngredients] = useState([])
 
   const handlePost = () => {
-    console.log('post clicked, currentuserId:', user.uid)
+    // setName('')
+    //     setDescription('')
+    //     setCuisine('')
+    //     setPublicSetting(false)
+    //     setTime({ hours: 0, minutes: 0})
+    //     setInstructions([])
+    //     setIngredients([])
+    //     navigation.navigate('Home')
     addDoc(recipesRef, {
       'Name': name,
       'Description': description,
@@ -55,7 +63,16 @@ function AddScreen({navigation}) {
       // 'Time': time,
       // 'Cuisine': cuisine
     })
-      .then(() => navigation.navigate('Home'))
+      .then(() => {
+        setName('')
+        setDescription('')
+        setCuisine('')
+        setPublicSetting(false)
+        setTime({ hours: 0, minutes: 0})
+        setInstructions([])
+        setIngredients([])
+        navigation.navigate('Bookmark')
+      })
       .catch(error => console.log(error))
   }
 
@@ -71,6 +88,7 @@ function AddScreen({navigation}) {
               placeholder="Name"
               autoCapitalize="none"
               onChangeText={text => setName(text)}
+              value={name}
               textContentType="none"
               autoFocus={true}
             />
@@ -83,6 +101,7 @@ function AddScreen({navigation}) {
             placeholderTextColor="#444"
             placeholder="Description"
             onChangeText={text => setDescription(text)}
+            value={description}
             autoCapitalize="none"
             textContentType="none"
           />
