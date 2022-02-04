@@ -14,6 +14,7 @@
 - settings
   - change my information
 - be able to mark the recipes the user made
+- have the option of making my post public or private
 
 ### As an engineer, I want to be able to:
 - have a well-seeded database so that I am able to simulate a number of different scenarios for the user stories below
