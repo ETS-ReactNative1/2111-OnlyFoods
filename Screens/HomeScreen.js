@@ -35,10 +35,7 @@ const HomeScreen = ({ navigation }) => {
       .catch(error => console.log(error))
   }
 
-  useEffect(() => {
-    refresh()
-    console.log('useEffect triggered')
-  }, [])
+  useEffect(() => refresh(), [])
 
   return (
     <View style={styles.container}>

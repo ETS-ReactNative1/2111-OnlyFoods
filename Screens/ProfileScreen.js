@@ -35,10 +35,7 @@ const ProfileScreen = ({ navigation }) => {
       .catch(error => console.log(error))
   }
 
-  useEffect(() => {
-    refresh()
-    console.log('useEffect triggered')
-  }, [])
+  useEffect(() => refresh(), [])
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
