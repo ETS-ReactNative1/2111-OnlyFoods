@@ -10,18 +10,16 @@ import {
 } from "react-native";
 import React, { useState, useEffect} from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { firebase, auth, db } from "../firebase_config";
-import { collection, getDocs, addDoc, serverTimestamp, query, where, onSnapshot } from "firebase/firestore"
-// import firestore from "@react-native-firebase/firestore";
+import { db } from "../firebase_config";
+import { collection, getDocs, query, where } from "firebase/firestore"
 
-const ProfileScreen = ({ navigation }) => {
-  // const {user, logout} = useContext(AuthContext)
-  const user = auth.currentUser
+const ProfileScreen = ({ navigation, loggedInUser }) => {
+
+  //const user = auth.currentUser
   const recipesRef = collection(db, 'recipes')
-  const recipesQuery = query(recipesRef, where('Creator', '==', user.uid))
+  const recipesQuery = query(recipesRef, where('Creator', '==', loggedInUser['UserId']))
 
   const [recipes, setRecipes] = useState([])
-  //const [loading, setLoading] = useState(true)
 
   const refresh = () => {
     getDocs(recipesQuery)
@@ -60,17 +58,17 @@ const ProfileScreen = ({ navigation }) => {
 
 
         {/* lines below are to check that firestore queries work */}
-        <Pressable
+        <TouchableOpacity
             titleSize={20}
             style={styles.button}
             onPress={refresh}
           >
             <Text style={styles.buttonText}> Refresh Page </Text>
-          </Pressable>
+          </TouchableOpacity>
 
-        <Text>{user.email}'s page</Text>
+        <Text>{loggedInUser.Username}'s page</Text>
           <View>
-            <Text>{user.email}'s Recipes:</Text>
+            <Text>{loggedInUser.Username}'s Recipes:</Text>
             {
               recipes.map( (recipe, index) => <Text key={index}>{recipe['Name']}</Text>)
             }

@@ -25,7 +25,6 @@ function LoginComponent({navigation}) {
       signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const login = userCredentials.user
-        console.log(login.email)
         user = auth.currentUser
         navigation.replace('Homepage')
       })

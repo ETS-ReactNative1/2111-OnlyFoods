@@ -46,14 +46,6 @@ function AddScreen({ navigation }) {
   const [ingredients, setIngredients] = useState([]);
 
   const handlePost = () => {
-    // setName('')
-    //     setDescription('')
-    //     setCuisine('')
-    //     setPublicSetting(false)
-    //     setTime({ hours: 0, minutes: 0})
-    //     setInstructions([])
-    //     setIngredients([])
-    //     navigation.navigate('Home')
     addDoc(recipesRef, {
       Name: name,
       Description: description,

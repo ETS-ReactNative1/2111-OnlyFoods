@@ -9,19 +9,19 @@ import {
   Image,
   KeyboardAvoidingView,
   SafeAreaView,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from "react-native";
-import { firebase, auth, db } from "../firebase_config";
-import { collection, getDocs, addDoc, serverTimestamp, query, where, onSnapshot } from "firebase/firestore"
+import { db } from "../firebase_config";
+import { collection, getDocs, query, where } from "firebase/firestore"
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, loggedInUser }) => {
 
-  const user = auth.currentUser
+  //const user = auth.currentUser
   const recipesRef = collection(db, 'recipes')
   const recipesQuery = query(recipesRef, where('Public', '==', true))
 
   const [recipes, setRecipes] = useState([])
-  const [loading, setLoading] = useState(true)
 
   const refresh = () => {
     getDocs(recipesQuery)
@@ -42,13 +42,13 @@ const HomeScreen = ({ navigation }) => {
       <Text>Home Screen</Text>
 
       {/* Code beloww is purely to check that data is being fetched properly */}
-      <Pressable
+      <TouchableOpacity
         titleSize={20}
         style={styles.button}
         onPress={refresh}
       >
         <Text style={styles.buttonText}> Refresh Page </Text>
-      </Pressable>
+      </TouchableOpacity>
       <View>
         <Text>All Public Recipes:</Text>
         {
