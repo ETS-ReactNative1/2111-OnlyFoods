@@ -31,7 +31,7 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { Picker } from "@react-native-picker/picker";
+import { Picker } from "react-native";
 
 function AddScreen({ navigation }) {
   const user = auth.currentUser;
