@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "white",
-    paddingTop: 50,
     paddingHorizontal: 12,
   },
   wrapper: {
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderRadius: 4,
-    padding: 12,
+    padding: 5,
     backgroundColor: "#FAFAFA",
     marginBottom: 10,
     borderWidth: 1,
