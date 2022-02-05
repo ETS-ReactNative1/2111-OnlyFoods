@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   wrapper: {
-    marginTop: 80,
+    marginTop: 10,
   },
   input: {
     borderRadius: 4,
@@ -37,6 +37,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  imageContainer: {
+    alignItems: 'center'
+  },
+  imageBox: {
+    width: 300,
+    height: 300
+  },
+  bottomSpaceAdjust: {
+    marginTop: 80
+  }
 });
 
 export default styles

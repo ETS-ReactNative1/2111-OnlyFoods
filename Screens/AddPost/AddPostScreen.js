@@ -24,7 +24,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   FlatList,
-  Alert
+  Alert,
+  TouchableOpacity
 } from "react-native";
 import styles from "./AddScreenStyle";
 import { firebase, auth, db } from "../../firebase_config";
@@ -36,6 +37,8 @@ import {
 } from "firebase/firestore";
 import { Picker } from "react-native";
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import PhotoUpload, { imageUrl } from "../ImagePicker/ImagePicker";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
 
@@ -106,7 +109,13 @@ function AddPostScreen({ navigation, loggedInUser }) {
   const [editTime, setEditTime] = useState(false)
   const [editIngredients, setEditIngredients] = useState(false)
   const [editInstructions, setEditInstructions] = useState(false)
+  const [addPhoto, setAddPhoto] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
 
+  const setImageUrlCallback = (url) => {
+    setImageUrl(url)
+    setAddPhoto(false)
+  }
   const addIngredient = () => {
     setIngredients([...ingredients, { 'Name': '', 'Unit': '', 'Quantity': ''}])
   }
@@ -127,9 +136,20 @@ function AddPostScreen({ navigation, loggedInUser }) {
     setInstructions([...updatedInstructions])
   }
 
-  const handlePost = () => {
+  const handlePost = async () => {
     const filteredIngredients = ingredients.slice().filter((item) => item.Name !== '')
     const filteredInstructions = instructions.slice().filter((item) => item !== '')
+    let imageUrlCheck = imageUrl
+
+    if(imageUrl === '') {
+      await getDownloadURL(ref(getStorage(), `images/default.jpg`))
+      .then((url) => {
+        imageUrlCheck = url
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+    }
 
     const newRecipe = {
       Name: name,
@@ -137,7 +157,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
       CreatedAt: serverTimestamp(),
       Creator: loggedInUser.UserId,
       CreatorUsername: loggedInUser.Username,
-      // 'ImageURL': '',
+      ImageURL: imageUrlCheck,
       Ingredients: filteredIngredients,
       Public: publicSetting,
       Instructions: filteredInstructions,
@@ -164,6 +184,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
         setEditTime(false);
         setEditInstructions(false);
         setEditIngredients(false);
+        setImageUrl('')
         navigation.navigate("Home");
       })
       .catch((error) => console.log(error));
@@ -173,11 +194,29 @@ function AddPostScreen({ navigation, loggedInUser }) {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, width: "100%" }}
+      style={{ flex: 1, width: "100%", height:"80%" }}
       keyboardShouldPersistTaps="always"
       //keyboardVerticalOffset = {useHeaderHeight() + 20}
     >
       <ScrollView style={styles.container}>
+        <View>
+
+          { !addPhoto ? (
+              <View>
+                <View style={styles.imageContainer}>
+                  {imageUrl !== '' ? (
+                    <Image source={{uri: imageUrl}} style={styles.imageBox} />
+                  ) : null}
+                  <TouchableOpacity>
+                  <Text style={{ fontWeight: "bold", color: "dodgerblue", paddingBottom:10 }} onPress={() => setAddPhoto(true)}>Add Photo</Text>
+                </TouchableOpacity>
+                </View>
+              </View>
+            ) : <PhotoUpload setImageUrlCallback={setImageUrlCallback} url={imageUrl} />
+          }
+
+        </View>
+
         <View style={styles.wrapper}>
           <View style={styles.input}>
             <TextInput
@@ -396,7 +435,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                     return (
                       <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
                         <View style={{flex:.2, paddingLeft: 20}}>
-                          <Text>{ingredient.Quantity} {ingredient.Unit}</Text>
+                          <Text>{ingredient.Quantity}   {ingredient.Unit}</Text>
                         </View>
                         <View style={{flex:.9}}>
                           <Text>{ingredient.Name}</Text>
@@ -494,7 +533,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                     return (
                       <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
                         <View style={{flex:.1}}>
-                          <Text style={{justifyContent: "center"}}>{index+1}.</Text>
+                          <Text style={{justifyContent: "center", paddingLeft: 20}}>{index+1}.</Text>
                         </View>
                         <View style={{flex:.9, paddingLeft: 10}}>
                           <Text>{instruction}</Text>
@@ -528,7 +567,10 @@ function AddPostScreen({ navigation, loggedInUser }) {
         <Pressable titleSize={20} style={styles.button} onPress={handlePost}>
           <Text style={styles.buttonText}> Post! </Text>
         </Pressable>
+
+        <View style={styles.bottomSpaceAdjust}></View>
       </ScrollView>
+
     </KeyboardAvoidingView>
   );
 }
