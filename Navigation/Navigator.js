@@ -5,6 +5,7 @@ import BookmarkScreen from "../Screens/Bookmark/BookmarkScreen";
 import AddPostScreen from "../Screens/AddPost/AddPostScreen";
 import ProfileScreen from "../Screens/ProfileAllPost/ProfileScreen";
 import SinglePostScreen from "../Screens/SinglePost/SinglePostScreen";
+import EditProfileScreen from "../Screens/EditProfile/EditProfileScreen";
 import {
   Ionicons,
   AntDesign,
@@ -13,10 +14,11 @@ import {
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { auth, db } from "../firebase_config";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import Cam from "../Camera";
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabs = () => {
+const Navigator = () => {
   const [loggedInUser, setLoggedInUser] = useState({});
 
   const user = auth.currentUser;
@@ -43,14 +45,12 @@ const BottomTabs = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: 15,
-          left: 15,
-          right: 15,
+          bottom: 0,
+          left: 0,
+          right: 0,
           elevation: 0,
           backgroundColor: "black",
-          borderRadius: 13,
           height: 60,
-          ...style.shadow,
         },
       }}
     >
@@ -105,6 +105,19 @@ const BottomTabs = () => {
         }}
       />
       <Tab.Screen
+        name="Cam"
+        component={Cam}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="camera"
+              size={24}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Profile"
         children={(props) => (
           <ProfileScreen {...props} loggedInUser={loggedInUser} />
@@ -120,6 +133,7 @@ const BottomTabs = () => {
           ),
         }}
       />
+      {/* will have to connect to post when clicked from navigation */}
       <Tab.Screen
         name="SinglePost"
         component={SinglePostScreen}
@@ -133,21 +147,22 @@ const BottomTabs = () => {
           ),
         }}
       />
+      {/* will have to connect to settings icon when clicked in the profileScreen from navigation */}
+      <Tab.Screen
+        name="Setting"
+        component={EditProfileScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="setting"
+              size={24}
+              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
 
-const style = StyleSheet.create({
-  shadow: {
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-    elevation: 5,
-  },
-});
-
-export default BottomTabs;
+export default Navigator;

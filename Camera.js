@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function App() {
+export default function Cam() {
   const [status, requestPermission] = Camera.useCameraPermissions();
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [lastPhotoURI, setLastPhotoURI] = useState(null);

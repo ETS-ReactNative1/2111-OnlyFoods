@@ -15,9 +15,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getAuth } from "firebase/auth";
 import { firebase } from "./firebase_config";
-import BottomTabs from "./Navigation/BottomTabs";
+import Navigator from "./Navigation/Navigator";
 import ProfileScreen from "./Screens/ProfileAllPost/ProfileScreen";
 import SinglePostScreen from "./Screens/SinglePost/SinglePostScreen";
+import EditProfileScreen from "./Screens/EditProfile/EditProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,8 +40,9 @@ function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="Homepage"
-            component={BottomTabs}
+            component={Navigator}
           />
+
           <Stack.Screen
             name="Profile"
             component={ProfileScreen}
@@ -50,6 +52,9 @@ function App() {
             options={{ headerShown: false }}
             name="SinglePost"
             component={SinglePostScreen}
+            options={{ headerShown: false }}
+            name="Setting"
+            component={EditProfileScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
