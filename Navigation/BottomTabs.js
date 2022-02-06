@@ -120,9 +120,12 @@ const BottomTabs = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SinglePost"
         component={SinglePostScreen}
+        // children={(props) => (
+        //   <SinglePostScreen {...props} loggedInUser={loggedInUser} />
+        // )}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign
@@ -132,7 +135,7 @@ const BottomTabs = () => {
             />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
