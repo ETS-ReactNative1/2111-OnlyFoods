@@ -32,7 +32,7 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.userinfo}>
             <Button onPress={() => goBack()} title="back" />
             <Image
@@ -47,9 +47,6 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
             ) : null}
           </View>
 
-          <View style={styles.fire}>
-            <MaterialIcons name="local-fire-department" size={50} color="red" />
-          </View>
           <View style={styles.imageAndEdit}>
             <Image
               style={styles.image}
@@ -96,8 +93,9 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
                   key={route.params.Ingredients.indexOf(ingredient)}
                   style={{ flexDirection: "row" }}
                 >
-                  {/* <CheckBox />  */}
-                  {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
+                  {/* Checkbox instead of view line 99*/}
+                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
+                  {ingredient.Name}
                 </Text>
               ))}
             </View>
@@ -109,9 +107,10 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
                   style={{ flexDirection: "row" }}
                 >
                   <Text>
-                    {/* <CheckBox />  */}
-                    Step {route.params.Instructions.indexOf(instruction) +
-                      1}: {instruction}
+                    {/* Checkbox instead of view line 113*/}
+                    <View /> Step{" "}
+                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                    {instruction}
                   </Text>
                 </Text>
               ))}
@@ -133,14 +132,15 @@ const styles = StyleSheet.create({
   userinfo: {
     backgroundColor: "white",
     justifyContent: "flex-start",
-    flexDirection: "row",
-    marginHorizontal: 30,
+    flexDirection: "column",
+    marginHorizontal: 20,
     marginTop: 40,
   },
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
     marginHorizontal: 10,
+    marginVertical: 10,
   },
   image: {
     marginLeft: 30,
