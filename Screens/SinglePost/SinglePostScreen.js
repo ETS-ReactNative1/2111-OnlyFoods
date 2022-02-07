@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+// import { CheckBox } from "@react-native-community/checkbox";
 import React, { useState } from "react";
 // import CheckBox from "react-native-community/checkbox";
 
@@ -18,8 +19,8 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const SinglePostScreen = ({ navigation, route }) => {
-  console.log(route.params);
+const SinglePostScreen = ({ navigation: { goBack }, route }) => {
+  // console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
   // RecipeName: recipe.Name,
@@ -35,6 +36,7 @@ const SinglePostScreen = ({ navigation, route }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <View style={styles.userinfo}>
+            <Button onPress={() => goBack()} title="back" />
             <Image
               style={styles.userImg}
               source={require("../../Assets/Cook1.png")}
