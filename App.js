@@ -9,8 +9,8 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import LoginComponent from "./Login/LoginComponent";
-import SignupComponent from "./Signup/SignupComponent";
+import LoginScreen from "./Screens/Login/LoginScreen";
+import SignupScreen from "./Screens/Signup/SignupScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getAuth } from "firebase/auth";
@@ -31,12 +31,12 @@ function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="Login"
-            component={LoginComponent}
+            component={LoginScreen}
           />
           <Stack.Screen
             options={{ headerShown: false }}
             name="SignUp"
-            component={SignupComponent}
+            component={SignupScreen}
           />
           <Stack.Screen
             options={{ headerShown: false }}
