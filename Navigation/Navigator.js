@@ -51,7 +51,7 @@ const Navigator = () => {
           right: 0,
           elevation: 0,
           backgroundColor: "black",
-          height: 60,
+          height: 90,
         },
       }}
     >
@@ -101,19 +101,6 @@ const Navigator = () => {
             <Ionicons
               name="add-circle-outline"
               size={37}
-              color={focused ? "rgb(16, 85, 124)" : "#748c94"}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cam"
-        component={Cam}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <AntDesign
-              name="camera"
-              size={24}
               color={focused ? "rgb(16, 85, 124)" : "#748c94"}
             />
           ),
