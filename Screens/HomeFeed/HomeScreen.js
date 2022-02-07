@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TextInput,
   Button,
   Pressable,
@@ -13,7 +14,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { db } from "../../firebase_config";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy, doc } from "firebase/firestore";
 
 const HomeScreen = ({ navigation, loggedInUser }) => {
   //const user = auth.currentUser
@@ -41,20 +42,56 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
   useEffect(() => refresh(), []);
 
   return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-
+    <>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
       {/* Code beloww is purely to check that data is being fetched properly */}
       <TouchableOpacity titleSize={20} style={styles.button} onPress={refresh}>
         <Text style={styles.buttonText}> Refresh Page </Text>
       </TouchableOpacity>
-      <View>
-        <Text>All Public Recipes:</Text>
+        <View>
+        <Text>All public recipes in order of time of creation:</Text>
         {recipes.map((recipe, index) => (
-          <Text key={index}>{recipe["Name"]}</Text>
+          <Pressable key={index}
+            onPress={() => navigation.navigate("SinglePost", {
+            LoggedInUser: loggedInUser.Username,
+            RecipeUsername: recipe.CreatorUsername,
+            RecipeName: recipe.Name,
+            TimeHrs: recipe.Time.Hours,
+            TimeMins: recipe.Time.Minutes,
+            Description: recipe.Description,
+            Ingredients: recipe.Ingredients,
+            Instructions: recipe.Instructions,
+          })}
+           >
+          <Text>Username frm loggedin: {loggedInUser.Username}</Text>
+          <Text>Username frm recipe: {recipe.CreatorUsername}</Text>
+          <Text>Recipe Name: {recipe.Name} </Text>
+          <Text>Recipe Creator UID: {recipe.Creator}</Text>
+          <Text>Recipe Time in hrs: {recipe.Time.Hours}</Text>
+          <Text>Recipe Time in mins: {recipe.Time.Minutes}</Text>
+          <Text>Recipe Description: {recipe.Description}</Text>
+          <Text>Ingredients: </Text>
+          {recipe.Ingredients.map((ingredient)=> (
+            <Text key={recipe.Ingredients.indexOf(ingredient)}>
+              Name:{ingredient.Name}
+              Qty: {ingredient.Quantity}
+              Unit: {ingredient.Unit}
+            </Text>
+          ))}
+          <Text>Instructions: </Text>
+          {recipe.Instructions.map((instruction)=> (
+            <Text key={recipe.Instructions.indexOf(instruction)}>
+              Step {recipe.Instructions.indexOf(instruction) + 1}: {instruction}
+            </Text>
+          ))}
+          <Text>x-----------------------------x</Text>
+          </Pressable>
         ))}
-      </View>
-    </View>
+  </View>
+  </ScrollView>
+    </SafeAreaView>
+    </>
   );
 };
 
@@ -63,8 +100,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     backgroundColor: "white",
   },
   button: {

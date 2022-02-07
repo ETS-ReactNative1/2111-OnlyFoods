@@ -18,7 +18,7 @@ import { firebase } from "./firebase_config";
 import Navigator from "./Navigation/Navigator";
 import ProfileScreen from "./Screens/ProfileAllPost/ProfileScreen";
 import SinglePostScreen from "./Screens/SinglePost/SinglePostScreen";
-import EditProfileScreen from "./Screens/EditProfile/EditProfileScreen";
+import HomeScreen from "./Screens/HomeFeed/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,14 +41,11 @@ function App() {
             options={{ headerShown: false }}
             name="Homepage"
             component={Navigator}
+            // name="BottomTabs"
+            // component={BottomTabs}
           />
 
           <Stack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              headerShown: false,
-            }}
             options={{ headerShown: false }}
             name="SinglePost"
             component={SinglePostScreen}

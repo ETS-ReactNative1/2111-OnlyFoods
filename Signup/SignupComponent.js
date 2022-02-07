@@ -29,7 +29,7 @@ function SignupComponent({navigation}) {
           UserId: user.uid,
           Username: username,
         })
-        navigation.replace("Homepage")
+        navigation.replace("BottomTabs")
       })
       .catch(error => alert(error.message))
     } catch (error) {

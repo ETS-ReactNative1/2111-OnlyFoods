@@ -26,7 +26,7 @@ function LoginComponent({navigation}) {
       .then(userCredentials => {
         const login = userCredentials.user
         user = auth.currentUser
-        navigation.replace('Homepage')
+        navigation.replace('BottomTabs')
       })
       .catch(error => alert(error.message))
     } catch (error) {

@@ -13,15 +13,14 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "white",
-    paddingTop: 50,
     paddingHorizontal: 12,
   },
   wrapper: {
-    marginTop: 80,
+    marginTop: 10,
   },
   input: {
     borderRadius: 4,
-    padding: 12,
+    padding: 5,
     backgroundColor: "#FAFAFA",
     marginBottom: 10,
     borderWidth: 1,
@@ -38,6 +37,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  imageContainer: {
+    alignItems: 'center'
+  },
+  imageBox: {
+    width: 300,
+    height: 300
+  },
+  bottomSpaceAdjust: {
+    marginTop: 80
+  }
 });
 
 export default styles

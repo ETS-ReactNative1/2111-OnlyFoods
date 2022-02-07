@@ -43,6 +43,7 @@ const Navigator = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           position: "absolute",
           bottom: 0,
@@ -95,6 +96,7 @@ const Navigator = () => {
         )}
         // component={AddScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="add-circle-outline"
@@ -133,10 +135,12 @@ const Navigator = () => {
           ),
         }}
       />
-      {/* will have to connect to post when clicked from navigation */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SinglePost"
         component={SinglePostScreen}
+        // children={(props) => (
+        //   <SinglePostScreen {...props} loggedInUser={loggedInUser} />
+        // )}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign
@@ -146,7 +150,7 @@ const Navigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       {/* will have to connect to settings icon when clicked in the profileScreen from navigation */}
       <Tab.Screen
         name="Setting"
