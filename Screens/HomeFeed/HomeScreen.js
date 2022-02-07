@@ -13,12 +13,12 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { db } from "../../firebase_config";
-import { collection, getDocs, query, where, orderBy, doc } from "firebase/firestore";
+import { db, auth } from "../../firebase_config";
+import { collection, getDocs, query, where, orderBy, doc, getDoc, addDoc } from "firebase/firestore";
 
-const HomeScreen = ({ navigation, loggedInUser }) => {
-  //const user = auth.currentUser
+const HomeScreen = ({ navigation, loggedInUser, bookmarks }) => {
   const recipesRef = collection(db, "recipes");
+
   const recipesQuery = query(
     recipesRef,
     where("Public", "==", true),
@@ -28,6 +28,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
   const [recipes, setRecipes] = useState([]);
 
   const refresh = () => {
+
     getDocs(recipesQuery)
       .then((snapshot) => {
         let snapRecipes = [];
@@ -40,6 +41,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
   };
 
   useEffect(() => refresh(), []);
+
 
   return (
     <>
@@ -62,6 +64,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
             Description: recipe.Description,
             Ingredients: recipe.Ingredients,
             Instructions: recipe.Instructions,
+            bookmarks
           })}
            >
           <Text>Username frm loggedin: {loggedInUser.Username}</Text>

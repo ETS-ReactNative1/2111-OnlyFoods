@@ -18,6 +18,7 @@ import {
 } from "@expo/vector-icons";
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
+  console.log(route.params.userBookmarksRef)
   // console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
