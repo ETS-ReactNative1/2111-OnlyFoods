@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Button,
-  CheckBox,
   StyleSheet,
   Image,
   ScrollView,
@@ -10,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
+// import CheckBox from "react-native-community/checkbox";
+
 import {
   Octicons,
   MaterialCommunityIcons,
@@ -41,9 +42,9 @@ const SinglePostScreen = ({ navigation, route }) => {
             <View style={styles.username}>
               <Text> {route.params.RecipeUsername} </Text>
             </View>
-            {
-              (route.params.LoggedInUser === route.params.RecipeUsername)? <Feather name="edit-2" size={24} style={styles.edit} /> : null
-            }
+            {route.params.LoggedInUser === route.params.RecipeUsername ? (
+              <Feather name="edit-2" size={24} style={styles.edit} />
+            ) : null}
           </View>
 
           <View style={styles.fire}>
@@ -81,30 +82,41 @@ const SinglePostScreen = ({ navigation, route }) => {
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text>Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins</Text>
-            </View>
-            <View style={styles.recipeInfo}>
               <Text>
-                Description: {route.params.Description}
+                Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
               </Text>
             </View>
             <View style={styles.recipeInfo}>
+              <Text>Description: {route.params.Description}</Text>
+            </View>
+            <View style={styles.recipeInfo}>
               <Text>Ingredients:</Text>
-                {route.params.Ingredients.map((ingredient)=> (
-                  <Text key={route.params.Ingredients.indexOf(ingredient)} style={{flexDirection: "row"}}>
-                  <CheckBox/> {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
-                  </Text>
-                ))}
+              {route.params.Ingredients.map((ingredient) => (
+                <Text
+                  key={route.params.Ingredients.indexOf(ingredient)}
+                  style={{ flexDirection: "row" }}
+                >
+                  {/* Checkbox instead of view line 99*/}
+                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
+                  {ingredient.Name}
+                </Text>
+              ))}
             </View>
             <View style={styles.recipeInfo}>
               <Text>Directions:</Text>
-                {route.params.Instructions.map((instruction)=> (
-                  <Text key={route.params.Instructions.indexOf(instruction)} style={{flexDirection: "row"}}>
-                    <Text>
-                    <CheckBox/> Step {route.params.Instructions.indexOf(instruction) + 1}: {instruction}
-                    </Text>
+              {route.params.Instructions.map((instruction) => (
+                <Text
+                  key={route.params.Instructions.indexOf(instruction)}
+                  style={{ flexDirection: "row" }}
+                >
+                  <Text>
+                    {/* Checkbox instead of view line 113*/}
+                    <View /> Step{" "}
+                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                    {instruction}
                   </Text>
-                ))}
+                </Text>
+              ))}
             </View>
           </View>
         </ScrollView>
