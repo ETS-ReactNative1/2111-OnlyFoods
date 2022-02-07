@@ -10,6 +10,8 @@ import {
 } from "react-native";
 // import { CheckBox } from "@react-native-community/checkbox";
 import React, { useState } from "react";
+// import CheckBox from "react-native-community/checkbox";
+
 import {
   Octicons,
   MaterialCommunityIcons,
@@ -96,8 +98,9 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
                   key={route.params.Ingredients.indexOf(ingredient)}
                   style={{ flexDirection: "row" }}
                 >
-                  {/* <CheckBox />  */}
-                  {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
+                  {/* Checkbox instead of view line 99*/}
+                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
+                  {ingredient.Name}
                 </Text>
               ))}
             </View>
@@ -109,9 +112,10 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
                   style={{ flexDirection: "row" }}
                 >
                   <Text>
-                    {/* <CheckBox />  */}
-                    Step {route.params.Instructions.indexOf(instruction) +
-                      1}: {instruction}
+                    {/* Checkbox instead of view line 113*/}
+                    <View /> Step{" "}
+                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                    {instruction}
                   </Text>
                 </Text>
               ))}
