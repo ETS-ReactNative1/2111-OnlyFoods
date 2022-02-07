@@ -41,6 +41,7 @@ const BottomTabs = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           position: "absolute",
           bottom: 15,
@@ -95,6 +96,7 @@ const BottomTabs = () => {
         )}
         // component={AddScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="add-circle-outline"
