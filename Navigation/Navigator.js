@@ -40,13 +40,13 @@ const Navigator = () => {
             BookmarkedRecipes: []
           })
             .then( (newBookmarkRef) => {
-              setBookmarks(newBookmarkRef)
-              // getDoc(newBookmarkRef)
-              //   .then(snap => {
-              //     const ref = doc(db, 'bookmarks', snap.id)
-              //     setUserBookmarksRef(ref)
-              //     setBookmarks(snap.data())
-              //   })
+              //setBookmarks(newBookmarkRef)
+              getDoc(newBookmarkRef)
+                .then(snap => {
+                  const ref = doc(db, 'bookmarks', snap.id)
+                  setUserBookmarksRef(ref)
+                  setBookmarks(snap.data())
+                })
             })
         } else {
           snapshot.docs.forEach( (document) => {
