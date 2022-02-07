@@ -12,7 +12,8 @@ import { FontAwesome, Feather, Icons } from "react-native-vector-icons";
 import React from "react";
 import { useTheme } from "react-native-paper";
 
-const EditProfileScreen = () => {
+const EditProfileScreen = ({navigation, route}) => {
+  console.log(route.params)
   const { colors } = useTheme();
   return (
     <View styles={styles.container}>
