@@ -2,13 +2,14 @@ import {
   View,
   Text,
   Button,
+  CheckBox,
   StyleSheet,
   Image,
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   Octicons,
   MaterialCommunityIcons,
@@ -16,7 +17,18 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const SinglePostScreen = ({ navigation }) => {
+const SinglePostScreen = ({ navigation, route }) => {
+  console.log(route.params);
+  /*Route params are listed here for easy reference to render*/
+  // RecipeUsername: recipe.CreatorUsername,
+  // RecipeName: recipe.Name,
+  // TimeHrs: recipe.Time.Hours,
+  // TimeMins: recipe.Time.Minutes,
+  // Description: recipe.Description,
+  // Ingredients: recipe.Ingredients,
+  // Instructions: recipe.Instructions,
+  // LoggedInUser: loggedInUser.Username,
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -27,9 +39,11 @@ const SinglePostScreen = ({ navigation }) => {
               source={require("../../Assets/Cook1.png")}
             />
             <View style={styles.username}>
-              <Text> rachel_username</Text>
+              <Text> {route.params.RecipeUsername} </Text>
             </View>
-            <Feather name="edit-2" size={24} style={styles.edit} />
+            {
+              (route.params.LoggedInUser === route.params.RecipeUsername)? <Feather name="edit-2" size={24} style={styles.edit} /> : null
+            }
           </View>
 
           <View style={styles.fire}>
@@ -63,42 +77,34 @@ const SinglePostScreen = ({ navigation }) => {
                   alignItems: "center",
                 }}
               >
-                Title of Recipie
+                {route.params.RecipeName}
               </Text>
+            </View>
+            <View style={styles.recipeInfo}>
+              <Text>Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins</Text>
             </View>
             <View style={styles.recipeInfo}>
               <Text>
-                Description: Like your date? Want to see her again? This recipe
-                is all you need to score the next date with your boo
+                Description: {route.params.Description}
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text>
-                Ingredients: Your time, your love, your dedication, yo money{" "}
-              </Text>
+              <Text>Ingredients:</Text>
+                {route.params.Ingredients.map((ingredient)=> (
+                  <Text key={route.params.Ingredients.indexOf(ingredient)} style={{flexDirection: "row"}}>
+                  <CheckBox/> {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
+                  </Text>
+                ))}
             </View>
             <View style={styles.recipeInfo}>
-              <Text>Time: 1hr 20min</Text>
-            </View>
-            <View style={styles.recipeInfo}>
-              <Text>
-                Recipe Steps: Sopa de fideo is a quick and comforting Mexican
-                staple that is particularly good on a chilly weeknight. The
-                acidity from tomatoes, the bold garlic flavor and the luscious
-                strands of fideo, a thin noodle similar to angel hair that’s
-                typically included in Mexican soups, make for a hearty dish.
-                Toppings for sopa de fideo vary, but common garnishes include
-                avocado slices, sautéed mushrooms, lime juice, queso fresco,
-                cooked potatoes, Mexican cream — the list goes on!. Sopa de
-                fideo is a quick and comforting Mexican staple that is
-                particularly good on a chilly weeknight. The acidity from
-                tomatoes, the bold garlic flavor and the luscious strands of
-                fideo, a thin noodle similar to angel hair that’s typically
-                included in Mexican soups, make for a hearty dish. Toppings for
-                sopa de fideo vary, but common garnishes include avocado slices,
-                sautéed mushrooms, lime juice, queso fresco, cooked potatoes,
-                Mexican cream — the list goes on!.
-              </Text>
+              <Text>Directions:</Text>
+                {route.params.Instructions.map((instruction)=> (
+                  <Text key={route.params.Instructions.indexOf(instruction)} style={{flexDirection: "row"}}>
+                    <Text>
+                    <CheckBox/> Step {route.params.Instructions.indexOf(instruction) + 1}: {instruction}
+                    </Text>
+                  </Text>
+                ))}
             </View>
           </View>
         </ScrollView>
