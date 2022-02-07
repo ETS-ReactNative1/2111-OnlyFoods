@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,7 +9,6 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { db } from "../../firebase_config";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
@@ -41,21 +41,30 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+
         <View style={styles.userHeader}>
           <View style={styles.userInfo}>
             <Image
               style={styles.userImg}
               source={require("../../Assets/Cook1.png")}
             />
-            <Text style={styles.userName}>Jane Doe</Text>
+            <Text style={styles.userName}>{loggedInUser.Username}</Text>
           </View>
 
           <View style={styles.userInfoItem}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>22</Text>
-            <Text style={{ fontSize: 15 }}>Recipes</Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{recipes.length}
+            </Text>
+            <Text style={{ fontSize: 15 }}>Recipes
+            </Text>
           </View>
           <View style={styles.icon}>
+            <TouchableOpacity onPress={() => navigation.navigate("Setting", {
+              LoggedInUsername: loggedInUser.Username,
+              LoggedInUserId: loggedInUser.UserId,
+              LoggedInEmail: loggedInUser.Email,
+            })}>
             <AntDesign name="setting" size={30} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -64,67 +73,30 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
           titleSize={20}
           style={styles.button}
           onPress={refresh}
-        >
-          <Text style={styles.buttonText}> Refresh Page </Text>
+        > <Text style={styles.buttonText}> Refresh Page </Text>
         </TouchableOpacity>
 
-        <Text>{loggedInUser.Username}'s page</Text>
-        <View>
-          <Text>{loggedInUser.Username}'s Recipes:</Text>
-          {recipes.map((recipe, index) => (
-            <Text key={index}>{recipe["Name"]}</Text>
-          ))}
-        </View>
-
         <View style={styles.images}>
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food1.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food2.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food3.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food4.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food5.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food6.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food7.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food8.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food9.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food10.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food11.jpeg")}
-          />
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food12.jpeg")}
-          />
+        {recipes.map((recipe, index) => (
+          <Pressable key={index}
+            onPress={() => navigation.navigate("SinglePost", {
+            LoggedInUser: loggedInUser.Username,
+            RecipeUsername: recipe.CreatorUsername,
+            RecipeImage: recipe.ImageURL,
+            RecipeName: recipe.Name,
+            TimeHrs: recipe.Time.Hours,
+            TimeMins: recipe.Time.Minutes,
+            Description: recipe.Description,
+            Ingredients: recipe.Ingredients,
+            Instructions: recipe.Instructions,
+          })}
+           >
+            <Image style={styles.img}
+              source={recipe.ImageURL}
+            />
+          </Pressable>
+          ))}
+
         </View>
       </ScrollView>
     </View>
@@ -172,7 +144,7 @@ const styles = StyleSheet.create({
   images: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     marginTop: 20,
   },
 

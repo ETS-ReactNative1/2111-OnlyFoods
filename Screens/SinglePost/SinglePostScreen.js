@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +10,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 // import { CheckBox } from "@react-native-community/checkbox";
-import React, { useState } from "react";
 import {
   Octicons,
   MaterialCommunityIcons,
@@ -18,7 +18,7 @@ import {
 } from "@expo/vector-icons";
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
-  // console.log(route.params);
+   //console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
   // RecipeName: recipe.Name,
