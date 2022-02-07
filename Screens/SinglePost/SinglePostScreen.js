@@ -2,13 +2,13 @@ import {
   View,
   Text,
   Button,
-  CheckBox,
   StyleSheet,
   Image,
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+// import { CheckBox } from "@react-native-community/checkbox";
 import React, { useState } from "react";
 import {
   Octicons,
@@ -17,8 +17,8 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const SinglePostScreen = ({ navigation, route }) => {
-  console.log(route.params);
+const SinglePostScreen = ({ navigation: { goBack }, route }) => {
+  // console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
   // RecipeName: recipe.Name,
@@ -34,6 +34,7 @@ const SinglePostScreen = ({ navigation, route }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView>
           <View style={styles.userinfo}>
+            <Button onPress={() => goBack()} title="back" />
             <Image
               style={styles.userImg}
               source={require("../../Assets/Cook1.png")}
@@ -41,9 +42,9 @@ const SinglePostScreen = ({ navigation, route }) => {
             <View style={styles.username}>
               <Text> {route.params.RecipeUsername} </Text>
             </View>
-            {
-              (route.params.LoggedInUser === route.params.RecipeUsername)? <Feather name="edit-2" size={24} style={styles.edit} /> : null
-            }
+            {route.params.LoggedInUser === route.params.RecipeUsername ? (
+              <Feather name="edit-2" size={24} style={styles.edit} />
+            ) : null}
           </View>
 
           <View style={styles.fire}>
@@ -81,30 +82,39 @@ const SinglePostScreen = ({ navigation, route }) => {
               </Text>
             </View>
             <View style={styles.recipeInfo}>
-              <Text>Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins</Text>
-            </View>
-            <View style={styles.recipeInfo}>
               <Text>
-                Description: {route.params.Description}
+                Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
               </Text>
             </View>
             <View style={styles.recipeInfo}>
+              <Text>Description: {route.params.Description}</Text>
+            </View>
+            <View style={styles.recipeInfo}>
               <Text>Ingredients:</Text>
-                {route.params.Ingredients.map((ingredient)=> (
-                  <Text key={route.params.Ingredients.indexOf(ingredient)} style={{flexDirection: "row"}}>
-                  <CheckBox/> {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
-                  </Text>
-                ))}
+              {route.params.Ingredients.map((ingredient) => (
+                <Text
+                  key={route.params.Ingredients.indexOf(ingredient)}
+                  style={{ flexDirection: "row" }}
+                >
+                  {/* <CheckBox />  */}
+                  {ingredient.Quantity} {ingredient.Unit} {ingredient.Name}
+                </Text>
+              ))}
             </View>
             <View style={styles.recipeInfo}>
               <Text>Directions:</Text>
-                {route.params.Instructions.map((instruction)=> (
-                  <Text key={route.params.Instructions.indexOf(instruction)} style={{flexDirection: "row"}}>
-                    <Text>
-                    <CheckBox/> Step {route.params.Instructions.indexOf(instruction) + 1}: {instruction}
-                    </Text>
+              {route.params.Instructions.map((instruction) => (
+                <Text
+                  key={route.params.Instructions.indexOf(instruction)}
+                  style={{ flexDirection: "row" }}
+                >
+                  <Text>
+                    {/* <CheckBox />  */}
+                    Step {route.params.Instructions.indexOf(instruction) +
+                      1}: {instruction}
                   </Text>
-                ))}
+                </Text>
+              ))}
             </View>
           </View>
         </ScrollView>
