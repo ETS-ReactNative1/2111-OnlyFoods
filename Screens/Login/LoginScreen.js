@@ -25,7 +25,7 @@ function LoginScreen({ navigation }) {
         .then((userCredentials) => {
           const login = userCredentials.user;
           user = auth.currentUser;
-          navigation.replace("Navigator");
+          navigation.replace("Navigator") ;
         })
         .catch((error) => alert(error.message));
     } catch (error) {

@@ -30,9 +30,9 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 
-const HomeScreen = ({ navigation, loggedInUser }) => {
-  //const user = auth.currentUser
+const HomeScreen = ({ navigation, loggedInUser, bookmarks }) => {
   const recipesRef = collection(db, "recipes");
+
   const recipesQuery = query(
     recipesRef,
     where("Public", "==", true),
@@ -42,6 +42,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
   const [recipes, setRecipes] = useState([]);
 
   const refresh = () => {
+
     getDocs(recipesQuery)
       .then((snapshot) => {
         let snapRecipes = [];
@@ -63,6 +64,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
   const bookmarkPressed = () => {
     setBookmarkColor(!bookmarkColor);
   };
+
 
   return (
     <>
@@ -87,6 +89,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
                     Description: recipe.Description,
                     Ingredients: recipe.Ingredients,
                     Instructions: recipe.Instructions,
+                    ImageURL: recipe.ImageURL
                   })
                 }
               >
@@ -104,7 +107,7 @@ const HomeScreen = ({ navigation, loggedInUser }) => {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg",
+                      uri: recipe.ImageURL,
                     }}
                   />
                 </View>

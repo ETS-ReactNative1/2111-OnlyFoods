@@ -13,7 +13,7 @@ import {
 } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { auth, db } from "../firebase_config";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, query, where, doc } from "firebase/firestore";
 import Cam from "../Camera";
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +25,37 @@ const Navigator = () => {
 
   const usersRef = collection(db, "user");
   const userQuery = query(usersRef, where("Email", "==", user.email));
-  //console.log('loggedin, uid:', user.uid)
+
+  const bookmarksRef = collection(db, "bookmarks")
+
+  const [bookmarks, setBookmarks] = useState(null)
+  const [userBookmarksRef, setUserBookmarksRef] = useState('')
+
+  if(!bookmarks) {
+    getDocs(query(bookmarksRef, where('UserID', '==', user.uid)))
+      .then( (snapshot) => {
+        if(!snapshot.docs.length) {
+          addDoc(bookmarksRef, {
+            UserID: user.uid,
+            BookmarkedRecipes: []
+          })
+            .then( (newBookmarkRef) => {
+              //setBookmarks(newBookmarkRef)
+              getDoc(newBookmarkRef)
+                .then(snap => {
+                  const ref = doc(db, 'bookmarks', snap.id)
+                  setUserBookmarksRef(ref)
+                  setBookmarks(snap.data())
+                })
+            })
+        } else {
+          snapshot.docs.forEach( (document) => {
+            setUserBookmarksRef(document)
+            setBookmarks(document.data())
+          })
+        }
+      })
+  }
 
   const refresh = () => {
     getDocs(userQuery)
@@ -58,7 +88,7 @@ const Navigator = () => {
       <Tab.Screen
         name="Home"
         children={(props) => (
-          <HomeScreen {...props} loggedInUser={loggedInUser} />
+          <HomeScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef} />
         )}
         // component={HomeScreen}
         options={{
@@ -76,7 +106,7 @@ const Navigator = () => {
       <Tab.Screen
         name="Bookmark"
         children={(props) => (
-          <BookmarkScreen {...props} loggedInUser={loggedInUser} />
+          <BookmarkScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef}/>
         )}
         // component={BookmarkScreen}
         options={{
@@ -92,7 +122,7 @@ const Navigator = () => {
       <Tab.Screen
         name="Add Post"
         children={(props) => (
-          <AddPostScreen {...props} loggedInUser={loggedInUser} />
+          <AddPostScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef} />
         )}
         // component={AddScreen}
         options={{
@@ -109,7 +139,7 @@ const Navigator = () => {
       <Tab.Screen
         name="Profile"
         children={(props) => (
-          <ProfileScreen {...props} loggedInUser={loggedInUser} />
+          <ProfileScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef}/>
         )}
         // component={ProfileScreen}
         options={{

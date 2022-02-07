@@ -18,7 +18,9 @@ import {
 } from "@expo/vector-icons";
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
-   //console.log(route.params);
+  console.log(route.params.userBookmarksRef)
+  console.log(route.params.ImageURL)
+  // console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
   // RecipeName: recipe.Name,
@@ -28,6 +30,7 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   // Ingredients: recipe.Ingredients,
   // Instructions: recipe.Instructions,
   // LoggedInUser: loggedInUser.Username,
+  // ImageURL: recipe.ImageURL
 
   return (
     <>
@@ -51,7 +54,7 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
             <Image
               style={styles.image}
               source={{
-                uri: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg",
+                uri: route.params.ImageURL,
               }}
             />
           </View>
