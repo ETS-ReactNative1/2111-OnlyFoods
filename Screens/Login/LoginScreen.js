@@ -9,14 +9,13 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
-import styles from "./LoginStyle";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { firebase } from "../firebase_config";
+import { firebase } from "../../firebase_config";
 
 const auth = getAuth(firebase);
 let user = auth.currentUser;
 
-function LoginComponent({ navigation }) {
+function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -99,4 +98,44 @@ function LoginComponent({ navigation }) {
   );
 }
 
-export default LoginComponent;
+export default LoginScreen;
+
+const styles = StyleSheet.create({
+  signupContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 30,
+  },
+  logo: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  container: {
+    backgroundColor: "white",
+    paddingTop: 50,
+    paddingHorizontal: 12,
+  },
+  wrapper: {
+    marginTop: 80,
+  },
+  input: {
+    borderRadius: 4,
+    padding: 12,
+    backgroundColor: "#FAFAFA",
+    marginBottom: 10,
+    borderWidth: 1,
+  },
+  button: {
+    backgroundColor: "#0096F6",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 42,
+    borderRadius: 4,
+  },
+  buttonText: {
+    fontWeight: "600",
+    color: "#fff",
+    fontSize: 20,
+  },
+});
