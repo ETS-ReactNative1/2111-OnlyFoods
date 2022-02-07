@@ -34,7 +34,7 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.userinfo}>
             <Button onPress={() => goBack()} title="back" />
             <Image
@@ -49,9 +49,6 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
             ) : null}
           </View>
 
-          <View style={styles.fire}>
-            <MaterialIcons name="local-fire-department" size={50} color="red" />
-          </View>
           <View style={styles.imageAndEdit}>
             <Image
               style={styles.image}
@@ -137,14 +134,15 @@ const styles = StyleSheet.create({
   userinfo: {
     backgroundColor: "white",
     justifyContent: "flex-start",
-    flexDirection: "row",
-    marginHorizontal: 30,
+    flexDirection: "column",
+    marginHorizontal: 20,
     marginTop: 40,
   },
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
     marginHorizontal: 10,
+    marginVertical: 10,
   },
   image: {
     marginLeft: 30,
