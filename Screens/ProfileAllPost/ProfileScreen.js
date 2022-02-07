@@ -72,8 +72,8 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
         <TouchableOpacity
           titleSize={20}
           style={styles.button}
-          onPress={refresh}
-        > <Text style={styles.buttonText}> Refresh Page </Text>
+          onPress={refresh}>
+             <Text style={styles.buttonText}> Refresh Page </Text>
         </TouchableOpacity>
 
         <View style={styles.images}>
@@ -89,10 +89,11 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
             Description: recipe.Description,
             Ingredients: recipe.Ingredients,
             Instructions: recipe.Instructions,
+            ImageURL: recipe.ImageURL
           })}
            >
             <Image style={styles.img}
-              source={recipe.ImageURL}
+              source={ {uri: recipe.ImageURL}}
             />
           </Pressable>
           ))}
