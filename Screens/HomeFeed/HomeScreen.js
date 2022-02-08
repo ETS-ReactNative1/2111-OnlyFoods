@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ import {
   where,
   orderBy,
   doc,
+  updateDoc
 } from "firebase/firestore";
 import {
   Octicons,
@@ -29,125 +30,35 @@ import {
   MaterialIcons,
   Ionicons,
 } from "@expo/vector-icons";
+import { BookmarksContext } from "../../Navigation/Navigator";
+import RecipeCard from "../RecipeCardForHomeAndBookmarks/RecipeCard";
 
-const HomeScreen = ({ navigation, loggedInUser, bookmarks }) => {
-  const recipesRef = collection(db, "recipes");
-
-  const recipesQuery = query(
-    recipesRef,
-    where("Public", "==", true),
-    orderBy("CreatedAt", "desc")
-  );
-
-  const [recipes, setRecipes] = useState([]);
-
-  const refresh = () => {
-
-    getDocs(recipesQuery)
-      .then((snapshot) => {
-        let snapRecipes = [];
-        snapshot.docs.forEach((doc) => {
-          snapRecipes.push(doc.data());
-        });
-        setRecipes(snapRecipes);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  useEffect(() => refresh(), []);
-  const [foodColor, setFoodColor] = useState(false);
-  const [bookmarkColor, setBookmarkColor] = useState(false);
-
-  const foodPressed = () => {
-    setFoodColor(!foodColor);
-  };
-  const bookmarkPressed = () => {
-    setBookmarkColor(!bookmarkColor);
-  };
+const HomeScreen = ({ navigation, loggedInUser, refresh, recipes, bookmarkPressed }) => {
 
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Pressable titleSize={20} style={styles.button} onPress={refresh}>
+          <Pressable titleSize={20} style={styles.button}
+            onPress={refresh}>
             {/* <Text style={styles.buttonText}> Refresh Page </Text> */}
             <MaterialIcons name="refresh" size={50} color="black" />
           </Pressable>
           <View>
             <Text>All public recipes in order of time of creation:</Text>
-            {recipes.map((recipe, index) => (
-              <Pressable
-                key={index}
-                onPress={() =>
-                  navigation.navigate("SinglePost", {
-                    LoggedInUser: loggedInUser.Username,
-                    RecipeUsername: recipe.CreatorUsername,
-                    RecipeName: recipe.Name,
-                    TimeHrs: recipe.Time.Hours,
-                    TimeMins: recipe.Time.Minutes,
-                    Description: recipe.Description,
-                    Ingredients: recipe.Ingredients,
-                    Instructions: recipe.Instructions,
-                    ImageURL: recipe.ImageURL
-                  })
-                }
-              >
-                <View style={styles.userinfo}>
-                  <Image
-                    style={styles.userImg}
-                    source={require("../../Assets/Cook1.png")}
-                  />
-                  <View style={styles.username}>
-                    <Text> {recipe.CreatorUsername} </Text>
-                  </View>
+            {recipes ?
+              recipes.map((recipe, index) => (
+                <View key={index}>
+                  <RecipeCard
+                    navigation={navigation}
+                    recipe={recipe}
+                    index={index}
+                    loggedInUser={loggedInUser}
+                    bookmarkPressed={bookmarkPressed}
+                     />
                 </View>
-
-                <View style={styles.imageAndEdit}>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: recipe.ImageURL,
-                    }}
-                  />
-                </View>
-                <View style={styles.icons}>
-                  <TouchableOpacity onPress={() => bookmarkPressed()}>
-                    <Feather
-                      name="bookmark"
-                      size={40}
-                      color={bookmarkColor ? "red" : "black"}
-                    />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => foodPressed()}>
-                    <MaterialCommunityIcons
-                      name="food-fork-drink"
-                      size={40}
-                      color={foodColor ? "green" : "black"}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.recipe}>
-                  <View style={styles.recipeInfo}>
-                    <Text
-                      style={{
-                        textDecorationLine: "underline",
-                        alignItems: "center",
-                      }}
-                    >
-                      {recipe.Name}
-                    </Text>
-                  </View>
-                  <View style={styles.recipeInfo}>
-                    <Text>
-                      Cook Time: {recipe.Time.Hours}hrs {recipe.Time.Minutes}
-                      mins
-                    </Text>
-                  </View>
-                </View>
-              </Pressable>
-            ))}
+              )) : null}
           </View>
         </ScrollView>
       </SafeAreaView>

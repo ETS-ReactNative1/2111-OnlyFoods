@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import HomeScreen from "../Screens/HomeFeed/HomeScreen";
 import BookmarkScreen from "../Screens/Bookmark/BookmarkScreen";
 import AddPostScreen from "../Screens/AddPost/AddPostScreen";
@@ -13,10 +13,13 @@ import {
 } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { auth, db } from "../firebase_config";
-import { collection, getDocs, getDoc, addDoc, query, where, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, query, where, doc, orderBy, updateDoc } from "firebase/firestore";
 import Cam from "../Camera";
+import {BookmarksContext} from '../App'
 
 const Tab = createBottomTabNavigator();
+
+export const BKRefContext = createContext('');
 
 const Navigator = () => {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -28,36 +31,59 @@ const Navigator = () => {
 
   const bookmarksRef = collection(db, "bookmarks")
 
-  const [bookmarks, setBookmarks] = useState(null)
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext)
+
+  const [BKRef, setBKRef] = useState(null)
+  const value = { BKRef, setBKRef}
   const [userBookmarksRef, setUserBookmarksRef] = useState('')
 
-  if(!bookmarks) {
-    getDocs(query(bookmarksRef, where('UserID', '==', user.uid)))
-      .then( (snapshot) => {
-        if(!snapshot.docs.length) {
-          addDoc(bookmarksRef, {
-            UserID: user.uid,
-            BookmarkedRecipes: []
-          })
-            .then( (newBookmarkRef) => {
-              //setBookmarks(newBookmarkRef)
-              getDoc(newBookmarkRef)
-                .then(snap => {
-                  const ref = doc(db, 'bookmarks', snap.id)
-                  setUserBookmarksRef(ref)
-                  setBookmarks(snap.data())
-                })
-            })
-        } else {
-          snapshot.docs.forEach( (document) => {
-            setUserBookmarksRef(document)
-            setBookmarks(document.data())
-          })
-        }
+  const recipesRef = collection(db, "recipes");
+
+  const recipesQuery = query(
+    recipesRef,
+    where("Public", "==", true),
+    orderBy("CreatedAt", "desc")
+  );
+
+  const [recipes, setRecipes] = useState([]);
+
+  const refreshHomePage = () => {
+    getDocs(recipesQuery)
+      .then((snapshot) => {
+        let snapRecipes = [];
+        snapshot.docs.forEach((doc) => {
+          snapRecipes.push(doc.data());
+        });
+        setRecipes(snapRecipes);
       })
+      .catch((error) => console.log(error));
   }
 
+  const bookmarkPressed = (recipe) => {
+
+    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice()
+
+    const hasRecipe = recipesArrCopy.some((bookmark) => {
+      return (bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds && bookmark.Creator === recipe.Creator)
+    })
+
+    if(hasRecipe){
+      const unBookmark = recipesArrCopy.filter( (bookmark) => {
+        return (bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds || bookmark.Creator !== recipe.Creator)
+      })
+      updateDoc(BKRef, {BookmarkedRecipes: unBookmark})
+      setBookmarks({...bookmarks, BookmarkedRecipes: unBookmark})
+    } else {
+      recipesArrCopy.push(recipe)
+      updateDoc(BKRef, {BookmarkedRecipes: recipesArrCopy})
+      setBookmarks({...bookmarks, BookmarkedRecipes: recipesArrCopy})
+    }
+  };
+
+
+
   const refresh = () => {
+
     getDocs(userQuery)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
@@ -65,11 +91,42 @@ const Navigator = () => {
         });
       })
       .catch((error) => console.log(error));
+
+      if(!bookmarks && loggedInUser) {
+        getDocs(query(bookmarksRef, where('UserID', '==', user.uid)))
+          .then( (snapshot) => {
+            if(!snapshot.docs.length) {
+              addDoc(bookmarksRef, {
+                UserID: user.uid,
+                BookmarkedRecipes: []
+              })
+                .then( (newBookmarkRef) => {
+                  setBookmarks(newBookmarkRef)
+                  getDoc(newBookmarkRef)
+                    .then(snap => {
+                      const ref = doc(db, 'bookmarks', snap.id)
+                      setBKRef(ref)
+                      setBookmarks(snap.data())
+                    })
+                })
+            } else {
+              snapshot.docs.forEach( (document) => {
+                setBKRef(document.ref)
+                setBookmarks(document.data())
+              })
+            }
+          })
+      }
   };
 
-  useEffect(() => refresh(), []);
+  useEffect(() => {
+    refresh()
+    refreshHomePage()
+  }, []);
 
   return (
+    <BKRefContext.Provider value={value}>
+
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
@@ -88,10 +145,16 @@ const Navigator = () => {
       <Tab.Screen
         name="Home"
         children={(props) => (
-          <HomeScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef} />
+          <HomeScreen
+            {...props}
+            loggedInUser={loggedInUser}
+            refresh={refreshHomePage}
+            recipes={recipes}
+            bookmarkPressed={bookmarkPressed} />
         )}
         // component={HomeScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <View>
               <AntDesign
@@ -106,10 +169,16 @@ const Navigator = () => {
       <Tab.Screen
         name="Bookmark"
         children={(props) => (
-          <BookmarkScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef}/>
+          <BookmarkScreen
+            {...props}
+            loggedInUser={loggedInUser}
+            bookmarks={bookmarks}
+            setBookmarks={(newBookmarks) => setBookmarks(newBookmarks)}
+              />
         )}
         // component={BookmarkScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name="bookmark-outline"
@@ -122,7 +191,8 @@ const Navigator = () => {
       <Tab.Screen
         name="Add Post"
         children={(props) => (
-          <AddPostScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef} />
+          <AddPostScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks}
+          />
         )}
         // component={AddScreen}
         options={{
@@ -139,7 +209,11 @@ const Navigator = () => {
       <Tab.Screen
         name="Profile"
         children={(props) => (
-          <ProfileScreen {...props} loggedInUser={loggedInUser} bookmarks={bookmarks} userBookmarksRef={userBookmarksRef}/>
+          <ProfileScreen
+            {...props}
+            loggedInUser={loggedInUser}
+            bookmarks={bookmarks}
+            />
         )}
         // component={ProfileScreen}
         options={{
@@ -183,6 +257,8 @@ const Navigator = () => {
         }}
       />
     </Tab.Navigator>
+
+    </BKRefContext.Provider>
   );
 };
 
