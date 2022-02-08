@@ -9,21 +9,19 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
-import {
-  updateDoc
-} from "firebase/firestore";
-import BookmarkScreenCard from './BookmarkScreenCard'
-import { BookmarksContext } from '../../App'
-import { BKRefContext } from '../../Navigation/Navigator'
+import { updateDoc } from "firebase/firestore";
+import BookmarkScreenCard from "./BookmarkScreenCard";
+import { BookmarksContext } from "../../App";
+import { BKRefContext } from "../../Navigation/Navigator";
 
 const BookmarkScreen = ({ navigation, loggedInUser }) => {
   const [heartColor, setHeartColor] = useState(false);
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
-  const [bookmarkScreenBookmarks, setBookmarkScreenBookmarks] = useState(null)
+  const [bookmarkScreenBookmarks, setBookmarkScreenBookmarks] = useState(null);
 
-  const { bookmarks, setBookmarks } = useContext(BookmarksContext)
-  const { BKRef, setBKRef } = useContext(BKRefContext)
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext);
+  const { BKRef, setBKRef } = useContext(BKRefContext);
 
   const heartPressed = () => {
     setHeartColor(!heartColor);
@@ -33,22 +31,28 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
   };
 
   const bookmarkPressed = (recipe) => {
-    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice()
+    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
-    const unBookmark = recipesArrCopy.filter( (bookmark) => {
-          return (bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds || bookmark.Creator !== recipe.Creator)
-    })
+    const unBookmark = recipesArrCopy.filter((bookmark) => {
+      return (
+        bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+        bookmark.Creator !== recipe.Creator
+      );
+    });
 
-    updateDoc(BKRef, {BookmarkedRecipes: unBookmark})
-    setBookmarkScreenBookmarks({...bookmarkScreenBookmarks, BookmarkedRecipes: unBookmark})
-    setBookmarks({...bookmarkScreenBookmarks, BookmarkedRecipes: unBookmark})
+    updateDoc(BKRef, { BookmarkedRecipes: unBookmark });
+    setBookmarkScreenBookmarks({
+      ...bookmarkScreenBookmarks,
+      BookmarkedRecipes: unBookmark,
+    });
+    setBookmarks({ ...bookmarkScreenBookmarks, BookmarkedRecipes: unBookmark });
   };
 
   useEffect(() => {
-    if(bookmarks) {
-      setBookmarkScreenBookmarks(bookmarks)
+    if (bookmarks) {
+      setBookmarkScreenBookmarks(bookmarks);
     }
-  }, [bookmarks])
+  }, [bookmarks]);
 
   // const bookmarkPressed = () => {
   //   setBookmarkColor(!bookmarkColor);
@@ -96,7 +100,7 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        { bookmarkScreenBookmarks?
+        {bookmarkScreenBookmarks ? (
           bookmarkScreenBookmarks.BookmarkedRecipes.map((recipe, index) => (
             <View key={index}>
               <BookmarkScreenCard
@@ -105,10 +109,13 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
                 index={index}
                 loggedInUser={loggedInUser}
                 updateBookmarks={bookmarkPressed}
-                bookmarks={bookmarks} />
+                bookmarks={bookmarks}
+              />
             </View>
-          )): <Text>NoRecipesToRender</Text>
-        }
+          ))
+        ) : (
+          <Text>NoRecipesToRender</Text>
+        )}
         {/* <View style={styles.imageContainer}>
           <Image
             style={styles.img}
@@ -264,44 +271,44 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 10,
   },
-  imageContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    borderRadius: 5,
-    borderColor: "black",
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-  },
-  img: {
-    height: 100,
-    width: 100,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 20,
-    justifyContent: "flex-start",
-  },
-
-  titleAndDescription: {
-    justifyContent: "center",
-    marginHorizontal: 30,
-  },
-  title: {
-    flexDirection: "column",
-    justifyContent: "center",
-    textDecorationLine: "underline",
-    fontWeight: "bold",
-  },
-  username: {
-    marginTop: 5,
-    flexDirection: "column",
-  },
-  duration: {
-    marginTop: 5,
-  },
-  icons: {
-    justifyContent: "space-between",
-    marginHorizontal: 40,
-  },
+  // imageContainer: {
+  //   marginTop: 20,
+  //   flexDirection: "row",
+  //   borderRadius: 5,
+  //   borderColor: "black",
+  //   borderBottomWidth: 2,
+  //   borderTopWidth: 2,
+  //   borderRightWidth: 2,
+  //   borderLeftWidth: 2,
+  // },
+  // img: {
+  //   height: 100,
+  //   // width: 100,
+  //   marginBottom: 10,
+  //   marginTop: 10,
+  //   marginLeft: 20,
+  //   justifyContent: "flex-start",
+  // },
+  // titleAndDescription: {
+  //   justifyContent: "center",
+  //   marginHorizontal: 30,
+  // },
+  // title: {
+  //   flexDirection: "column",
+  //   justifyContent: "center",
+  //   textDecorationLine: "underline",
+  //   fontWeight: "bold",
+  // },
+  // username: {
+  //   marginTop: 5,
+  //   flexDirection: "column",
+  // },
+  // duration: {
+  //   marginTop: 5,
+  // },
+  // icons: {
+  //   justifyContent: "space-between",
+  //   alignContent: "center",
+  //   marginHorizontal: 40,
+  // },
 });

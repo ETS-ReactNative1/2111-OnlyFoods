@@ -27,10 +27,16 @@ import {
   Feather,
   MaterialIcons,
   Ionicons,
+  Fontisto,
 } from "@expo/vector-icons";
 
-const BookmarkScreenCard = ({navigation, recipe, updateBookmarks, loggedInUser, bookmarks}) => {
-
+const BookmarkScreenCard = ({
+  navigation,
+  recipe,
+  updateBookmarks,
+  loggedInUser,
+  bookmarks,
+}) => {
   const [heartColor, setHeartColor] = useState(false);
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(true);
@@ -44,13 +50,13 @@ const BookmarkScreenCard = ({navigation, recipe, updateBookmarks, loggedInUser, 
 
   const bookmarkPressed = (recipe) => {
     setBookmarkColor(!bookmarkColor);
-    updateBookmarks(recipe)
+    updateBookmarks(recipe);
   };
 
   return (
     <View style={styles.imageContainer}>
-
-      <Pressable
+      <View style={{ flex: 0.4 }}>
+        <Pressable
           onPress={() =>
             navigation.navigate("SinglePost", {
               LoggedInUser: loggedInUser.Username,
@@ -70,24 +76,24 @@ const BookmarkScreenCard = ({navigation, recipe, updateBookmarks, loggedInUser, 
             })
           }
         >
-
-      <Image
-        style={styles.img}
-        source={require("../../Assets/food1.jpeg")}
-      />
-
-      </Pressable>
-
-      <View style={styles.titleAndDescription}>
-        <Text style={styles.title}>{recipe.Name}</Text>
-        <Text style={styles.username}>{recipe.CreatorUsername}</Text>
-        <Text style={styles.duration}>RECIPE TIME</Text>
+          <Image
+            style={styles.img}
+            source={require("../../Assets/food1.jpeg")}
+          />
+        </Pressable>
       </View>
 
+      <View style={{ flex: 0.7, justifyContent: "center" }}>
+        <View style={styles.titleAndDescription}>
+          <Text style={styles.title}>{recipe.Name}</Text>
+          <Text style={styles.username}>{recipe.CreatorUsername}</Text>
+          {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
+        </View>
+      </View>
 
-
-      <View style={styles.icons}>
-        <TouchableOpacity onPress={() => heartPressed()}>
+      <View style={styles.iconContainer}>
+        <View style={styles.icons}>
+          {/* <TouchableOpacity onPress={() => heartPressed()}>
           <Ionicons
             name="heart-outline"
             size={35}
@@ -100,66 +106,86 @@ const BookmarkScreenCard = ({navigation, recipe, updateBookmarks, loggedInUser, 
             size={35}
             color={foodColor ? "green" : "black"}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => bookmarkPressed(recipe)}>
-          <Feather
-            name="bookmark"
-            size={35}
-            color={bookmarkColor ? "red" : "black"}
-          />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={() => bookmarkPressed(recipe)}
+            style={{ flex: 0.3 }}
+          >
+            <Fontisto
+              name="bookmark-alt"
+              size={35}
+              color={bookmarkColor ? "red" : "black"}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
-export default BookmarkScreenCard
+export default BookmarkScreenCard;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginTop: 20,
-    marginHorizontal: 10,
   },
   imageContainer: {
-    marginTop: 20,
+    marginTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
     flexDirection: "row",
     borderRadius: 5,
     borderColor: "black",
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
+    borderBottomWidth: 1,
+    // borderTopWidth: 2,
+    // borderRightWidth: 2,
+    // borderLeftWidth: 2,
   },
   img: {
     height: 100,
     width: 100,
     marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 20,
-    justifyContent: "flex-start",
+    marginTop: 5,
+    marginLeft: 5,
+    borderRadius: 5,
+    // justifyContent: "flex-start",
+  },
+  iconContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    // marginHorizontal: 60,
   },
 
   titleAndDescription: {
     justifyContent: "center",
-    marginHorizontal: 30,
+    marginHorizontal: 5,
+    paddingLeft: 10,
   },
+
   title: {
-    flexDirection: "column",
+    paddingTop: 10,
+    paddingLeft: 5,
     justifyContent: "center",
-    textDecorationLine: "underline",
     fontWeight: "bold",
+    textTransform: "capitalize",
+    marginLeft: -20,
+    fontSize: 18,
   },
+
   username: {
     marginTop: 5,
-    flexDirection: "column",
+    flexDirection: "row",
+    textTransform: "capitalize",
+    fontSize: 18,
+    marginLeft: -15,
   },
   duration: {
     marginTop: 5,
   },
   icons: {
-    justifyContent: "space-between",
-    marginHorizontal: 40,
+    justifyContent: "center",
+    marginHorizontal: 10,
+    // paddingLeft: 20,
   },
 });
