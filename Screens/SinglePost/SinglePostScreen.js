@@ -57,13 +57,15 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
 
       updateDoc(userBookmarksRef, {BookmarkedRecipes: unBookmark})
       setBookmarks({...bookmarks, BookmarkedRecipes: unBookmark})
-      route.params.setRecipeCardBookmark()
+      if(route.params.setRecipeCardBookmark) route.params.setRecipeCardBookmark()
+      //route.params.setRecipeCardBookmark()
       setBookmarked(!bookmarked)
     } else {
       recipesArrCopy.push(recipe)
       updateDoc(userBookmarksRef, {BookmarkedRecipes: recipesArrCopy})
       setBookmarks({...bookmarks, BookmarkedRecipes: recipesArrCopy})
-      route.params.setRecipeCardBookmark()
+      if(route.params.setRecipeCardBookmark) route.params.setRecipeCardBookmark()
+      //route.params.setRecipeCardBookmark()
       setBookmarked(!bookmarked)
     }
 
