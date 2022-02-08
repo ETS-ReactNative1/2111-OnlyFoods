@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -16,10 +16,12 @@ import {
   Feather,
   MaterialIcons,
 } from "@expo/vector-icons";
+import {db} from '../../firebase_config'
+import { collection, getDocs, getDoc, addDoc, query, where, doc, orderBy, updateDoc } from "firebase/firestore";
+import { BookmarksContext } from "../../App";
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
-  console.log(route.params.userBookmarksRef)
-  console.log(route.params.ImageURL)
+  //console.log(route.params.bookmarked)
   // console.log(route.params);
   /*Route params are listed here for easy reference to render*/
   // RecipeUsername: recipe.CreatorUsername,
@@ -32,93 +34,146 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   // LoggedInUser: loggedInUser.Username,
   // ImageURL: recipe.ImageURL
 
+  const [foodColor, setFoodColor] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+
+  const bookmarksRef = collection(db, "bookmarks")
+
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext)
+  const [userBookmarksRef, setUserBookmarksRef] = useState('')
+
+  const bookmarkPressed = (recipe) => {
+
+    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice()
+
+    const hasRecipe = recipesArrCopy.some((bookmark) => {
+      return (bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds && bookmark.Creator === recipe.Creator)
+    })
+
+    if(hasRecipe){
+      const unBookmark = recipesArrCopy.filter( (bookmark) => {
+        return (bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds || bookmark.Creator !== recipe.Creator)
+      })
+
+      updateDoc(userBookmarksRef, {BookmarkedRecipes: unBookmark})
+      setBookmarks({...bookmarks, BookmarkedRecipes: unBookmark})
+      route.params.setRecipeCardBookmark()
+      setBookmarked(!bookmarked)
+    } else {
+      recipesArrCopy.push(recipe)
+      updateDoc(userBookmarksRef, {BookmarkedRecipes: recipesArrCopy})
+      setBookmarks({...bookmarks, BookmarkedRecipes: recipesArrCopy})
+      route.params.setRecipeCardBookmark()
+      setBookmarked(!bookmarked)
+    }
+
+  };
+
+  // const foodPressed = () => {
+  //   setFoodColor(!foodColor);
+  // };
+
+
+  useEffect(() => {
+    getDocs(query(bookmarksRef, where('UserID', '==', route.params.loggedInUser.UserId)))
+        .then( (snapshot) => {
+          snapshot.docs.forEach( (document) => {
+            setUserBookmarksRef(document.ref)
+            setBookmarks(document.data())
+          })
+
+        })
+    setBookmarked(route.params.bookmarked)
+  }, [])
+
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.userinfo}>
-            <Button onPress={() => goBack()} title="back" />
-            <Image
-              style={styles.userImg}
-              source={require("../../Assets/Cook1.png")}
-            />
-            <View style={styles.username}>
-              <Text> {route.params.RecipeUsername} </Text>
-            </View>
-            {route.params.LoggedInUser === route.params.RecipeUsername ? (
-              <Feather name="edit-2" size={24} style={styles.edit} />
-            ) : null}
-          </View>
-
-          <View style={styles.imageAndEdit}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: route.params.ImageURL,
-              }}
-            />
-          </View>
-          <View style={styles.icons}>
-            <TouchableOpacity onPress={() => alert("Added to Bookmark!")}>
-              {/* <TouchableOpacity onPress={() => alert("Added to Bookmark!")}> */}
-              <MaterialCommunityIcons
-                name="bookmark-outline"
-                size={40}
-                style={styles.bookmark}
+            <View style={styles.userinfo}>
+              <Button onPress={() => goBack()} title="back" />
+              <Image
+                style={styles.userImg}
+                source={require("../../Assets/Cook1.png")}
               />
-            </TouchableOpacity>
+              <View style={styles.username}>
+                <Text> {route.params.RecipeUsername} </Text>
+              </View>
+              {route.params.LoggedInUser === route.params.RecipeUsername ? (
+                <Feather name="edit-2" size={24} style={styles.edit} />
+              ) : null}
+            </View>
 
-            <MaterialCommunityIcons name="food-fork-drink" size={40} />
-          </View>
-          <View style={styles.recipe}>
-            <View style={styles.recipeInfo}>
-              <Text
-                style={{
-                  textDecorationLine: "underline",
-                  alignItems: "center",
+            <View style={styles.imageAndEdit}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: route.params.ImageURL,
                 }}
-              >
-                {route.params.RecipeName}
-              </Text>
+              />
             </View>
-            <View style={styles.recipeInfo}>
-              <Text>
-                Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
-              </Text>
+            <View style={styles.icons}>
+              <TouchableOpacity onPress={() => bookmarkPressed(route.params.recipe)}>
+                <MaterialCommunityIcons
+                  name="bookmark-outline"
+                  size={40}
+                  style={styles.bookmark}
+                  color={bookmarked ? "red" : "black"}
+                />
+              </TouchableOpacity>
+
+              <MaterialCommunityIcons name="food-fork-drink" size={40} />
             </View>
-            <View style={styles.recipeInfo}>
-              <Text>Description: {route.params.Description}</Text>
-            </View>
-            <View style={styles.recipeInfo}>
-              <Text>Ingredients:</Text>
-              {route.params.Ingredients.map((ingredient) => (
+            <View style={styles.recipe}>
+              <View style={styles.recipeInfo}>
                 <Text
-                  key={route.params.Ingredients.indexOf(ingredient)}
-                  style={{ flexDirection: "row" }}
+                  style={{
+                    textDecorationLine: "underline",
+                    alignItems: "center",
+                  }}
                 >
-                  {/* Checkbox instead of view line 99*/}
-                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
-                  {ingredient.Name}
+                  {route.params.RecipeName}
                 </Text>
-              ))}
-            </View>
-            <View style={styles.recipeInfo}>
-              <Text>Directions:</Text>
-              {route.params.Instructions.map((instruction) => (
-                <Text
-                  key={route.params.Instructions.indexOf(instruction)}
-                  style={{ flexDirection: "row" }}
-                >
-                  <Text>
-                    {/* Checkbox instead of view line 113*/}
-                    <View /> Step{" "}
-                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
-                    {instruction}
+              </View>
+              <View style={styles.recipeInfo}>
+                <Text>
+                  Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
+                </Text>
+              </View>
+              <View style={styles.recipeInfo}>
+                <Text>Description: {route.params.Description}</Text>
+              </View>
+              <View style={styles.recipeInfo}>
+                <Text>Ingredients:</Text>
+                {route.params.Ingredients.map((ingredient) => (
+                  <Text
+                    key={route.params.Ingredients.indexOf(ingredient)}
+                    style={{ flexDirection: "row" }}
+                  >
+                    {/* Checkbox instead of view line 99*/}
+                    <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
+                    {ingredient.Name}
                   </Text>
-                </Text>
-              ))}
+                ))}
+              </View>
+              <View style={styles.recipeInfo}>
+                <Text>Directions:</Text>
+                {route.params.Instructions.map((instruction) => (
+                  <Text
+                    key={route.params.Instructions.indexOf(instruction)}
+                    style={{ flexDirection: "row" }}
+                  >
+                    <Text>
+                      {/* Checkbox instead of view line 113*/}
+                      <View /> Step{" "}
+                      {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                      {instruction}
+                    </Text>
+                  </Text>
+                ))}
+              </View>
             </View>
-          </View>
+
         </ScrollView>
       </SafeAreaView>
     </>

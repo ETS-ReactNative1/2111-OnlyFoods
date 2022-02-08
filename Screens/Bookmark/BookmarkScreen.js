@@ -7,13 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import {
+  updateDoc
+} from "firebase/firestore";
+import BookmarkScreenCard from './BookmarkScreenCard'
+import { BookmarksContext } from '../../App'
+import { BKRefContext } from '../../Navigation/Navigator'
 
-const BookmarkScreen = ({ navigation }) => {
+const BookmarkScreen = ({ navigation, loggedInUser }) => {
   const [heartColor, setHeartColor] = useState(false);
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
+  const [bookmarkScreenBookmarks, setBookmarkScreenBookmarks] = useState(null)
+
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext)
+  const { BKRef, setBKRef } = useContext(BKRefContext)
 
   const heartPressed = () => {
     setHeartColor(!heartColor);
@@ -21,9 +31,28 @@ const BookmarkScreen = ({ navigation }) => {
   const foodPressed = () => {
     setFoodColor(!foodColor);
   };
-  const bookmarkPressed = () => {
-    setBookmarkColor(!bookmarkColor);
+
+  const bookmarkPressed = (recipe) => {
+    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice()
+
+    const unBookmark = recipesArrCopy.filter( (bookmark) => {
+          return (bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds || bookmark.Creator !== recipe.Creator)
+    })
+
+    updateDoc(BKRef, {BookmarkedRecipes: unBookmark})
+    setBookmarkScreenBookmarks({...bookmarkScreenBookmarks, BookmarkedRecipes: unBookmark})
+    setBookmarks({...bookmarkScreenBookmarks, BookmarkedRecipes: unBookmark})
   };
+
+  useEffect(() => {
+    if(bookmarks) {
+      setBookmarkScreenBookmarks(bookmarks)
+    }
+  }, [bookmarks])
+
+  // const bookmarkPressed = () => {
+  //   setBookmarkColor(!bookmarkColor);
+  // };
 
   // NOTES: COPY AND PASTE THE CODE BELOW WHEN MAPPING OVER TO USE THIS FRAME!!!!
 
@@ -67,7 +96,20 @@ const BookmarkScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.imageContainer}>
+        { bookmarkScreenBookmarks?
+          bookmarkScreenBookmarks.BookmarkedRecipes.map((recipe, index) => (
+            <View key={index}>
+              <BookmarkScreenCard
+                navigation={navigation}
+                recipe={recipe}
+                index={index}
+                loggedInUser={loggedInUser}
+                updateBookmarks={bookmarkPressed}
+                bookmarks={bookmarks} />
+            </View>
+          )): <Text>NoRecipesToRender</Text>
+        }
+        {/* <View style={styles.imageContainer}>
           <Image
             style={styles.img}
             source={require("../../Assets/food1.jpeg")}
@@ -207,7 +249,7 @@ const BookmarkScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

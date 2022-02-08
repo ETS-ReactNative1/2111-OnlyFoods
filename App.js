@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, createContext } from "react";
 import {
   Button,
   ImageBackground,
@@ -22,10 +22,16 @@ import HomeScreen from "./Screens/HomeFeed/HomeScreen";
 // import EditProfileScreen from "./Screens/EditProfile/EditProfileScreen";
 
 const Stack = createNativeStackNavigator();
+export const BookmarksContext = createContext('bookmarks');
 
 function App() {
+  const [bookmarks, setBookmarks] = useState(null)
+  const value = { bookmarks, setBookmarks}
+
   return (
     <>
+    <BookmarksContext.Provider value={value}>
+
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -42,8 +48,6 @@ function App() {
             options={{ headerShown: false }}
             name="Navigator"
             component={Navigator}
-            // name="BottomTabs"
-            // component={BottomTabs}
           />
 
           <Stack.Screen
@@ -56,6 +60,8 @@ function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+
+      </BookmarksContext.Provider>
     </>
   );
 }
