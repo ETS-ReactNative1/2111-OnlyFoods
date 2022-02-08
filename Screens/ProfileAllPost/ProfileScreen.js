@@ -41,7 +41,6 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-
         <View style={styles.userHeader}>
           <View style={styles.userInfo}>
             <Image
@@ -52,18 +51,22 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
           </View>
 
           <View style={styles.userInfoItem}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{recipes.length}
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {recipes.length}
             </Text>
-            <Text style={{ fontSize: 15 }}>Recipes
-            </Text>
+            <Text style={{ fontSize: 15 }}>Recipes</Text>
           </View>
           <View style={styles.icon}>
-            <TouchableOpacity onPress={() => navigation.navigate("Setting", {
-              LoggedInUsername: loggedInUser.Username,
-              LoggedInUserId: loggedInUser.UserId,
-              LoggedInEmail: loggedInUser.Email,
-            })}>
-            <AntDesign name="setting" size={30} color="black" />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Setting", {
+                  LoggedInUsername: loggedInUser.Username,
+                  LoggedInUserId: loggedInUser.UserId,
+                  LoggedInEmail: loggedInUser.Email,
+                })
+              }
+            >
+              <AntDesign name="setting" size={30} color="black" />
             </TouchableOpacity>
           </View>
         </View>
@@ -72,32 +75,35 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
         <TouchableOpacity
           titleSize={20}
           style={styles.button}
-          onPress={refresh}>
-             <Text style={styles.buttonText}> Refresh Page </Text>
+          onPress={refresh}
+        >
+          <Text style={styles.buttonText}> Refresh Page </Text>
         </TouchableOpacity>
 
         <View style={styles.images}>
-        {recipes.map((recipe, index) => (
-          <Pressable key={index}
-            onPress={() => navigation.navigate("SinglePost", {
-            LoggedInUser: loggedInUser.Username,
-            RecipeUsername: recipe.CreatorUsername,
-            RecipeImage: recipe.ImageURL,
-            RecipeName: recipe.Name,
-            TimeHrs: recipe.Time.Hours,
-            TimeMins: recipe.Time.Minutes,
-            Description: recipe.Description,
-            Ingredients: recipe.Ingredients,
-            Instructions: recipe.Instructions,
-            ImageURL: recipe.ImageURL
-          })}
-           >
-            <Image style={styles.img}
-              source={ {uri: recipe.ImageURL}}
-            />
-          </Pressable>
+          {recipes.map((recipe, index) => (
+            <Pressable
+              key={index}
+              onPress={() =>
+                navigation.navigate("SinglePost", {
+                  LoggedInUser: loggedInUser.Username,
+                  RecipeUsername: recipe.CreatorUsername,
+                  RecipeImage: recipe.ImageURL,
+                  RecipeName: recipe.Name,
+                  TimeHrs: recipe.Time.Hours,
+                  TimeMins: recipe.Time.Minutes,
+                  Description: recipe.Description,
+                  Ingredients: recipe.Ingredients,
+                  Instructions: recipe.Instructions,
+                  ImageURL: recipe.ImageURL,
+                  recipe,
+                  loggedInUser,
+                })
+              }
+            >
+              <Image style={styles.img} source={{ uri: recipe.ImageURL }} />
+            </Pressable>
           ))}
-
         </View>
       </ScrollView>
     </View>
