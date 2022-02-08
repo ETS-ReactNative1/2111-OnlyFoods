@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   container: {
-    backgroundColor: "white",
-    paddingHorizontal: 12,
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    paddingHorizontal: 20,
   },
   wrapper: {
     marginTop: 10,
@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   button: {
-    backgroundColor: "#0096F6",
+    marginTop: 30,
+    backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
     minHeight: 42,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   buttonText: {
     fontWeight: "600",
@@ -38,15 +39,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   imageContainer: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   imageBox: {
     width: 300,
-    height: 300
+    height: 300,
   },
   bottomSpaceAdjust: {
-    marginTop: 80
-  }
+    marginTop: 80,
+  },
 });
 
-export default styles
+export default styles;
