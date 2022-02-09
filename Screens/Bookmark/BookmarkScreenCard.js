@@ -49,51 +49,57 @@ const BookmarkScreenCard = ({
   };
 
   const bookmarkPressed = (recipe) => {
-    setBookmarkColor(!bookmarkColor);
+    // setBookmarkColor(!bookmarkColor);
     updateBookmarks(recipe);
   };
 
   return (
-    <View style={styles.imageContainer}>
-      <View style={{ flex: 0.4 }}>
-        <Pressable
-          onPress={() =>
-            navigation.navigate("SinglePost", {
-              LoggedInUser: loggedInUser.Username,
-              RecipeUsername: recipe.CreatorUsername,
-              RecipeName: recipe.Name,
-              TimeHrs: recipe.Time.Hours,
-              TimeMins: recipe.Time.Minutes,
-              Description: recipe.Description,
-              Ingredients: recipe.Ingredients,
-              Instructions: recipe.Instructions,
-              ImageURL: recipe.ImageURL,
-              bookmarked: true,
-              recipe,
-              bookmarks,
-              loggedInUser,
-              //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
-            })
-          }
-        >
-          <Image
-            style={styles.img}
-            source={require("../../Assets/food1.jpeg")}
-          />
-        </Pressable>
-      </View>
-
-      <View style={{ flex: 0.7, justifyContent: "center" }}>
-        <View style={styles.titleAndDescription}>
-          <Text style={styles.title}>{recipe.Name}</Text>
-          <Text style={styles.username}>{recipe.CreatorUsername}</Text>
-          {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
+    <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 5 }}>
+      <View style={styles.imageContainer}>
+        <View style={{ flex: 0.4 }}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("SinglePost", {
+                LoggedInUser: loggedInUser.Username,
+                RecipeUsername: recipe.CreatorUsername,
+                RecipeName: recipe.Name,
+                TimeHrs: recipe.Time.Hours,
+                TimeMins: recipe.Time.Minutes,
+                Description: recipe.Description,
+                Ingredients: recipe.Ingredients,
+                Instructions: recipe.Instructions,
+                ImageURL: recipe.ImageURL,
+                bookmarked: true,
+                recipe,
+                bookmarks,
+                loggedInUser,
+                //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
+              })
+            }
+          >
+            <Image
+              style={styles.img}
+              source={require("../../Assets/food1.jpeg")}
+            />
+          </Pressable>
         </View>
-      </View>
 
-      <View style={styles.iconContainer}>
-        <View style={styles.icons}>
-          {/* <TouchableOpacity onPress={() => heartPressed()}>
+        <View
+          style={{
+            flex: 0.7,
+            justifyContent: "center",
+          }}
+        >
+          <View style={styles.titleAndDescription}>
+            <Text style={styles.title}>{recipe.Name}</Text>
+            <Text style={styles.username}>{recipe.CreatorUsername}</Text>
+            {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
+          </View>
+        </View>
+
+        <View style={styles.iconContainer}>
+          <View style={styles.icons}>
+            {/* <TouchableOpacity onPress={() => heartPressed()}>
           <Ionicons
             name="heart-outline"
             size={35}
@@ -107,37 +113,41 @@ const BookmarkScreenCard = ({
             color={foodColor ? "green" : "black"}
           />
         </TouchableOpacity> */}
-          <TouchableOpacity
-            onPress={() => bookmarkPressed(recipe)}
-            style={{ flex: 0.3 }}
-          >
-            <Fontisto
-              name="bookmark-alt"
-              size={35}
-              color={bookmarkColor ? "red" : "black"}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => bookmarkPressed(recipe)}
+              style={{ flex: 0.3 }}
+            >
+              <Fontisto
+                name="bookmark-alt"
+                size={35}
+                color={bookmarkColor ? "red" : "black"}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 export default BookmarkScreenCard;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  // },
   imageContainer: {
-    marginTop: 10,
     paddingBottom: 10,
+    marginBottom: 10,
+    marginTop: 10,
     paddingLeft: 10,
     flexDirection: "row",
     borderRadius: 5,
     borderColor: "black",
     borderBottomWidth: 1,
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    marginHorizontal: 10,
     // borderTopWidth: 2,
     // borderRightWidth: 2,
     // borderLeftWidth: 2,
@@ -146,7 +156,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginBottom: 10,
-    marginTop: 5,
     marginLeft: 5,
     borderRadius: 5,
     // justifyContent: "flex-start",
@@ -179,9 +188,6 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     fontSize: 18,
     marginLeft: -15,
-  },
-  duration: {
-    marginTop: 5,
   },
   icons: {
     justifyContent: "center",

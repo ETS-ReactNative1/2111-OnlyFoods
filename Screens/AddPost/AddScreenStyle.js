@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(230, 230, 230, 0.716)",
     paddingHorizontal: 20,
+    marginBottom: 10,
   },
   wrapper: {
     marginTop: 10,
