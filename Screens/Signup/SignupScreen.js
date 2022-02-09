@@ -40,19 +40,24 @@ function SignupScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, width: "100%", backgroundColor: "white" }}
+      style={{
+        flex: 1,
+        width: "100%",
+        backgroundColor: "rgba(230, 230, 230, 0.716)",
+      }}
       keyboardShouldPersistTaps="always"
     >
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.logo}>
-            <Image
+            {/* <Image
               source={{
                 uri: "https://uspto.report/TM/90307472/mark.png",
                 height: 150,
                 width: 150,
               }}
-            />
+            /> */}
+            <Text style={styles.name}>{`  ONLY\nFOODS`}</Text>
           </View>
           <View>
             <TextInput
@@ -120,23 +125,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 30,
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   logo: {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
+    marginBottom: -10,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     paddingTop: 50,
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
+    marginTop: 80,
   },
   wrapper: {
     marginTop: 80,
   },
   input: {
-    borderRadius: 4,
-    padding: 12,
+    borderRadius: 6,
+    padding: 10,
     backgroundColor: "#FAFAFA",
     marginBottom: 10,
     borderWidth: 1,
@@ -146,11 +154,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     minHeight: 42,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   buttonText: {
     fontWeight: "600",
     color: "#fff",
     fontSize: 20,
+  },
+  name: {
+    fontSize: 30,
+    fontWeight: "bold",
+    paddingBottom: 30,
   },
 });
