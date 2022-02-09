@@ -37,13 +37,41 @@ import { BKRefContext } from "../../Navigation/Navigator";
 const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
-  const [foodColor, setFoodColor] = useState(false);
+  const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
   const [ImageURL, setImageURL] = useState('')
 
   const foodPressed = () => {
-    setFoodColor(!foodColor);
+    let recipesArrCopy = []
+
+    if(recipeCardBookmarks.CookedRecipes !== null) {
+      recipesArrCopy = recipeCardBookmarks.CookedRecipes.slice()
+    }
+
+    if(cooked) {
+      const unCooked = recipesArrCopy.filter((cooked) => {
+        return (
+          cooked.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+          cooked.Creator !== recipe.Creator
+        );
+      });
+
+      updateDoc(BKRef, { CookedRecipes: unCooked });
+      setRecipeCardBookmarks({ ...bookmarks, CookedRecipess: unCooked });
+      setBookmarks({ ...bookmarks, CookedRecipes: unCooked });
+
+    } else {
+      recipesArrCopy.push(recipe);
+      updateDoc(BKRef, { CookedRecipes: recipesArrCopy });
+      setRecipeCardBookmarks({
+        ...bookmarks,
+        CookedRecipes: recipesArrCopy,
+      });
+      setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
+    }
+
+    setCooked(!cooked);
   };
 
   const bookmarkPressedRecipeCard = (recipe) => {
@@ -78,6 +106,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       setRecipeCardBookmarks(bookmarks);
       const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
+      let cookedRecs = []
+      if(bookmarks.CookedRecipes !== null) {
+        cookedRecs = bookmarks.CookedRecipes.slice()
+      }
+
       const hasRecipe = recipesArrCopy.some((bookmark) => {
         return (
           bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
@@ -85,7 +118,15 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
         );
       });
 
+      const cookedRecipe = cookedRecs.some((cookedR) => {
+        return (
+          cookedR.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+          cookedR.Creator === recipe.Creator
+        );
+      });
+
       if (hasRecipe) setBookmarked(true);
+      if (cookedRecipe) setCooked(true)
 
       if(recipe.ImageURL === '') setImageURL('https://i.imgur.com/tIrGgMa.png')
     }
@@ -109,12 +150,14 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 Instructions: recipe.Instructions,
                 ImageURL: ImageURL,
                 bookmarked,
+                cooked,
                 //bookmarkPressed: bookmarkPressed,
                 //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
                 recipe,
                 bookmarks,
                 loggedInUser,
                 setRecipeCardBookmark: () => setBookmarked(!bookmarked),
+                setRecipeCardCooked: () => setCooked(!cooked)
               })
             }
           >
@@ -155,7 +198,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 <MaterialCommunityIcons
                   name="food-fork-drink"
                   size={30}
-                  color={"rgba(230, 230, 230, 0.716)"}
+                  color={cooked ? "red": "black"}
                 />
               </TouchableOpacity>
               <TouchableOpacity

@@ -36,7 +36,8 @@ function SignupScreen({ navigation }) {
           });
           addDoc(bookmarksRef, {
             UserID: user.uid,
-            BookmarkedRecipes: []
+            BookmarkedRecipes: [],
+            CookedRecipes: []
           }).then((userBookmarkRef => {
             getDoc(userBookmarkRef).then((snap) => {
               setBookmarks(snap.data());

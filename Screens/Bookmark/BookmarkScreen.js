@@ -26,9 +26,6 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
   const heartPressed = () => {
     setHeartColor(!heartColor);
   };
-  const foodPressed = () => {
-    setFoodColor(!foodColor);
-  };
 
   const bookmarkPressed = (recipe) => {
     const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
@@ -53,6 +50,38 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
       setBookmarkScreenBookmarks(bookmarks);
     }
   }, [bookmarks]);
+
+  const foodPressed = (recipe) => {
+    let recipesArrCopy = []
+
+    if(bookmarks.CookedRecipes !== null) {
+      recipesArrCopy = bookmarks.CookedRecipes.slice()
+    }
+
+    const hasRecipe = recipesArrCopy.some((bookmark) => {
+      return (
+        bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+        bookmark.Creator === recipe.Creator
+      );
+    });
+
+    if(hasRecipe) {
+      const unCooked = recipesArrCopy.filter((cooked) => {
+        return (
+          cooked.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+          cooked.Creator !== recipe.Creator
+        );
+      });
+
+      updateDoc(BKRef, { CookedRecipes: unCooked });
+      setBookmarks({ ...bookmarks, CookedRecipes: unCooked });
+
+    } else {
+      recipesArrCopy.push(recipe);
+      updateDoc(BKRef, { CookedRecipes: recipesArrCopy });
+      setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
+    }
+  };
 
   // const bookmarkPressed = () => {
   //   setBookmarkColor(!bookmarkColor);
@@ -112,6 +141,7 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
                 index={index}
                 loggedInUser={loggedInUser}
                 updateBookmarks={bookmarkPressed}
+                updateCooked={foodPressed}
                 bookmarks={bookmarks}
               />
             </View>
