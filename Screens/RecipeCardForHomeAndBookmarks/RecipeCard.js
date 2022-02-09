@@ -40,6 +40,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
+  const [ImageURL, setImageURL] = useState('')
 
   const foodPressed = () => {
     setFoodColor(!foodColor);
@@ -85,6 +86,8 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       });
 
       if (hasRecipe) setBookmarked(true);
+
+      if(recipe.ImageURL === '') setImageURL('https://i.imgur.com/tIrGgMa.png')
     }
   }, [bookmarks]);
 
@@ -104,7 +107,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 Description: recipe.Description,
                 Ingredients: recipe.Ingredients,
                 Instructions: recipe.Instructions,
-                ImageURL: recipe.ImageURL,
+                ImageURL: ImageURL,
                 bookmarked,
                 //bookmarkPressed: bookmarkPressed,
                 //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
@@ -129,7 +132,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: recipe.ImageURL,
+                  uri: ImageURL,
                 }}
               />
             </View>
