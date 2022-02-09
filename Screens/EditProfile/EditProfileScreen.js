@@ -61,7 +61,7 @@ const EditProfileScreen = ({ navigation, route }) => {
               </View>
             </TouchableOpacity>
             <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
-              Jane Doe
+              {route.params.LoggedInUsername}
             </Text>
           </View>
 
@@ -112,11 +112,11 @@ const EditProfileScreen = ({ navigation, route }) => {
               }
             />
           </View>
-          <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
-            <Text style={styles.panelBtnTitle}>Update</Text>
+          <TouchableOpacity style={styles.commandBtnOne} onPress={() => {}}>
+            <Text style={styles.panelBtnTitleOne}>Update</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.commandBtn} onPress={handleLogOut}>
-            <Text style={styles.panelBtnTitle}>Log Out</Text>
+          <TouchableOpacity style={styles.commandBtnTwo} onPress={handleLogOut}>
+            <Text style={styles.panelBtnTitleTwo}>Log Out</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -131,12 +131,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
-  commandBtn: {
+  commandBtnOne: {
     padding: 10,
     borderRadius: 10,
     backgroundColor: "red",
     alignItems: "center",
     marginTop: 10,
+    // width: 100,
+    // height: 40,
+  },
+  commandBtnTwo: {
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 10,
+    borderLeftWidth: 1.5,
+    borderTopWidth: 1.5,
+    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5,
+    borderColor: "red",
     // width: 100,
     // height: 40,
   },
@@ -182,10 +195,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 7,
   },
-  panelBtnTitle: {
+  panelBtnTitleOne: {
     fontSize: 17,
     fontWeight: "bold",
     color: "white",
+  },
+  panelBtnTitleTwo: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "red",
   },
   action: {
     flexDirection: "row",

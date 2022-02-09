@@ -91,7 +91,29 @@ const BookmarkScreenCard = ({
           }}
         >
           <View style={styles.titleAndDescription}>
-            <Text style={styles.title}>{recipe.Name}</Text>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("SinglePost", {
+                  LoggedInUser: loggedInUser.Username,
+                  RecipeUsername: recipe.CreatorUsername,
+                  RecipeName: recipe.Name,
+                  TimeHrs: recipe.Time.Hours,
+                  TimeMins: recipe.Time.Minutes,
+                  Description: recipe.Description,
+                  Ingredients: recipe.Ingredients,
+                  Instructions: recipe.Instructions,
+                  ImageURL: recipe.ImageURL,
+                  bookmarked: true,
+                  recipe,
+                  bookmarks,
+                  loggedInUser,
+                  //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
+                })
+              }
+            >
+              <Text style={styles.title}>{recipe.Name}</Text>
+            </Pressable>
+
             <Text style={styles.username}>{recipe.CreatorUsername}</Text>
             {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
           </View>
