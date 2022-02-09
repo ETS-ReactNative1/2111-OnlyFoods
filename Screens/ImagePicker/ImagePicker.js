@@ -130,7 +130,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
           placeholder={{}}
           items={uploadOrTakePic}
           onValueChange={(value) => {
-            value ? selectImage(value) : takePicture(value);
+            value ? takePicture(value) : selectImage(value);
           }}
           style={styles}
           value={true ? imageSetting : upload}
