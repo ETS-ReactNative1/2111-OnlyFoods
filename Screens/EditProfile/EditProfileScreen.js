@@ -22,7 +22,7 @@ import {
   updateUserWithEmailAndPassword,
 } from "firebase/auth";
 
-const EditProfileScreen = ({ navigation: { goBack }, route }) => {
+const EditProfileScreen = ({ navigation, route }) => {
   console.log(route.params);
   const { colors } = useTheme();
 
@@ -39,7 +39,7 @@ const EditProfileScreen = ({ navigation: { goBack }, route }) => {
     <SafeAreaView styles={styles.container}>
       <View>
         <TouchableOpacity style={styles.back}>
-          <Button onPress={() => goBack()} title="Back" />
+          <Button onPress={() => navigation.goBack()} title="Back" />
         </TouchableOpacity>
         <View style={{ margin: 20 }}>
           <View style={{ alignItems: "center" }}>
