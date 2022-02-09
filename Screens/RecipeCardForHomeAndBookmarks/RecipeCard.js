@@ -40,7 +40,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
   const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
-  const [ImageURL, setImageURL] = useState('')
+  const [ImageURL, setImageURL] = useState("");
 
   const foodPressed = () => {
     let recipesArrCopy = []
@@ -128,7 +128,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       if (hasRecipe) setBookmarked(true);
       if (cookedRecipe) setCooked(true)
 
-      if(recipe.ImageURL === '') setImageURL('https://i.imgur.com/tIrGgMa.png')
+      if (recipe.ImageURL === "") {
+        setImageURL("https://i.imgur.com/tIrGgMa.png");
+      } else {
+        setImageURL(recipe.ImageURL);
+      }
     }
   }, [bookmarks]);
 
@@ -185,7 +189,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                   style={{
                     fontWeight: "bold",
                     textTransform: "capitalize",
-                    fontSize: 20,
+                    fontSize: 16,
                     justifyContent: "center",
                     alignContent: "center",
                     marginLeft: 5,
@@ -247,6 +251,10 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: 330,
     height: 200,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
   },
   icons: {
     flexDirection: "row",

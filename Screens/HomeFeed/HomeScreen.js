@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   image: {
     marginLeft: 30,
     width: 330,
-    height: 200,
+    height: 300,
   },
   icons: {
     flexDirection: "row",

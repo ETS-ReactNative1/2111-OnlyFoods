@@ -83,6 +83,7 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
           {recipes.map((recipe, index) => (
             <Pressable
               key={index}
+              style={styles.singleImage}
               onPress={() =>
                 navigation.navigate("SinglePost", {
                   LoggedInUser: loggedInUser.Username,
@@ -152,13 +153,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     //justifyContent: "space-between",
-    marginTop: 20,
+    // marginVertical: 20,
+    // marginHorizontal: 3,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
+    // borderRightWidth: 1,
+    // borderLeftWidth: 1,
+  },
+  singleImage: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    //justifyContent: "space-between",
+    marginVertical: 10,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
+    // borderRightWidth: 1,
+    // borderLeftWidth: 1,
+    marginHorizontal: 6,
+    borderColor: "gray",
   },
   img: {
     height: 100,
     width: 100,
-    marginBottom: 10,
+    marginBottom: 0,
   },
+
   refresh: {
     alignItems: "flex-end",
     marginRight: 25,
