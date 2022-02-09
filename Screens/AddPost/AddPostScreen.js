@@ -201,7 +201,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                   onPress={() => setAddPhoto(true)}
                   style={{ paddingTop: 30, paddingBottom: 20 }}
                 >
-                  <MaterialIcons name="add-a-photo" size={50} />
+                  <MaterialIcons name="camera-alt" size={50} />
                 </TouchableOpacity>
               </View>
             </View>

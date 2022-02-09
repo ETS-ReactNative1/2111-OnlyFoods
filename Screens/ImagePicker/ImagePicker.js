@@ -18,8 +18,23 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 //import * as Progress from 'react-native-progress';
+import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
+import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 
 export default function PhotoUpload({ setImageUrlCallback, url }) {
+  const uploadOrTakePic = [
+    {
+      label: "Select Image",
+      value: false,
+    },
+    {
+      label: "Take Picture",
+      value: true,
+    },
+  ];
+
+  const [upload, setImageUpload] = useState(false);
+  const [imageSetting, setImageSetting] = useState(false);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -104,19 +119,22 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <View style={{ flex: 0.5 }}>
-          <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
-            <Text style={styles.buttonText}>Pick an image</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 0.5 }}>
-          <TouchableOpacity style={styles.selectButton} onPress={takePicture}>
-            <Text style={styles.buttonText}>Take a Picture</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.imageContainer}>
+      <View style={styles.cam}>
+        {/* <TouchableOpacity onPress={selectImage}>
+          <FontAwesome name="picture-o" size={50} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={takePicture}>
+          <MaterialIcons name="add-a-photo" size={50} />
+        </TouchableOpacity> */}
+        <RNPickerSelect
+          placeholder={{}}
+          items={uploadOrTakePic}
+          onValueChange={(value) => {
+            value ? selectImage(value) : takePicture(value);
+          }}
+          style={styles}
+          value={true ? imageSetting : upload}
+        />
         {image !== null ? (
           <Image source={{ uri: image.uri }} style={styles.imageBox} />
         ) : null}
@@ -151,28 +169,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  selectButton: {
-    borderRadius: 5,
-    width: 150,
-    height: 50,
-    backgroundColor: "#8ac6d1",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  uploadButton: {
-    borderRadius: 5,
-    width: 150,
-    height: 50,
-    backgroundColor: "#ffb6b9",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   imageContainer: {
     marginTop: 30,
     marginBottom: 20,
@@ -184,5 +180,10 @@ const styles = StyleSheet.create({
   imageBox: {
     width: 300,
     height: 300,
+  },
+  cam: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingTop: 20,
   },
 });
