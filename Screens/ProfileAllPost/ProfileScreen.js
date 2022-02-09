@@ -9,9 +9,12 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { db } from "../../firebase_config";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StackRouter } from "react-navigation";
+// import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
   //const user = auth.currentUser
@@ -39,8 +42,11 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
   useEffect(() => refresh(), []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "rgba(230, 230, 230, 0.716)" }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <TouchableOpacity style={styles.refresh} onPress={refresh}>
+          <MaterialIcons name="refresh" size={30} />
+        </TouchableOpacity>
         <View style={styles.userHeader}>
           <View style={styles.userInfo}>
             <Image
@@ -54,12 +60,12 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               {recipes.length}
             </Text>
-            <Text style={{ fontSize: 15 }}>Recipes</Text>
+            <Text style={{ fontSize: 20 }}>Recipes</Text>
           </View>
           <View style={styles.icon}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Setting", {
+                navigation.navigate("EditProfileScreen", {
                   LoggedInUsername: loggedInUser.Username,
                   LoggedInUserId: loggedInUser.UserId,
                   LoggedInEmail: loggedInUser.Email,
@@ -72,13 +78,6 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
         </View>
 
         {/* lines below are to check that firestore queries work */}
-        <TouchableOpacity
-          titleSize={20}
-          style={styles.button}
-          onPress={refresh}
-        >
-          <Text style={styles.buttonText}> Refresh Page </Text>
-        </TouchableOpacity>
 
         <View style={styles.images}>
           {recipes.map((recipe, index) => (
@@ -114,8 +113,9 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     marginHorizontal: 30,
+    marginTop: 20,
   },
   userImg: {
     height: 100,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   icon: {
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: 50,
+    marginLeft: 60,
     alignItems: "center",
   },
   images: {
@@ -154,22 +154,14 @@ const styles = StyleSheet.create({
     //justifyContent: "space-between",
     marginTop: 20,
   },
-
   img: {
     height: 100,
     width: 100,
     marginBottom: 10,
   },
-  button: {
-    backgroundColor: "#0096F6",
-    alignItems: "center",
+  refresh: {
+    alignItems: "flex-end",
+    marginRight: 25,
     justifyContent: "center",
-    minHeight: 42,
-    borderRadius: 4,
-  },
-  buttonText: {
-    fontWeight: "600",
-    color: "#fff",
-    fontSize: 20,
   },
 });

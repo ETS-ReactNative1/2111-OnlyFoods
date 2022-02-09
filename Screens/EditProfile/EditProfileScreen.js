@@ -7,95 +7,101 @@ import {
   Platform,
   ImageBackground,
   TextInput,
+  SafeAreaView,
 } from "react-native";
 import { FontAwesome, Feather, Icons } from "react-native-vector-icons";
 import React from "react";
 import { useTheme } from "react-native-paper";
 
-const EditProfileScreen = ({navigation, route}) => {
-  console.log(route.params)
+const EditProfileScreen = ({ navigation: { goBack }, route }) => {
+  console.log(route.params);
   const { colors } = useTheme();
   return (
-    <View styles={styles.container}>
-      <View style={{ margin: 20 }}>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={() => {}}>
-            <View
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 15,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <ImageBackground
-                source={require("../../Assets/Cook1.png")}
-                style={{ height: 100, width: 100 }}
-                imageStyle={{ borderRadius: 15 }}
-              ></ImageBackground>
-            </View>
-          </TouchableOpacity>
-          <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
-            Jane Doe
-          </Text>
-        </View>
+    <SafeAreaView>
+      <View styles={styles.container}>
+        <TouchableOpacity style={styles.back}>
+          <Button onPress={() => goBack()} title="Back" />
+        </TouchableOpacity>
+        <View style={{ margin: 20 }}>
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity onPress={() => {}}>
+              <View
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ImageBackground
+                  source={require("../../Assets/Cook1.png")}
+                  style={{ height: 100, width: 100 }}
+                  imageStyle={{ borderRadius: 15 }}
+                ></ImageBackground>
+              </View>
+            </TouchableOpacity>
+            <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
+              Jane Doe
+            </Text>
+          </View>
 
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Username"
-            placeholderTextColor="black"
-            autoCorrect={false}
-            style={
-              (styles.textInput,
-              {
-                color: colors.text,
-                marginLeft: 5,
-              })
-            }
-          />
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Username"
+              placeholderTextColor="black"
+              autoCorrect={false}
+              style={
+                (styles.textInput,
+                {
+                  color: colors.text,
+                  marginLeft: 5,
+                })
+              }
+            />
+          </View>
+          <View style={styles.action}>
+            <FontAwesome name="envelope-o" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor="black"
+              keyboardType="email-address"
+              autoCorrect={false}
+              autoCorrect={false}
+              style={
+                (styles.textInput,
+                {
+                  color: colors.text,
+                  marginLeft: 5,
+                })
+              }
+            />
+          </View>
+          <View style={styles.action}>
+            <Feather name="lock" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="black"
+              autoCorrect={false}
+              style={
+                (styles.textInput,
+                {
+                  color: colors.text,
+                  marginLeft: 5,
+                })
+              }
+            />
+          </View>
+          <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
+            <Text style={styles.panelBtnTitle}>Update</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
+            <Text style={styles.panelBtnTitle}>Log Out</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.action}>
-          <FontAwesome name="envelope-o" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor="black"
-            keyboardType="email-address"
-            autoCorrect={false}
-            autoCorrect={false}
-            style={
-              (styles.textInput,
-              {
-                color: colors.text,
-                marginLeft: 5,
-              })
-            }
-          />
-        </View>
-        <View style={styles.action}>
-          <Feather name="lock" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="black"
-            autoCorrect={false}
-            style={
-              (styles.textInput,
-              {
-                color: colors.text,
-                marginLeft: 5,
-              })
-            }
-          />
-        </View>
-        <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
-          <Text style={styles.panelBtnTitle}>Update</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
-          <Text style={styles.panelBtnTitle}>Log Out</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -181,5 +187,10 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 20,
     color: "brown",
+  },
+  back: {
+    alignItems: "flex-start",
+    marginLeft: 20,
+    marginTop: 20,
   },
 });

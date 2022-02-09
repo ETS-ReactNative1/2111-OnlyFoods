@@ -184,12 +184,12 @@ function AddPostScreen({ navigation, loggedInUser }) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, width: "100%", height: "80%" }}
-      keyboardShouldPersistTaps="always"
-      //keyboardVerticalOffset = {useHeaderHeight() + 20}
-    >
-      <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, width: "100%", height: "80%" }}
+        // keyboardShouldPersistTaps="always"
+        // keyboardVerticalOffset={useHeaderHeight() + 20}
+      >
         <View>
           {!addPhoto ? (
             <View>
@@ -632,8 +632,8 @@ function AddPostScreen({ navigation, loggedInUser }) {
         </Pressable>
 
         <View style={styles.bottomSpaceAdjust}></View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 

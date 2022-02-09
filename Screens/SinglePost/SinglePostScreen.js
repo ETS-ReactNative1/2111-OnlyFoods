@@ -14,10 +14,21 @@ import {
   Octicons,
   MaterialCommunityIcons,
   Feather,
+  Fontisto,
   MaterialIcons,
 } from "@expo/vector-icons";
-import {db} from '../../firebase_config'
-import { collection, getDocs, getDoc, addDoc, query, where, doc, orderBy, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase_config";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  query,
+  where,
+  doc,
+  orderBy,
+  updateDoc,
+} from "firebase/firestore";
 import { BookmarksContext } from "../../App";
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
@@ -37,145 +48,165 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
-  const bookmarksRef = collection(db, "bookmarks")
+  const bookmarksRef = collection(db, "bookmarks");
 
-  const { bookmarks, setBookmarks } = useContext(BookmarksContext)
-  const [userBookmarksRef, setUserBookmarksRef] = useState('')
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext);
+  const [userBookmarksRef, setUserBookmarksRef] = useState("");
 
   const bookmarkPressed = (recipe) => {
-
-    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice()
+    const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
     const hasRecipe = recipesArrCopy.some((bookmark) => {
-      return (bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds && bookmark.Creator === recipe.Creator)
-    })
+      return (
+        bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+        bookmark.Creator === recipe.Creator
+      );
+    });
 
-    if(hasRecipe){
-      const unBookmark = recipesArrCopy.filter( (bookmark) => {
-        return (bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds || bookmark.Creator !== recipe.Creator)
-      })
+    if (hasRecipe) {
+      const unBookmark = recipesArrCopy.filter((bookmark) => {
+        return (
+          bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+          bookmark.Creator !== recipe.Creator
+        );
+      });
 
-      updateDoc(userBookmarksRef, {BookmarkedRecipes: unBookmark})
-      setBookmarks({...bookmarks, BookmarkedRecipes: unBookmark})
-      if(route.params.setRecipeCardBookmark) route.params.setRecipeCardBookmark()
+      updateDoc(userBookmarksRef, { BookmarkedRecipes: unBookmark });
+      setBookmarks({ ...bookmarks, BookmarkedRecipes: unBookmark });
+      if (route.params.setRecipeCardBookmark)
+        route.params.setRecipeCardBookmark();
       //route.params.setRecipeCardBookmark()
-      setBookmarked(!bookmarked)
+      setBookmarked(!bookmarked);
     } else {
-      recipesArrCopy.push(recipe)
-      updateDoc(userBookmarksRef, {BookmarkedRecipes: recipesArrCopy})
-      setBookmarks({...bookmarks, BookmarkedRecipes: recipesArrCopy})
-      if(route.params.setRecipeCardBookmark) route.params.setRecipeCardBookmark()
+      recipesArrCopy.push(recipe);
+      updateDoc(userBookmarksRef, { BookmarkedRecipes: recipesArrCopy });
+      setBookmarks({ ...bookmarks, BookmarkedRecipes: recipesArrCopy });
+      if (route.params.setRecipeCardBookmark)
+        route.params.setRecipeCardBookmark();
       //route.params.setRecipeCardBookmark()
-      setBookmarked(!bookmarked)
+      setBookmarked(!bookmarked);
     }
-
   };
 
   // const foodPressed = () => {
   //   setFoodColor(!foodColor);
   // };
 
-
   useEffect(() => {
-    getDocs(query(bookmarksRef, where('UserID', '==', route.params.loggedInUser.UserId)))
-        .then( (snapshot) => {
-          snapshot.docs.forEach( (document) => {
-            setUserBookmarksRef(document.ref)
-            setBookmarks(document.data())
-          })
-
-        })
-    setBookmarked(route.params.bookmarked)
-  }, [])
+    getDocs(
+      query(
+        bookmarksRef,
+        where("UserID", "==", route.params.loggedInUser.UserId)
+      )
+    ).then((snapshot) => {
+      snapshot.docs.forEach((document) => {
+        setUserBookmarksRef(document.ref);
+        setBookmarks(document.data());
+      });
+    });
+    setBookmarked(route.params.bookmarked);
+  }, []);
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.userinfo}>
-              <Button onPress={() => goBack()} title="back" />
-              <Image
-                style={styles.userImg}
-                source={require("../../Assets/Cook1.png")}
-              />
-              <View style={styles.username}>
-                <Text> {route.params.RecipeUsername} </Text>
-              </View>
+          <TouchableOpacity style={styles.back}>
+            <Button onPress={() => goBack()} title="Back" />
+          </TouchableOpacity>
+          <View style={styles.userinfo}>
+            <Image
+              style={styles.userImg}
+              source={require("../../Assets/Cook1.png")}
+            />
+            <View style={styles.username}>
+              <Text> {route.params.RecipeUsername} </Text>
+            </View>
+            <View style={styles.edit}>
               {route.params.LoggedInUser === route.params.RecipeUsername ? (
-                <Feather name="edit-2" size={24} style={styles.edit} />
+                <Feather name="edit-2" size={24} />
               ) : null}
             </View>
+          </View>
 
-            <View style={styles.imageAndEdit}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: route.params.ImageURL,
-                }}
+          <View style={styles.imageAndEdit}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: route.params.ImageURL,
+              }}
+            />
+          </View>
+          <View style={styles.icons}>
+            <MaterialCommunityIcons
+              name="food-fork-drink"
+              size={40}
+              color="rgba(230, 230, 230, 0.716)"
+            />
+            <TouchableOpacity
+              onPress={() => bookmarkPressed(route.params.recipe)}
+            >
+              <Fontisto
+                name="bookmark-alt"
+                size={35}
+                color={bookmarked ? "red" : "black"}
               />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.recipe}>
+            <View style={styles.recipeInfo}>
+              <Text
+                style={{
+                  alignItems: "center",
+                  textTransform: "capitalize",
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  paddingTop: 15,
+                }}
+              >
+                {route.params.RecipeName}
+              </Text>
             </View>
-            <View style={styles.icons}>
-              <TouchableOpacity onPress={() => bookmarkPressed(route.params.recipe)}>
-                <MaterialCommunityIcons
-                  name="bookmark-outline"
-                  size={40}
-                  style={styles.bookmark}
-                  color={bookmarked ? "red" : "black"}
-                />
-              </TouchableOpacity>
-
-              <MaterialCommunityIcons name="food-fork-drink" size={40} />
+            <View style={styles.recipeInfo}>
+              <Text>
+                Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
+              </Text>
             </View>
-            <View style={styles.recipe}>
-              <View style={styles.recipeInfo}>
+            <View style={styles.recipeInfo}>
+              <Text style={{ textTransform: "capitalize" }}>
+                Description: {route.params.Description}
+              </Text>
+            </View>
+            <View style={styles.recipeInfo}>
+              <Text>Ingredients:</Text>
+              {route.params.Ingredients.map((ingredient) => (
                 <Text
-                  style={{
-                    textDecorationLine: "underline",
-                    alignItems: "center",
-                  }}
+                  key={route.params.Ingredients.indexOf(ingredient)}
+                  style={{ textTransform: "capitalize" }}
                 >
-                  {route.params.RecipeName}
+                  {/* Checkbox instead of view line 99*/}
+                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
+                  {ingredient.Name}
                 </Text>
-              </View>
-              <View style={styles.recipeInfo}>
-                <Text>
-                  Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
-                </Text>
-              </View>
-              <View style={styles.recipeInfo}>
-                <Text>Description: {route.params.Description}</Text>
-              </View>
-              <View style={styles.recipeInfo}>
-                <Text>Ingredients:</Text>
-                {route.params.Ingredients.map((ingredient) => (
-                  <Text
-                    key={route.params.Ingredients.indexOf(ingredient)}
-                    style={{ flexDirection: "row" }}
-                  >
-                    {/* Checkbox instead of view line 99*/}
-                    <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
-                    {ingredient.Name}
-                  </Text>
-                ))}
-              </View>
-              <View style={styles.recipeInfo}>
-                <Text>Directions:</Text>
-                {route.params.Instructions.map((instruction) => (
-                  <Text
-                    key={route.params.Instructions.indexOf(instruction)}
-                    style={{ flexDirection: "row" }}
-                  >
-                    <Text>
-                      {/* Checkbox instead of view line 113*/}
-                      <View /> Step{" "}
-                      {route.params.Instructions.indexOf(instruction) + 1}:{" "}
-                      {instruction}
-                    </Text>
-                  </Text>
-                ))}
-              </View>
+              ))}
             </View>
-
+            <View style={styles.recipeInfo}>
+              <Text>Directions:</Text>
+              {route.params.Instructions.map((instruction) => (
+                <Text
+                  key={route.params.Instructions.indexOf(instruction)}
+                  style={{ flexDirection: "row", textTransform: "capitalize" }}
+                >
+                  <Text>
+                    {/* Checkbox instead of view line 113*/}
+                    <View /> Step{" "}
+                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                    {instruction}
+                  </Text>
+                </Text>
+              ))}
+            </View>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -187,14 +218,14 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   userinfo: {
-    backgroundColor: "white",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     justifyContent: "flex-start",
     flexDirection: "column",
     marginHorizontal: 20,
-    marginTop: 40,
+    marginTop: 20,
   },
   username: {
     flexDirection: "column",
@@ -227,9 +258,11 @@ const styles = StyleSheet.create({
   recipe: {
     marginHorizontal: 30,
     marginTop: 20,
-    marginBottom: 70,
+    marginBottom: 40,
     flexDirection: "column",
     justifyContent: "flex-start",
+    borderTopWidth: 1,
+    borderTopColor: "gray",
   },
   title: {
     marginHorizontal: 30,
@@ -239,17 +272,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   recipeInfo: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
-
   edit: {
-    marginLeft: 70,
-    marginTop: 10,
+    // marginLeft: 70,
+    marginBottom: 10,
+    alignItems: "flex-end",
+    marginRight: 30,
   },
   userImg: {
     height: 80,
     width: 80,
     borderRadius: 75,
+  },
+  back: {
+    alignItems: "flex-start",
+    marginLeft: 20,
+    marginTop: 20,
   },
 });

@@ -99,7 +99,10 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ marginBottom: 90 }}
+      >
         {bookmarkScreenBookmarks ? (
           bookmarkScreenBookmarks.BookmarkedRecipes.map((recipe, index) => (
             <View key={index}>
@@ -266,10 +269,9 @@ export default BookmarkScreen;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     flex: 1,
     justifyContent: "center",
-    marginTop: 20,
-    marginHorizontal: 10,
   },
   // imageContainer: {
   //   marginTop: 20,
