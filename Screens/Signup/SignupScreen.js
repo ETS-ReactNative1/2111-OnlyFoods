@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { auth, db } from "../../firebase_config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import {
   View,
   Text,
@@ -11,8 +11,13 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
 } from "react-native";
+import { BookmarksContext } from '../../App'
 
 function SignupScreen({ navigation }) {
+
+  const { bookmarks, setBookmarks } = useContext(BookmarksContext);
+  const bookmarksRef = collection(db, "bookmarks");
+
   const usersRef = collection(db, "user");
 
   const [email, setEmail] = useState("");
@@ -29,6 +34,14 @@ function SignupScreen({ navigation }) {
             UserId: user.uid,
             Username: username,
           });
+          addDoc(bookmarksRef, {
+            UserID: user.uid,
+            BookmarkedRecipes: []
+          }).then((userBookmarkRef => {
+            getDoc(userBookmarkRef).then((snap) => {
+              setBookmarks(snap.data());
+            });
+          }))
           navigation.replace("Navigator");
         })
         .catch((error) => alert(error.message));

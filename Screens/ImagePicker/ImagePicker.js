@@ -21,6 +21,7 @@ import {
 //import * as Progress from 'react-native-progress';
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
+import { ImageManipulator } from 'expo';
 
 export default function PhotoUpload({ setImageUrlCallback, url }) {
   const uploadOrTakePic = [
@@ -50,8 +51,8 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
 
   const selectImage = async () => {
     const options = {
-      maxWidth: 2000,
-      maxHeight: 2000,
+      maxWidth: 200,
+      maxHeight: 200,
       storageOptions: {
         skipBackup: true,
         path: "images",
@@ -62,7 +63,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
-      quality: 1,
+      quality: .3,
     });
 
     if (!result.cancelled) {
@@ -72,8 +73,8 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
 
   const takePicture = async () => {
     const options = {
-      maxWidth: 2000,
-      maxHeight: 2000,
+      maxWidth: 200,
+      maxHeight: 200,
       storageOptions: {
         skipBackup: true,
         path: "images",
@@ -84,7 +85,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
-      quality: 1,
+      quality: 0.3,
     });
 
     if (!result.cancelled) {
@@ -137,6 +138,19 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
             value={true ? imageSetting : upload}
           />
         </View>
+        {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flex: 0.5 }}>
+            <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+              <Text style={styles.buttonText}>Pick an image</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 0.5 }}>
+            <TouchableOpacity style={styles.selectButton} onPress={takePicture}>
+              <Text style={styles.buttonText}>Take a Picture</Text>
+            </TouchableOpacity>
+          </View>
+        </View> */}
+
         {image !== null ? (
           <Image source={{ uri: image.uri }} style={styles.imageBox} />
         ) : null}
