@@ -91,7 +91,7 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   const foodPressed = (recipe) => {
     let recipesArrCopy = []
 
-    if(bookmarks.CookedRecipes !== null) recipesArrCopy = bookmarks.CookedRecipes.slice();
+    if(bookmarks.CookedRecipes) recipesArrCopy = bookmarks.CookedRecipes.slice();
 
     const hasRecipe = recipesArrCopy.some((bookmark) => {
       return (

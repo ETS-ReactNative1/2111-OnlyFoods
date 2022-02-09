@@ -107,7 +107,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
       let cookedRecs = []
-      if(bookmarks.CookedRecipes !== null) {
+      if(bookmarks.CookedRecipes) {
         cookedRecs = bookmarks.CookedRecipes.slice()
       }
 

@@ -23,6 +23,7 @@ import {
   doc,
   orderBy,
   updateDoc,
+  limit
 } from "firebase/firestore";
 import Cam from "../Camera";
 import { BookmarksContext } from "../App";
@@ -52,7 +53,8 @@ const Navigator = () => {
   const recipesQuery = query(
     recipesRef,
     where("Public", "==", true),
-    orderBy("CreatedAt", "desc")
+    orderBy("CreatedAt", "desc"),
+    //limit(5)
   );
 
   const [recipes, setRecipes] = useState([]);
