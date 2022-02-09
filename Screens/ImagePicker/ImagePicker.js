@@ -8,6 +8,7 @@ import {
   Platform,
   Alert,
   Image,
+  Button,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 //import storage from 'firebase/compat/storage';
@@ -126,36 +127,32 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
         <TouchableOpacity onPress={takePicture}>
           <MaterialIcons name="add-a-photo" size={50} />
         </TouchableOpacity> */}
-        <RNPickerSelect
-          placeholder={{}}
-          items={uploadOrTakePic}
-          onValueChange={(value) => {
-            value ? takePicture(value) : selectImage(value);
-          }}
-          style={styles}
-          value={true ? imageSetting : upload}
-        />
+        <View style={styles.picker}>
+          <RNPickerSelect
+            placeholder={{}}
+            items={uploadOrTakePic}
+            onValueChange={(value) => {
+              value ? takePicture(value) : selectImage(value);
+            }}
+            value={true ? imageSetting : upload}
+          />
+        </View>
         {image !== null ? (
           <Image source={{ uri: image.uri }} style={styles.imageBox} />
         ) : null}
         {!image ? null : (
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View style={{ flex: 0.5 }}>
-              <TouchableOpacity
-                style={styles.uploadButton}
-                onPress={uploadImage}
-              >
-                <Text style={styles.buttonText}>Upload image</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 0.5 }}>
-              <TouchableOpacity
-                style={styles.uploadButton}
+          <View style={styles.confirm}>
+            <TouchableOpacity style={{ marginBottom: -10 }}>
+              <Button onPress={uploadImage} title="Upload" style={styles.btn} />
+            </TouchableOpacity>
+            <Text style={{ color: "gray", fontSize: 27 }}>{` | `}</Text>
+            <TouchableOpacity style={{ paddingTop: -30 }}>
+              <Button
                 onPress={closeImageEdit}
-              >
-                <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
+                title="Cancel"
+                style={styles.btn}
+              />
+            </TouchableOpacity>
           </View>
         )}
       </View>
@@ -169,21 +166,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  imageContainer: {
-    marginTop: 30,
-    marginBottom: 20,
-    alignItems: "center",
-  },
-  progressBarContainer: {
-    marginTop: 20,
-  },
+  // imageContainer: {
+  //   marginTop: 30,
+  //   marginBottom: 20,
+  //   alignItems: "center",
+  // },
+  // progressBarContainer: {
+  //   marginTop: 20,
+  // },
   imageBox: {
     width: 300,
     height: 300,
+    marginHorizontal: 10,
+    marginVertical: 15,
   },
   cam: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-evenly",
     paddingTop: 20,
+    alignItems: "center",
+  },
+  btn: {
+    borderWidth: 4,
+  },
+  confirm: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: -10,
+    paddingTop: -10,
   },
 });
