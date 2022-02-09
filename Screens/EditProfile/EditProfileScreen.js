@@ -12,13 +12,32 @@ import {
 import { FontAwesome, Feather, Icons } from "react-native-vector-icons";
 import React from "react";
 import { useTheme } from "react-native-paper";
+import { auth, db } from "../../firebase_config";
+import {
+  getAuth,
+  sendSignInLinkToEmail,
+  signOut,
+  updateEmail,
+  updatePassword,
+  updateUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const EditProfileScreen = ({ navigation: { goBack }, route }) => {
   console.log(route.params);
   const { colors } = useTheme();
+
+  const handleLogOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
-    <SafeAreaView>
-      <View styles={styles.container}>
+    <SafeAreaView styles={styles.container}>
+      <View>
         <TouchableOpacity style={styles.back}>
           <Button onPress={() => goBack()} title="Back" />
         </TouchableOpacity>
@@ -96,7 +115,7 @@ const EditProfileScreen = ({ navigation: { goBack }, route }) => {
           <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
             <Text style={styles.panelBtnTitle}>Update</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.commandBtn} onPress={() => {}}>
+          <TouchableOpacity style={styles.commandBtn} onPress={handleLogOut}>
             <Text style={styles.panelBtnTitle}>Log Out</Text>
           </TouchableOpacity>
         </View>
@@ -110,6 +129,7 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   commandBtn: {
     padding: 10,
@@ -122,11 +142,11 @@ const styles = StyleSheet.create({
   },
   panel: {
     padding: 20,
-    backgroundColor: "green",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     paddingTop: 20,
   },
   header: {
-    backgroundColor: "white",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     shadowColor: "black",
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
@@ -142,7 +162,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "orange",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     marginBottom: 10,
   },
   panelTitle: {
@@ -158,7 +178,7 @@ const styles = StyleSheet.create({
   panelBtn: {
     padding: 30,
     borderRadius: 10,
-    backgroundColor: "purple",
+    backgroundColor: "rgba(230, 230, 230, 0.716)",
     alignItems: "center",
     marginVertical: 7,
   },

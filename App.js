@@ -59,6 +59,11 @@ function App() {
               name="EditProfileScreen"
               component={EditProfileScreen}
             />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="ProfileScreen"
+              component={ProfileScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </BookmarksContext.Provider>
