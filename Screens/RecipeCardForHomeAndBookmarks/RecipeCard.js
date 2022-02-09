@@ -87,8 +87,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
 
       if (hasRecipe) setBookmarked(true);
 
-      if (recipe.ImageURL === "")
+      if (recipe.ImageURL === "") {
         setImageURL("https://i.imgur.com/tIrGgMa.png");
+      } else {
+        setImageURL(recipe.ImageURL);
+      }
     }
   }, [bookmarks]);
 
@@ -205,10 +208,10 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: 330,
     height: 200,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
   },
   icons: {
     flexDirection: "row",
