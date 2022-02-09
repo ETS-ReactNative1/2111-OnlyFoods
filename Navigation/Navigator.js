@@ -54,7 +54,7 @@ const Navigator = () => {
     recipesRef,
     where("Public", "==", true),
     orderBy("CreatedAt", "desc"),
-    //limit(5)
+    //limit(10)
   );
 
   const [recipes, setRecipes] = useState([]);
