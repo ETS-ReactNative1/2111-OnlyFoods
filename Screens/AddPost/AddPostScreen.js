@@ -28,6 +28,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
+import CachedImage from "react-native-expo-cached-image";
 
 function AddPostScreen({ navigation, loggedInUser }) {
   //const user = auth.currentUser;
@@ -130,17 +131,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
     const filteredInstructions = instructions
       .slice()
       .filter((item) => item !== "");
-    let imageUrlCheck = imageUrl;
-
-    if (imageUrl === "") {
-      await getDownloadURL(ref(getStorage(), `images/default.jpg`))
-        .then((url) => {
-          imageUrlCheck = url;
-        })
-        .catch((error) => {
-          // Handle any errors
-        });
-    }
 
     const newRecipe = {
       Name: name,
@@ -148,7 +138,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
       CreatedAt: serverTimestamp(),
       Creator: loggedInUser.UserId,
       CreatorUsername: loggedInUser.Username,
-      ImageURL: imageUrlCheck,
+      ImageURL: imageUrl,
       Ingredients: filteredIngredients,
       Public: publicSetting,
       Instructions: filteredInstructions,
@@ -159,9 +149,27 @@ function AddPostScreen({ navigation, loggedInUser }) {
       name === "" ||
       description === "" ||
       !ingredients.length ||
-      !ingredients.length
+      !instructions.length || !imageUrl
     ) {
-      Alert.alert("Missing fields", "Please fill all mandatory fields", [
+      let missingInfo = ''
+      if (!name) missingInfo += 'Recipe name'
+      if (!description) {
+        if (missingInfo.length > 0) missingInfo += ', description'
+        else missingInfo += 'Description'
+      }
+      if (!ingredients.length) {
+        if (missingInfo.length > 0) missingInfo += ', ingredients'
+        else missingInfo += 'Ingredients'
+      }
+      if (!instructions.length) {
+        if (missingInfo.length > 0) missingInfo += ', instructions'
+        else missingInfo += 'Instructions'
+      }
+      if (!imageUrl) {
+        if (missingInfo.length > 0) missingInfo += ', picture'
+        else missingInfo += 'Picture'
+      }
+      Alert.alert("Missing fields", `Please fill all mandatory fields: \n \n${missingInfo}`, [
         { text: "Back" },
       ]);
     } else {
@@ -194,15 +202,26 @@ function AddPostScreen({ navigation, loggedInUser }) {
           {!addPhoto ? (
             <View>
               <View style={styles.imageContainer}>
-                {imageUrl !== "" ? (
-                  <Image source={{ uri: imageUrl }} style={styles.imageBox} />
-                ) : null}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => setAddPhoto(true)}
                   style={{ paddingTop: 30, paddingBottom: 20 }}
                 >
                   <MaterialIcons name="camera-alt" size={50} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {imageUrl !== "" ? (
+                  <TouchableOpacity
+                    onPress={() => setAddPhoto(true)}
+                    style={{ paddingTop: 30, paddingBottom: 20 }}
+                  >
+                    <CachedImage source={{ uri: imageUrl }} style={styles.imageBox} />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => setAddPhoto(true)}
+                    style={{ paddingTop: 30, paddingBottom: 20 }}
+                  >
+                    <MaterialIcons name="camera-alt" size={50} />
+                  </TouchableOpacity>)}
               </View>
             </View>
           ) : (
@@ -382,7 +401,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <View style={{ flex: 5, paddingTop: 10 }}>
+                      <View style={{ flex: 1.5, paddingTop: 10 }}>
                         <View style={styles.input}>
                           <TextInput
                             placeholderTextColor="#444"
@@ -399,7 +418,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                         </View>
                       </View>
                       <View
-                        style={{ flex: 1.8, paddingLeft: 10, paddingTop: 10 }}
+                        style={{ flex: .6, paddingLeft: 5, paddingTop: 10 }}
                       >
                         <View style={styles.input}>
                           <TextInput
@@ -417,7 +436,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                         </View>
                       </View>
                       <View
-                        style={{ flex: 0, paddingLeft: 5, paddingRight: 5 }}
+                        style={{ flex: 1 }}
                       >
                         <RNPickerSelect
                           placeholder={{
@@ -434,7 +453,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                           value={ingredients[index].Unit}
                         />
                       </View>
-                      <View style={{ flex: 0, marginRight: -23 }}>
+                      <View style={{ flex: .25, marginRight: -63 }}>
                         <Pressable onPress={() => deleteIngredient(index)}>
                           <Entypo name="cross" size={30} color="red" />
                         </Pressable>
@@ -474,12 +493,12 @@ function AddPostScreen({ navigation, loggedInUser }) {
                   style={{ flexDirection: "row", alignItems: "center" }}
                   key={index}
                 >
-                  <View style={{ flex: 0.2, paddingLeft: 20 }}>
+                  <View style={{ flex: 0.25, paddingLeft: 20 }}>
                     <Text>
                       {ingredient.Quantity} {ingredient.Unit}
                     </Text>
                   </View>
-                  <View style={{ flex: 0.9 }}>
+                  <View style={{ flex: 0.9, paddingLeft: 10 }}>
                     <Text>{ingredient.Name}</Text>
                   </View>
                 </View>
@@ -610,10 +629,10 @@ function AddPostScreen({ navigation, loggedInUser }) {
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View style={{ flex: 0.7 }}>
+          <View style={{ flex: 0.68 }}>
             <Text style={{ paddingTop: 10 }}>Privacy Setting</Text>
           </View>
-          <View style={{ flex: 0.3, marginLeft: 170, paddingTop: 15 }}>
+          <View style={{ flex: 0.32, paddingTop: 15, marginRight: -10 }}>
             <RNPickerSelect
               placeholder={{}}
               items={publicOrNot}
