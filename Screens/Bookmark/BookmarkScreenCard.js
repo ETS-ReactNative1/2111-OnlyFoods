@@ -36,7 +36,7 @@ const BookmarkScreenCard = ({
   updateBookmarks,
   loggedInUser,
   bookmarks,
-  updateCooked
+  updateCooked,
 }) => {
   const [heartColor, setHeartColor] = useState(false);
   const [cooked, setCooked] = useState(false);
@@ -46,7 +46,7 @@ const BookmarkScreenCard = ({
     setHeartColor(!heartColor);
   };
   const foodPressed = () => {
-    updateCooked(recipe)
+    updateCooked(recipe);
     setCooked(!cooked);
   };
 
@@ -55,10 +55,10 @@ const BookmarkScreenCard = ({
     updateBookmarks(recipe);
   };
 
-  useEffect(()=> {
-    let cookedRecs = []
-    if(bookmarks.CookedRecipes !== null) {
-      cookedRecs = bookmarks.CookedRecipes.slice()
+  useEffect(() => {
+    let cookedRecs = [];
+    if (bookmarks.CookedRecipes) {
+      cookedRecs = bookmarks.CookedRecipes.slice();
     }
 
     const cookedRecipe = cookedRecs.some((cookedR) => {
@@ -68,8 +68,8 @@ const BookmarkScreenCard = ({
       );
     });
 
-    if (cookedRecipe) setCooked(true)
-  },[])
+    if (cookedRecipe) setCooked(true);
+  }, []);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 5 }}>
@@ -146,13 +146,13 @@ const BookmarkScreenCard = ({
             color={heartColor ? "red" : "black"}
           />
         </TouchableOpacity>*/}
-        <TouchableOpacity onPress={() => foodPressed()}>
-          <MaterialCommunityIcons
-            name="food-fork-drink"
-            size={35}
-            color={cooked ? "red" : "black"}
-          />
-        </TouchableOpacity>
+            <TouchableOpacity onPress={() => foodPressed()}>
+              <MaterialCommunityIcons
+                name="food-fork-drink"
+                size={35}
+                color={cooked ? "red" : "black"}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => bookmarkPressed(recipe)}
               style={{ flex: 0.3 }}
