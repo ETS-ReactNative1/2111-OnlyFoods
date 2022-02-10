@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  LogBox,
 } from "react-native";
 import LoginScreen from "./Screens/Login/LoginScreen";
 import SignupScreen from "./Screens/Signup/SignupScreen";
@@ -20,6 +21,8 @@ import ProfileScreen from "./Screens/ProfileAllPost/ProfileScreen";
 import SinglePostScreen from "./Screens/SinglePost/SinglePostScreen";
 import HomeScreen from "./Screens/HomeFeed/HomeScreen";
 import EditProfileScreen from "./Screens/EditProfile/EditProfileScreen";
+
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 export const BookmarksContext = createContext("bookmarks");
