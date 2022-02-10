@@ -30,6 +30,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { BookmarksContext } from "../../App";
+import CachedImage from 'react-native-expo-cached-image';
 
 const SinglePostScreen = ({ navigation: { goBack }, route }) => {
   //console.log(route.params.bookmarked)
@@ -169,11 +170,9 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
           </View>
 
           <View style={styles.imageAndEdit}>
-            <Image
+            <CachedImage
               style={styles.image}
-              source={{
-                uri: route.params.ImageURL,
-              }}
+              source={route.params.recipe.ImageURL ? {uri: route.params.recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
             />
           </View>
           <View style={styles.icons}>
