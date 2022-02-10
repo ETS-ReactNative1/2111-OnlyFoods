@@ -62,10 +62,6 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   }, []);
 
   const selectImage = async () => {
-    if(!cameraPermission.granted) {
-      console.log('need permission')
-    }
-
     const options = {
       maxWidth: 200,
       maxHeight: 200,
