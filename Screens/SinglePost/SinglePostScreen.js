@@ -144,7 +144,20 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
       });
     });
     setCooked(route.params.cooked)
-    setBookmarked(route.params.bookmarked);
+    if(route.params.bookmarked !== undefined) {
+      setBookmarked(route.params.bookmarked)
+    } else if(bookmarks){
+      const hasRecipe = bookmarks.BookmarkedRecipes.some((bookmark) => {
+        return (
+          bookmark.CreatedAt.nanoseconds === route.params.recipe.CreatedAt.nanoseconds &&
+          bookmark.Creator === route.params.recipe.Creator
+        );
+      });
+
+      if(hasRecipe){
+        setBookmarked(true)
+      }
+    }
   }, []);
 
   return (
