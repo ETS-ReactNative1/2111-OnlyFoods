@@ -18,7 +18,7 @@ import CachedImage from "react-native-expo-cached-image";
 // import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
-  //const user = auth.currentUser
+
   const recipesRef = collection(db, "recipes");
   const recipesQuery = query(
     recipesRef,
@@ -33,8 +33,9 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
       .then((snapshot) => {
         let snapRecipes = [];
         snapshot.docs.forEach((doc) => {
-          snapRecipes.push(doc.data());
+          snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
+        console.log("fromprofile",snapRecipes);
         setRecipes(snapRecipes);
       })
       .catch((error) => console.log(error));
@@ -89,15 +90,18 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                 navigation.navigate("SinglePost", {
                   LoggedInUser: loggedInUser.Username,
                   RecipeUsername: recipe.CreatorUsername,
-                  RecipeImage: recipe.ImageURL,
                   RecipeName: recipe.Name,
-                  TimeHrs: recipe.Time.Hours,
-                  TimeMins: recipe.Time.Minutes,
+                  Time: recipe.Time,
                   Description: recipe.Description,
                   Ingredients: recipe.Ingredients,
                   Instructions: recipe.Instructions,
+
+                  ImageURL: recipe.ImageURL,
+                  Public: recipe.Public,
+
                   recipe,
                   loggedInUser,
+                  docId: recipe.docId,
                 })
               }
             >

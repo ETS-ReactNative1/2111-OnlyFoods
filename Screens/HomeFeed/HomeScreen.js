@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { db } from "../../firebase_config";
 import {
-  collection,
+  collection, 
   getDocs,
   query,
   where,
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-
   recipe: {
     marginHorizontal: 30,
     marginTop: 10,

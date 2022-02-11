@@ -36,6 +36,7 @@ import { BKRefContext } from "../../Navigation/Navigator";
 import CachedImage from 'react-native-expo-cached-image';
 
 const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
+
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
   const [cooked, setCooked] = useState(false);
@@ -148,12 +149,13 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 LoggedInUser: loggedInUser.Username,
                 RecipeUsername: recipe.CreatorUsername,
                 RecipeName: recipe.Name,
-                TimeHrs: recipe.Time.Hours,
-                TimeMins: recipe.Time.Minutes,
+                Time: recipe.Time,
                 Description: recipe.Description,
                 Ingredients: recipe.Ingredients,
                 Instructions: recipe.Instructions,
                 bookmarked,
+                Public: recipe.Public,
+                docId: recipe.docId,
                 cooked,
                 //bookmarkPressed: bookmarkPressed,
                 //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
