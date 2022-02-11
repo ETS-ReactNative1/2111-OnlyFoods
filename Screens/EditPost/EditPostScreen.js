@@ -34,12 +34,12 @@ import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
 
-function EditPostScreen({  navigation: { goBack }, navigation, route}) {
+function EditPostScreen({ navigation: { goBack }, navigation, route }) {
   const user = auth.currentUser;
   //console.log("AddPost-EditPostParams", route.params)
   const recipesRef = collection(db, "recipes");
-  const docId = route.params.docId
-  const recipeRef = doc(db, "recipes", docId)
+  const docId = route.params.docId;
+  const recipeRef = doc(db, "recipes", docId);
 
   const publicOrNot = [
     {
@@ -96,7 +96,10 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
   const [name, setName] = useState(route.params.RecipeName);
   const [description, setDescription] = useState(route.params.Description);
   const [publicSetting, setPublicSetting] = useState(route.params.Public);
-  const [time, setTime] = useState({ Hours: route.params.Time.Hours, Minutes: route.params.Time.Minutes });
+  const [time, setTime] = useState({
+    Hours: route.params.Time.Hours,
+    Minutes: route.params.Time.Minutes,
+  });
   const [instructions, setInstructions] = useState(route.params.Instructions);
   const [ingredients, setIngredients] = useState(route.params.Ingredients);
   const [editTime, setEditTime] = useState(true);
@@ -105,7 +108,6 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
   const [addPhoto, setAddPhoto] = useState(true);
   const [imageUrl, setImageUrl] = useState(route.params.ImageURL);
   //const [bookmarked, setBookmarked] = useState(route.params.bookmarked);
-
 
   const setImageUrlCallback = (url) => {
     setImageUrl(url);
@@ -191,20 +193,18 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
     // console.log(docId)
     // console.log(doc(db, "recipes", docId))
     deleteDoc(doc(db, "recipes", docId))
-    .then(() => {
-      navigation.navigate("Profile");
-    })
-    .catch((error)=> console.log(error))
-  }
+      .then(() => {
+        navigation.navigate("Profile");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <KeyboardAvoidingView
-        style={{ flex: 1, width: "100%", height: "80%" }}
-      >
+      <KeyboardAvoidingView style={{ flex: 1, width: "100%", height: "80%" }}>
         <View style={styles.topSpaceAdjust}></View>
         <TouchableOpacity style={styles.back}>
-            <Button onPress={() => goBack()} title="Back" />
+          <Button onPress={() => goBack()} title="Back" />
         </TouchableOpacity>
         {/* Add/Edit Image: Camera Option */}
         <View>
@@ -229,7 +229,7 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
             />
           )}
         </View>
-          {/* Update RecipeName */}
+        {/* Update RecipeName */}
         <View style={styles.wrapper}>
           <Text>Recipe Name</Text>
           <View style={styles.input}>
@@ -273,10 +273,12 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
             ) : (
               <Pressable
                 onPress={() => {
-                  if (time.Hours === "")
+                  if (time.Hours === "") {
                     setTime({ Hours: "0", Minutes: time.Minutes });
-                  if (time.Minutes === "")
+                  }
+                  if (time.Minutes === "") {
                     setTime({ Hours: time.Hours, Minutes: "0" });
+                  }
                   setEditTime(false);
                 }}
                 style={{ paddingTop: 10 }}
@@ -639,14 +641,22 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
             />
           </View>
         </View>
-        <Pressable titleSize={20} style={styles.button} onPress={() => deletePost(docId)}>
-          <Text style={styles.buttonText}> Delete </Text>
+
+        <Pressable
+          titleSize={20}
+          style={styles.buttonOne}
+          onPress={handleUpdatePost}
+        >
+          <Text style={styles.buttonTextOne}> Update </Text>
         </Pressable>
-        <Pressable titleSize={20} style={styles.button} onPress={handleUpdatePost}>
-          <Text style={styles.buttonText}> Update </Text>
+        <Pressable
+          titleSize={20}
+          style={styles.button}
+          onPress={() => deletePost(docId)}
+        >
+          <Text style={styles.buttonTextTwo}> Delete </Text>
         </Pressable>
         <View style={styles.bottomSpaceAdjust}></View>
-
       </KeyboardAvoidingView>
     </ScrollView>
   );

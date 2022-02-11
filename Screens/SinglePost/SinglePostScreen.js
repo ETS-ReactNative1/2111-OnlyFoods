@@ -245,7 +245,8 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             </View>
             <View style={styles.recipeInfo}>
               <Text>
-                Cook Time: {route.params.TimeHrs}hrs {route.params.TimeMins}mins
+                Cook Time: {route.params.Time.Hours}hrs{" "}
+                {route.params.Time.Minutes}mins
               </Text>
             </View>
             <View style={styles.recipeInfo}>

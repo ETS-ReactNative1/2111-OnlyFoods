@@ -300,10 +300,12 @@ function AddPostScreen({ navigation, loggedInUser }) {
             ) : (
               <Pressable
                 onPress={() => {
-                  if (time.Hours === "")
+                  if (time.Hours === "") {
                     setTime({ Hours: "0", Minutes: time.Minutes });
-                  if (time.Minutes === "")
+                  }
+                  if (time.Minutes === "") {
                     setTime({ Hours: time.Hours, Minutes: "0" });
+                  }
                   setEditTime(false);
                 }}
                 style={{ paddingTop: 10 }}

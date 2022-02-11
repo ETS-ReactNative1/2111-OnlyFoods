@@ -34,7 +34,25 @@ const styles = StyleSheet.create({
     minHeight: 42,
     borderRadius: 10,
   },
-  buttonText: {
+  buttonOne: {
+    marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 42,
+    borderRadius: 10,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: "red",
+  },
+
+  buttonTextOne: {
+    fontWeight: "600",
+    color: "red",
+    fontSize: 20,
+  },
+  buttonTextTwo: {
     fontWeight: "600",
     color: "#fff",
     fontSize: 20,
