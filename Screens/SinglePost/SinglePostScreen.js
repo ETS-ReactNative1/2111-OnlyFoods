@@ -141,7 +141,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
         setBookmarks(document.data());
       });
     });
-    setCooked(route.params.cooked)
+
     if(route.params.bookmarked !== undefined) {
       setBookmarked(route.params.bookmarked)
     } else if(bookmarks){
@@ -154,6 +154,21 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
 
       if(hasRecipe){
         setBookmarked(true)
+      }
+    }
+
+    if(route.params.cooked !== undefined) {
+      setCooked(route.params.cooked)
+    } else if(bookmarks){
+      const hasRecipe = bookmarks.CookedRecipes.some((bookmark) => {
+        return (
+          bookmark.CreatedAt.nanoseconds === route.params.recipe.CreatedAt.nanoseconds &&
+          bookmark.Creator === route.params.recipe.Creator
+        );
+      });
+
+      if(hasRecipe) {
+        setCooked(true)
       }
     }
   }, []);

@@ -24,6 +24,7 @@ import {
   orderBy,
   updateDoc,
   limit,
+  startAfter
 } from "firebase/firestore";
 import Cam from "../Camera";
 import { BookmarksContext } from "../App";
@@ -45,7 +46,8 @@ const Navigator = () => {
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
 
   const [BKRef, setBKRef] = useState(null);
-  const value = { BKRef, setBKRef };
+  const [recipes, setRecipes] = useState([]);
+  const value = { BKRef, setBKRef, recipes, setRecipes };
   const [userBookmarksRef, setUserBookmarksRef] = useState("");
 
   const recipesRef = collection(db, "recipes");
@@ -57,7 +59,24 @@ const Navigator = () => {
     limit(10)
   );
 
-  const [recipes, setRecipes] = useState([]);
+  const [lastVisible, setLastVisible] = useState({})
+
+  /*
+  // Query the first page of docs
+  const first = query(collection(db, "cities"), orderBy("population"), limit(25));
+  const documentSnapshots = await getDocs(first);
+
+  // Get the last visible document
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  // Construct a new query starting at this document,
+  // get the next 25 cities.
+  const next = query(collection(db, "cities"),
+      orderBy("population"),
+      startAfter(lastVisible),
+      limit(25));
+  */
 
   const refreshHomePage = () => {
     getDocs(recipesQuery)
@@ -68,7 +87,9 @@ const Navigator = () => {
         });
         //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
-      })
+        //console.log(snapshot.docs[snapshot.docs.length-1])
+        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
+        })
       .catch((error) => console.log(error));
   };
 
@@ -133,6 +154,31 @@ const Navigator = () => {
     }
   };
 
+  const loadMoreRecipes = () => {
+    console.log(recipes.length)
+    //console.log(lastVisible)
+
+    const nextQuery = query(
+      recipesRef,
+      where("Public", "==", true),
+      orderBy("CreatedAt", "desc"),
+      startAfter(lastVisible),
+      limit(10)
+    );
+
+    getDocs(nextQuery)
+      .then((snapshot) => {
+        let snapRecipes = [];
+        snapshot.docs.forEach((doc) => {
+          snapRecipes.push(doc.data());
+        });
+        setRecipes([...recipes, ...snapRecipes]);
+
+        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
+        })
+      .catch((error) => console.log(error));
+  }
+
   useEffect(() => {
     refresh();
     refreshHomePage();
@@ -164,6 +210,7 @@ const Navigator = () => {
               refresh={refreshHomePage}
               recipes={recipes}
               bookmarkPressed={bookmarkPressed}
+              loadMoreRecipes={loadMoreRecipes}
             />
           )}
           // component={HomeScreen}

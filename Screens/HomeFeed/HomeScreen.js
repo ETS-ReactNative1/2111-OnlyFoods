@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { db } from "../../firebase_config";
 import {
-  collection, 
+  collection,
   getDocs,
   query,
   where,
@@ -31,14 +31,18 @@ import {
 } from "@expo/vector-icons";
 import { BookmarksContext } from "../../Navigation/Navigator";
 import RecipeCard from "../RecipeCardForHomeAndBookmarks/RecipeCard";
+import { BKRefContext } from "../../Navigation/Navigator";
 
 const HomeScreen = ({
   navigation,
   loggedInUser,
   refresh,
-  recipes,
+  //recipes,
   bookmarkPressed,
+  loadMoreRecipes
 }) => {
+  const {recipes, setRecipes} = useContext(BKRefContext)
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -63,6 +67,10 @@ const HomeScreen = ({
               ))
             : null}
         </View>
+        <TouchableOpacity style={styles.loadMore} onPress={loadMoreRecipes}>
+          <Text style={{color: 'dodgerblue', fontWeight: 'bold'}}>Load More Posts</Text>
+          {/* <MaterialIcons name="refresh" size={30} /> */}
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -137,5 +145,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 25,
     marginTop: 10,
+  },
+  loadMore: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
   },
 });

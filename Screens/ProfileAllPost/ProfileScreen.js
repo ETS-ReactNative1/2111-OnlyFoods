@@ -95,10 +95,8 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                   Description: recipe.Description,
                   Ingredients: recipe.Ingredients,
                   Instructions: recipe.Instructions,
-
                   ImageURL: recipe.ImageURL,
                   Public: recipe.Public,
-
                   recipe,
                   loggedInUser,
                   docId: recipe.docId,

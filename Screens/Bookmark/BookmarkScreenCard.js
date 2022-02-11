@@ -92,7 +92,8 @@ const BookmarkScreenCard = ({
                 recipe,
                 bookmarks,
                 loggedInUser,
-                //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
+                setRecipeCardCooked: () => setCooked(!cooked),
+                // setRecipeCardBookmark: () => setBookmarkColor(!bookmarkColor)
               })
             }
           >
