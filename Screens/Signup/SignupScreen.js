@@ -11,10 +11,9 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
 } from "react-native";
-import { BookmarksContext } from '../../App'
+import { BookmarksContext } from "../../App";
 
 function SignupScreen({ navigation }) {
-
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const bookmarksRef = collection(db, "bookmarks");
 
@@ -37,12 +36,12 @@ function SignupScreen({ navigation }) {
           addDoc(bookmarksRef, {
             UserID: user.uid,
             BookmarkedRecipes: [],
-            CookedRecipes: []
-          }).then((userBookmarkRef => {
+            CookedRecipes: [],
+          }).then((userBookmarkRef) => {
             getDoc(userBookmarkRef).then((snap) => {
               setBookmarks(snap.data());
             });
-          }))
+          });
           navigation.replace("Navigator");
         })
         .catch((error) => alert(error.message));
@@ -64,14 +63,10 @@ function SignupScreen({ navigation }) {
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.logo}>
-            {/* <Image
-              source={{
-                uri: "https://uspto.report/TM/90307472/mark.png",
-                height: 150,
-                width: 150,
-              }}
-            /> */}
-            <Text style={styles.name}>{`  ONLY\nFOODS`}</Text>
+            <Image
+              style={{ width: 150, height: 150, marginBottom: 30 }}
+              source={require("../../Assets/LOGO.png")}
+            />
           </View>
           <View>
             <TextInput
@@ -138,7 +133,7 @@ const styles = StyleSheet.create({
   signupContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   logo: {
@@ -149,9 +144,9 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "rgba(230, 230, 230, 0.716)",
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 20,
-    marginTop: 80,
+    marginTop: 40,
   },
   wrapper: {
     marginTop: 80,
