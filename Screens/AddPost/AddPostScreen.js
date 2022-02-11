@@ -29,6 +29,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
+import CachedImage from "react-native-expo-cached-image";
 
 function AddPostScreen({ navigation, loggedInUser }) {
   //const user = auth.currentUser;
@@ -132,17 +133,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
     const filteredInstructions = instructions
       .slice()
       .filter((item) => item !== "");
-    let imageUrlCheck = imageUrl;
-
-    if (imageUrl === "") {
-      await getDownloadURL(ref(getStorage(), `images/default.jpg`))
-        .then((url) => {
-          imageUrlCheck = url;
-        })
-        .catch((error) => {
-          // Handle any errors
-        });
-    }
 
     const newRecipe = {
       Name: name,
@@ -150,7 +140,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
       CreatedAt: serverTimestamp(),
       Creator: loggedInUser.UserId,
       CreatorUsername: loggedInUser.Username,
-      ImageURL: imageUrlCheck,
+      ImageURL: imageUrl,
       Ingredients: filteredIngredients,
       Public: publicSetting,
       Instructions: filteredInstructions,
@@ -161,9 +151,27 @@ function AddPostScreen({ navigation, loggedInUser }) {
       name === "" ||
       description === "" ||
       !ingredients.length ||
-      !ingredients.length
+      !instructions.length || !imageUrl
     ) {
-      Alert.alert("Missing fields", "Please fill all mandatory fields", [
+      let missingInfo = ''
+      if (!name) missingInfo += 'Recipe name'
+      if (!description) {
+        if (missingInfo.length > 0) missingInfo += ', description'
+        else missingInfo += 'Description'
+      }
+      if (!ingredients.length) {
+        if (missingInfo.length > 0) missingInfo += ', ingredients'
+        else missingInfo += 'Ingredients'
+      }
+      if (!instructions.length) {
+        if (missingInfo.length > 0) missingInfo += ', instructions'
+        else missingInfo += 'Instructions'
+      }
+      if (!imageUrl) {
+        if (missingInfo.length > 0) missingInfo += ', picture'
+        else missingInfo += 'Picture'
+      }
+      Alert.alert("Missing fields", `Please fill all mandatory fields: \n \n${missingInfo}`, [
         { text: "Back" },
       ]);
     } else {
@@ -211,15 +219,26 @@ function AddPostScreen({ navigation, loggedInUser }) {
           {!addPhoto ? (
             <View>
               <View style={styles.imageContainer}>
-                {imageUrl !== "" ? (
-                  <Image source={{ uri: imageUrl }} style={styles.imageBox} />
-                ) : null}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => setAddPhoto(true)}
                   style={{ paddingTop: 30, paddingBottom: 20 }}
                 >
                   <MaterialIcons name="camera-alt" size={50} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {imageUrl !== "" ? (
+                  <TouchableOpacity
+                    onPress={() => setAddPhoto(true)}
+                    style={{ paddingTop: 30, paddingBottom: 20 }}
+                  >
+                    <CachedImage source={{ uri: imageUrl }} style={styles.imageBox} />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => setAddPhoto(true)}
+                    style={{ paddingTop: 30, paddingBottom: 20 }}
+                  >
+                    <MaterialIcons name="camera-alt" size={50} />
+                  </TouchableOpacity>)}
               </View>
             </View>
           ) : (

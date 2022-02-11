@@ -30,6 +30,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { BookmarksContext } from "../../App";
+import CachedImage from 'react-native-expo-cached-image';
 
 const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
   //console.log("routeAddAPost",route.params)
@@ -141,7 +142,20 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       });
     });
     setCooked(route.params.cooked)
-    setBookmarked(route.params.bookmarked);
+    if(route.params.bookmarked !== undefined) {
+      setBookmarked(route.params.bookmarked)
+    } else if(bookmarks){
+      const hasRecipe = bookmarks.BookmarkedRecipes.some((bookmark) => {
+        return (
+          bookmark.CreatedAt.nanoseconds === route.params.recipe.CreatedAt.nanoseconds &&
+          bookmark.Creator === route.params.recipe.Creator
+        );
+      });
+
+      if(hasRecipe){
+        setBookmarked(true)
+      }
+    }
   }, []);
 
   return (
@@ -169,11 +183,9 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           </View>
 
           <View style={styles.imageAndEdit}>
-            <Image
+            <CachedImage
               style={styles.image}
-              source={{
-                uri: route.params.ImageURL,
-              }}
+              source={route.params.recipe.ImageURL ? {uri: route.params.recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
             />
           </View>
           <View style={styles.icons}>

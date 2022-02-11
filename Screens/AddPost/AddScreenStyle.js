@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageBox: {
-    width: 300,
-    height: 300,
+    width: 200,
+    height: 200,
+    paddingTop: 20
   },
   bottomSpaceAdjust: {
     marginTop: 80,
