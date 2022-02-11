@@ -236,6 +236,7 @@ const Navigator = () => {
               loggedInUser={loggedInUser}
               bookmarks={bookmarks}
               setBookmarks={(newBookmarks) => setBookmarks(newBookmarks)}
+              refresh={refresh}
             />
           )}
           // component={BookmarkScreen}
