@@ -46,7 +46,8 @@ const Navigator = () => {
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
 
   const [BKRef, setBKRef] = useState(null);
-  const value = { BKRef, setBKRef };
+  const [recipes, setRecipes] = useState([]);
+  const value = { BKRef, setBKRef, recipes, setRecipes };
   const [userBookmarksRef, setUserBookmarksRef] = useState("");
 
   const recipesRef = collection(db, "recipes");
@@ -58,7 +59,7 @@ const Navigator = () => {
     limit(10)
   );
 
-  let lastVisible = null
+  const [lastVisible, setLastVisible] = useState({})
 
   /*
   // Query the first page of docs
@@ -77,8 +78,6 @@ const Navigator = () => {
       limit(25));
   */
 
-  const [recipes, setRecipes] = useState([]);
-
   const refreshHomePage = () => {
     getDocs(recipesQuery)
       .then((snapshot) => {
@@ -88,8 +87,8 @@ const Navigator = () => {
         });
         //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
-
-        lastVisible = snapshot.docs[snapshot.docs.length-1];
+        //console.log(snapshot.docs[snapshot.docs.length-1])
+        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
         })
       .catch((error) => console.log(error));
   };
@@ -156,11 +155,16 @@ const Navigator = () => {
   };
 
   const loadMoreRecipes = () => {
-    const nextQuery = query(collection(db, "recipes"),
+    console.log(recipes.length)
+    //console.log(lastVisible)
+
+    const nextQuery = query(
+      recipesRef,
       where("Public", "==", true),
       orderBy("CreatedAt", "desc"),
       startAfter(lastVisible),
-      limit(25));
+      limit(10)
+    );
 
     getDocs(nextQuery)
       .then((snapshot) => {
@@ -170,7 +174,7 @@ const Navigator = () => {
         });
         setRecipes([...recipes, ...snapRecipes]);
 
-        lastVisible = snapshot.docs[snapshot.docs.length-1];
+        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
         })
       .catch((error) => console.log(error));
   }
