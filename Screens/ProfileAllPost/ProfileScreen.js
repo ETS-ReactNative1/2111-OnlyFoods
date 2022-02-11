@@ -17,7 +17,7 @@ import { StackRouter } from "react-navigation";
 // import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
-  //const user = auth.currentUser
+  
   const recipesRef = collection(db, "recipes");
   const recipesQuery = query(
     recipesRef,
@@ -87,7 +87,6 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                 navigation.navigate("SinglePost", {
                   LoggedInUser: loggedInUser.Username,
                   RecipeUsername: recipe.CreatorUsername,
-                  RecipeImage: recipe.ImageURL,
                   RecipeName: recipe.Name,
                   TimeHrs: recipe.Time.Hours,
                   TimeMins: recipe.Time.Minutes,

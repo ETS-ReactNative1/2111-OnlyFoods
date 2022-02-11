@@ -31,21 +31,24 @@ import {
 } from "firebase/firestore";
 import { BookmarksContext } from "../../App";
 
-const SinglePostScreen = ({ navigation: { goBack }, route }) => {
-  //console.log(route.params.bookmarked)
-  // console.log(route.params);
-  /*Route params are listed here for easy reference to render*/
-  // RecipeUsername: recipe.CreatorUsername,
-  // RecipeName: recipe.Name,
-  // TimeHrs: recipe.Time.Hours,
-  // TimeMins: recipe.Time.Minutes,
-  // Description: recipe.Description,
-  // Ingredients: recipe.Ingredients,
-  // Instructions: recipe.Instructions,
-  // LoggedInUser: loggedInUser.Username,
-  // ImageURL: recipe.ImageURL
+const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
+  console.log("routeAddAPost",route.params)
+  if(!route.params.recipe) {
+    const recipe = {
+      CreatedAt: route.params.CreatedAt,
+      Creator: route.params.Creator,
+      CreatorUsername: route.params.CreatorUsername,
+      Description: route.params.Description,
+      ImageURL: route.params.ImageURL,
+      Ingredients: route.params.Ingredients,
+      Instructions: route.params.Instructions,
+      RecipeName: route.params.RecipeName,
+      Public: route.params.Public,
+      Time: route.params.Time,
+    }
+  }
 
-  const [foodColor, setFoodColor] = useState(false);
+  //const [foodColor, setFoodColor] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
   const bookmarksRef = collection(db, "bookmarks");
@@ -88,10 +91,6 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
     }
   };
 
-  // const foodPressed = () => {
-  //   setFoodColor(!foodColor);
-  // };
-
   useEffect(() => {
     getDocs(
       query(
@@ -124,7 +123,9 @@ const SinglePostScreen = ({ navigation: { goBack }, route }) => {
             </View>
             <View style={styles.edit}>
               {route.params.LoggedInUser === route.params.RecipeUsername ? (
-                <Feather name="edit-2" size={24} />
+                <TouchableOpacity onPress={()=> navigation.navigate("EditPost", route.params)}>
+                <Feather name="edit-2" size={24}/>
+                </TouchableOpacity>
               ) : null}
             </View>
           </View>

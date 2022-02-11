@@ -35,6 +35,7 @@ import { BookmarksContext } from "../../App";
 import { BKRefContext } from "../../Navigation/Navigator";
 
 const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
+
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
   const [foodColor, setFoodColor] = useState(false);
