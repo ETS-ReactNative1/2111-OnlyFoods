@@ -180,7 +180,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
           setEditInstructions(false);
           setEditIngredients(false);
           setImageUrl("");
-          navigation.navigate("SinglePost", {
+          navigation.navigate("Home", {
             CreatedAt: newRecipe.CreatedAt,
             Creator: loggedInUser.UserId,
             LoggedInUser: loggedInUser.Username,

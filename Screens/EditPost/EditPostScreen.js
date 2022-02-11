@@ -24,6 +24,7 @@ import {
   where,
   updateDoc,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import { Picker } from "react-native";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
@@ -185,6 +186,16 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
         .catch((error) => console.log(error));
     }
   };
+
+  const deletePost = (docId) => {
+    console.log(docId)
+    console.log(doc(db, "recipes", docId))
+    deleteDoc(doc(db, "recipes", docId))
+    .then(() => {
+      navigation.navigate("Profile");
+    })
+    .catch((error)=> console.log(error))
+  }
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -628,8 +639,11 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
             />
           </View>
         </View>
+        <Pressable titleSize={20} style={styles.button} onPress={() => deletePost(docId)}>
+          <Text style={styles.buttonText}> Delete </Text>
+        </Pressable>
         <Pressable titleSize={20} style={styles.button} onPress={handleUpdatePost}>
-          <Text style={styles.buttonText}> Update Post </Text>
+          <Text style={styles.buttonText}> Update </Text>
         </Pressable>
         <View style={styles.bottomSpaceAdjust}></View>
 
