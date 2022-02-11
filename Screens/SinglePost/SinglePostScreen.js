@@ -48,7 +48,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
     }
   }
 
-  //const [foodColor, setFoodColor] = useState(false);
+  const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
   const bookmarksRef = collection(db, "bookmarks");
@@ -91,6 +91,48 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
     }
   };
 
+  const foodPressed = (recipe) => {
+    let recipesArrCopy = []
+
+    if(bookmarks.CookedRecipes) recipesArrCopy = bookmarks.CookedRecipes.slice();
+
+    const hasRecipe = recipesArrCopy.some((bookmark) => {
+      return (
+        bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+        bookmark.Creator === recipe.Creator
+      );
+    });
+
+    if (hasRecipe) {
+      const unCook = recipesArrCopy.filter((bookmark) => {
+        return (
+          bookmark.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+          bookmark.Creator !== recipe.Creator
+        );
+      });
+
+      updateDoc(userBookmarksRef, { CookedRecipes: unCook });
+      setBookmarks({ ...bookmarks, CookedRecipes: unCook });
+      if (route.params.setRecipeCardCooked)
+        route.params.setRecipeCardCooked();
+      //route.params.setRecipeCardBookmark()
+      setCooked(!cooked);
+    } else {
+      recipesArrCopy.push(recipe);
+      updateDoc(userBookmarksRef, { CookedRecipes: recipesArrCopy });
+      setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
+      if (route.params.setRecipeCardCooked)
+        route.params.setRecipeCardCooked();
+      //route.params.setRecipeCardBookmark()
+      setCooked(!cooked);
+    }
+  };
+
+
+  // const foodPressed = () => {
+  //   setFoodColor(!foodColor);
+  // };
+
   useEffect(() => {
     getDocs(
       query(
@@ -103,6 +145,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
         setBookmarks(document.data());
       });
     });
+    setCooked(route.params.cooked)
     setBookmarked(route.params.bookmarked);
   }, []);
 
@@ -139,11 +182,15 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             />
           </View>
           <View style={styles.icons}>
-            <MaterialCommunityIcons
-              name="food-fork-drink"
-              size={40}
-              color="rgba(230, 230, 230, 0.716)"
-            />
+            <TouchableOpacity
+              onPress={() => foodPressed(route.params.recipe)}
+            >
+              <MaterialCommunityIcons
+                name="food-fork-drink"
+                size={40}
+                color={cooked ? 'red' : 'black'}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => bookmarkPressed(route.params.recipe)}
             >

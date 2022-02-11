@@ -36,22 +36,40 @@ const BookmarkScreenCard = ({
   updateBookmarks,
   loggedInUser,
   bookmarks,
+  updateCooked,
 }) => {
   const [heartColor, setHeartColor] = useState(false);
-  const [foodColor, setFoodColor] = useState(false);
+  const [cooked, setCooked] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(true);
 
   const heartPressed = () => {
     setHeartColor(!heartColor);
   };
   const foodPressed = () => {
-    setFoodColor(!foodColor);
+    updateCooked(recipe);
+    setCooked(!cooked);
   };
 
   const bookmarkPressed = (recipe) => {
     // setBookmarkColor(!bookmarkColor);
     updateBookmarks(recipe);
   };
+
+  useEffect(() => {
+    let cookedRecs = [];
+    if (bookmarks.CookedRecipes) {
+      cookedRecs = bookmarks.CookedRecipes.slice();
+    }
+
+    const cookedRecipe = cookedRecs.some((cookedR) => {
+      return (
+        cookedR.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+        cookedR.Creator === recipe.Creator
+      );
+    });
+
+    if (cookedRecipe) setCooked(true);
+  }, []);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 5 }}>
@@ -91,7 +109,29 @@ const BookmarkScreenCard = ({
           }}
         >
           <View style={styles.titleAndDescription}>
-            <Text style={styles.title}>{recipe.Name}</Text>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("SinglePost", {
+                  LoggedInUser: loggedInUser.Username,
+                  RecipeUsername: recipe.CreatorUsername,
+                  RecipeName: recipe.Name,
+                  TimeHrs: recipe.Time.Hours,
+                  TimeMins: recipe.Time.Minutes,
+                  Description: recipe.Description,
+                  Ingredients: recipe.Ingredients,
+                  Instructions: recipe.Instructions,
+                  ImageURL: recipe.ImageURL,
+                  bookmarked: true,
+                  recipe,
+                  bookmarks,
+                  loggedInUser,
+                  //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
+                })
+              }
+            >
+              <Text style={styles.title}>{recipe.Name}</Text>
+            </Pressable>
+
             <Text style={styles.username}>{recipe.CreatorUsername}</Text>
             {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
           </View>
@@ -105,14 +145,14 @@ const BookmarkScreenCard = ({
             size={35}
             color={heartColor ? "red" : "black"}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => foodPressed()}>
-          <MaterialCommunityIcons
-            name="food-fork-drink"
-            size={35}
-            color={foodColor ? "green" : "black"}
-          />
-        </TouchableOpacity> */}
+        </TouchableOpacity>*/}
+            <TouchableOpacity onPress={() => foodPressed()}>
+              <MaterialCommunityIcons
+                name="food-fork-drink"
+                size={35}
+                color={cooked ? "red" : "black"}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => bookmarkPressed(recipe)}
               style={{ flex: 0.3 }}

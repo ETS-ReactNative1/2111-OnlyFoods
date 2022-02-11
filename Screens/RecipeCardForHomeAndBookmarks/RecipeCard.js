@@ -38,13 +38,41 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
 
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
-  const [foodColor, setFoodColor] = useState(false);
+  const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
-  const [ImageURL, setImageURL] = useState('')
+  const [ImageURL, setImageURL] = useState("");
 
   const foodPressed = () => {
-    setFoodColor(!foodColor);
+    let recipesArrCopy = []
+
+    if(recipeCardBookmarks.CookedRecipes) {
+      recipesArrCopy = recipeCardBookmarks.CookedRecipes.slice()
+    }
+
+    if(cooked) {
+      const unCooked = recipesArrCopy.filter((cooked) => {
+        return (
+          cooked.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
+          cooked.Creator !== recipe.Creator
+        );
+      });
+
+      updateDoc(BKRef, { CookedRecipes: unCooked });
+      setRecipeCardBookmarks({ ...bookmarks, CookedRecipess: unCooked });
+      setBookmarks({ ...bookmarks, CookedRecipes: unCooked });
+
+    } else {
+      recipesArrCopy.push(recipe);
+      updateDoc(BKRef, { CookedRecipes: recipesArrCopy });
+      setRecipeCardBookmarks({
+        ...bookmarks,
+        CookedRecipes: recipesArrCopy,
+      });
+      setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
+    }
+
+    setCooked(!cooked);
   };
 
   const bookmarkPressedRecipeCard = (recipe) => {
@@ -79,6 +107,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       setRecipeCardBookmarks(bookmarks);
       const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
+      let cookedRecs = []
+      if(bookmarks.CookedRecipes) {
+        cookedRecs = bookmarks.CookedRecipes.slice()
+      }
+
       const hasRecipe = recipesArrCopy.some((bookmark) => {
         return (
           bookmark.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
@@ -86,9 +119,21 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
         );
       });
 
-      if (hasRecipe) setBookmarked(true);
+      const cookedRecipe = cookedRecs.some((cookedR) => {
+        return (
+          cookedR.CreatedAt.nanoseconds === recipe.CreatedAt.nanoseconds &&
+          cookedR.Creator === recipe.Creator
+        );
+      });
 
-      if(recipe.ImageURL === '') setImageURL('https://i.imgur.com/tIrGgMa.png')
+      if (hasRecipe) setBookmarked(true);
+      if (cookedRecipe) setCooked(true)
+
+      if (recipe.ImageURL === "") {
+        setImageURL("https://i.imgur.com/tIrGgMa.png");
+      } else {
+        setImageURL(recipe.ImageURL);
+      }
     }
   }, [bookmarks]);
 
@@ -111,12 +156,14 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 bookmarked,
                 Public: recipe.Public,
                 docId: recipe.docId,
+                cooked,
                 //bookmarkPressed: bookmarkPressed,
                 //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
                 recipe,
                 bookmarks,
                 loggedInUser,
                 setRecipeCardBookmark: () => setBookmarked(!bookmarked),
+                setRecipeCardCooked: () => setCooked(!cooked)
               })
             }
           >
@@ -144,7 +191,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                   style={{
                     fontWeight: "bold",
                     textTransform: "capitalize",
-                    fontSize: 20,
+                    fontSize: 16,
                     justifyContent: "center",
                     alignContent: "center",
                     marginLeft: 5,
@@ -157,7 +204,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 <MaterialCommunityIcons
                   name="food-fork-drink"
                   size={30}
-                  color={"rgba(230, 230, 230, 0.716)"}
+                  color={cooked ? "red": "black"}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -206,6 +253,10 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: 330,
     height: 200,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
   },
   icons: {
     flexDirection: "row",

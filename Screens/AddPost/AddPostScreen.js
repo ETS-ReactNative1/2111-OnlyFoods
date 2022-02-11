@@ -430,7 +430,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
                             value={ingredients[index].Quantity}
                             autoCapitalize="none"
                             textContentType="none"
-                            keyboardType="number-pad"
                           />
                         </View>
                       </View>
