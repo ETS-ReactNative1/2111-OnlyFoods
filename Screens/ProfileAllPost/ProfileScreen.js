@@ -17,7 +17,7 @@ import { StackRouter } from "react-navigation";
 // import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
-  
+
   const recipesRef = collection(db, "recipes");
   const recipesQuery = query(
     recipesRef,
@@ -27,13 +27,23 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
 
   const [recipes, setRecipes] = useState([]);
 
+  // getDocs(recipesQuery)
+  // .then((snapshot) => {
+  //   let myRecipes = [];
+  //   snapshot.docs.forEach((doc) => {
+  //     myRecipes.push({ ...doc.data(), docId: doc.id});
+  //   });
+  //   console.log(myRecipes);
+  // })
+
   const refresh = () => {
     getDocs(recipesQuery)
       .then((snapshot) => {
         let snapRecipes = [];
         snapshot.docs.forEach((doc) => {
-          snapRecipes.push(doc.data());
+          snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
+        console.log("fromprofile",snapRecipes);
         setRecipes(snapRecipes);
       })
       .catch((error) => console.log(error));
@@ -88,14 +98,15 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                   LoggedInUser: loggedInUser.Username,
                   RecipeUsername: recipe.CreatorUsername,
                   RecipeName: recipe.Name,
-                  TimeHrs: recipe.Time.Hours,
-                  TimeMins: recipe.Time.Minutes,
+                  Time: recipe.Time,
                   Description: recipe.Description,
                   Ingredients: recipe.Ingredients,
                   Instructions: recipe.Instructions,
                   ImageURL: recipe.ImageURL,
+                  Public: recipe.Public,
                   recipe,
                   loggedInUser,
+                  docId: recipe.docId,
                 })
               }
             >
