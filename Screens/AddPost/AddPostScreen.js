@@ -151,33 +151,35 @@ function AddPostScreen({ navigation, loggedInUser }) {
       name === "" ||
       description === "" ||
       !ingredients.length ||
-      !instructions.length || !imageUrl
+      !instructions.length ||
+      !imageUrl
     ) {
-      let missingInfo = ''
-      if (!name) missingInfo += 'Recipe name'
+      let missingInfo = "";
+      if (!name) missingInfo += "Recipe name";
       if (!description) {
-        if (missingInfo.length > 0) missingInfo += ', description'
-        else missingInfo += 'Description'
+        if (missingInfo.length > 0) missingInfo += ", description";
+        else missingInfo += "Description";
       }
       if (!ingredients.length) {
-        if (missingInfo.length > 0) missingInfo += ', ingredients'
-        else missingInfo += 'Ingredients'
+        if (missingInfo.length > 0) missingInfo += ", ingredients";
+        else missingInfo += "Ingredients";
       }
       if (!instructions.length) {
-        if (missingInfo.length > 0) missingInfo += ', instructions'
-        else missingInfo += 'Instructions'
+        if (missingInfo.length > 0) missingInfo += ", instructions";
+        else missingInfo += "Instructions";
       }
       if (!imageUrl) {
-        if (missingInfo.length > 0) missingInfo += ', picture'
-        else missingInfo += 'Picture'
+        if (missingInfo.length > 0) missingInfo += ", picture";
+        else missingInfo += "Picture";
       }
-      Alert.alert("Missing fields", `Please fill all mandatory fields: \n \n${missingInfo}`, [
-        { text: "Back" },
-      ]);
+      Alert.alert(
+        "Missing fields",
+        `Please fill all mandatory fields: \n \n${missingInfo}`,
+        [{ text: "Back" }]
+      );
     } else {
-
       const newdoc = await addDoc(recipesRef, newRecipe)
-          .then((newdoc) => {
+        .then((newdoc) => {
           setName("");
           setDescription("");
           setPublicSetting(false);
@@ -188,24 +190,24 @@ function AddPostScreen({ navigation, loggedInUser }) {
           setEditInstructions(false);
           setEditIngredients(false);
           setImageUrl("");
-          navigation.navigate("Home", {
-            CreatedAt: newRecipe.CreatedAt,
-            Creator: loggedInUser.UserId,
-            LoggedInUser: loggedInUser.Username,
-            Description: description,
-            ImageURL: imageUrlCheck,
-            Ingredients: filteredIngredients,
-            Instructions: filteredInstructions,
-            RecipeUsername: loggedInUser.Username,
-            RecipeName: name,
-            Public: publicSetting,
-            Time: time,
-            loggedInUser: loggedInUser,
-            bookmarked: false,
-            docId: newdoc.id });
+          navigation.navigate("Home");
+          // CreatedAt: newRecipe.CreatedAt,
+          // Creator: loggedInUser.UserId,
+          // LoggedInUser: loggedInUser.Username,
+          // Description: description,
+          // ImageURL: imageUrlCheck,
+          // Ingredients: filteredIngredients,
+          // Instructions: filteredInstructions,
+          // RecipeUsername: loggedInUser.Username,
+          // RecipeName: name,
+          // Public: publicSetting,
+          // Time: time,
+          // loggedInUser: loggedInUser,
+          // bookmarked: false,
+          // docId: newdoc.id });
         })
-        .catch(error => console.log(error))
-      }
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -230,7 +232,10 @@ function AddPostScreen({ navigation, loggedInUser }) {
                     onPress={() => setAddPhoto(true)}
                     style={{ paddingTop: 30, paddingBottom: 20 }}
                   >
-                    <CachedImage source={{ uri: imageUrl }} style={styles.imageBox} />
+                    <CachedImage
+                      source={{ uri: imageUrl }}
+                      style={styles.imageBox}
+                    />
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -238,7 +243,8 @@ function AddPostScreen({ navigation, loggedInUser }) {
                     style={{ paddingTop: 30, paddingBottom: 20 }}
                   >
                     <MaterialIcons name="camera-alt" size={50} />
-                  </TouchableOpacity>)}
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           ) : (

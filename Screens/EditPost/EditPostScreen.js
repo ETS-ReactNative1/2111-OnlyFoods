@@ -188,8 +188,8 @@ function EditPostScreen({  navigation: { goBack }, navigation, route}) {
   };
 
   const deletePost = (docId) => {
-    console.log(docId)
-    console.log(doc(db, "recipes", docId))
+    // console.log(docId)
+    // console.log(doc(db, "recipes", docId))
     deleteDoc(doc(db, "recipes", docId))
     .then(() => {
       navigation.navigate("Profile");
