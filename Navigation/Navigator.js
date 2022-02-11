@@ -24,6 +24,7 @@ import {
   orderBy,
   updateDoc,
   limit,
+  startAfter
 } from "firebase/firestore";
 import Cam from "../Camera";
 import { BookmarksContext } from "../App";
@@ -57,6 +58,25 @@ const Navigator = () => {
     limit(10)
   );
 
+  let lastVisible = null
+
+  /*
+  // Query the first page of docs
+  const first = query(collection(db, "cities"), orderBy("population"), limit(25));
+  const documentSnapshots = await getDocs(first);
+
+  // Get the last visible document
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  console.log("last", lastVisible);
+
+  // Construct a new query starting at this document,
+  // get the next 25 cities.
+  const next = query(collection(db, "cities"),
+      orderBy("population"),
+      startAfter(lastVisible),
+      limit(25));
+  */
+
   const [recipes, setRecipes] = useState([]);
 
   const refreshHomePage = () => {
@@ -67,7 +87,9 @@ const Navigator = () => {
           snapRecipes.push(doc.data());
         });
         setRecipes(snapRecipes);
-      })
+
+        lastVisible = snapshot.docs[snapshot.docs.length-1];
+        })
       .catch((error) => console.log(error));
   };
 
@@ -132,6 +154,26 @@ const Navigator = () => {
     }
   };
 
+  const loadMoreRecipes = () => {
+    const nextQuery = query(collection(db, "recipes"),
+      where("Public", "==", true),
+      orderBy("CreatedAt", "desc"),
+      startAfter(lastVisible),
+      limit(25));
+
+    getDocs(nextQuery)
+      .then((snapshot) => {
+        let snapRecipes = [];
+        snapshot.docs.forEach((doc) => {
+          snapRecipes.push(doc.data());
+        });
+        setRecipes([...recipes, ...snapRecipes]);
+
+        lastVisible = snapshot.docs[snapshot.docs.length-1];
+        })
+      .catch((error) => console.log(error));
+  }
+
   useEffect(() => {
     refresh();
     refreshHomePage();
@@ -163,6 +205,7 @@ const Navigator = () => {
               refresh={refreshHomePage}
               recipes={recipes}
               bookmarkPressed={bookmarkPressed}
+              loadMoreRecipes={loadMoreRecipes}
             />
           )}
           // component={HomeScreen}

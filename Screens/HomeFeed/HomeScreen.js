@@ -38,7 +38,9 @@ const HomeScreen = ({
   refresh,
   recipes,
   bookmarkPressed,
+  loadMoreRecipes
 }) => {
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -63,6 +65,9 @@ const HomeScreen = ({
               ))
             : null}
         </View>
+        <TouchableOpacity style={styles.refresh} onPress={loadMoreRecipes}>
+          <MaterialIcons name="refresh" size={30} />
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
