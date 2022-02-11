@@ -29,7 +29,7 @@ import {
   Ionicons,
   Fontisto,
 } from "@expo/vector-icons";
-import CachedImage from 'react-native-expo-cached-image';
+import CachedImage from "react-native-expo-cached-image";
 
 const BookmarkScreenCard = ({
   navigation,
@@ -99,7 +99,11 @@ const BookmarkScreenCard = ({
           >
             <CachedImage
               style={styles.img}
-              source={recipe.ImageURL ? {uri: recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
+              source={
+                recipe.ImageURL
+                  ? { uri: recipe.ImageURL }
+                  : { uri: "https://i.imgur.com/tIrGgMa.png" }
+              }
             />
           </Pressable>
         </View>

@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import { updateDoc } from "firebase/firestore";
 import BookmarkScreenCard from "./BookmarkScreenCard";
 import { BookmarksContext } from "../../App";
 import { BKRefContext } from "../../Navigation/Navigator";
 
-const BookmarkScreen = ({ navigation, loggedInUser }) => {
+const BookmarkScreen = ({ navigation, loggedInUser, refresh }) => {
   const [heartColor, setHeartColor] = useState(false);
   const [foodColor, setFoodColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
@@ -52,10 +52,10 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
   }, [bookmarks]);
 
   const foodPressed = (recipe) => {
-    let recipesArrCopy = []
+    let recipesArrCopy = [];
 
-    if(bookmarks.CookedRecipes !== null) {
-      recipesArrCopy = bookmarks.CookedRecipes.slice()
+    if (bookmarks.CookedRecipes !== null) {
+      recipesArrCopy = bookmarks.CookedRecipes.slice();
     }
 
     const hasRecipe = recipesArrCopy.some((bookmark) => {
@@ -65,7 +65,7 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
       );
     });
 
-    if(hasRecipe) {
+    if (hasRecipe) {
       const unCooked = recipesArrCopy.filter((cooked) => {
         return (
           cooked.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
@@ -75,7 +75,6 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
 
       updateDoc(BKRef, { CookedRecipes: unCooked });
       setBookmarks({ ...bookmarks, CookedRecipes: unCooked });
-
     } else {
       recipesArrCopy.push(recipe);
       updateDoc(BKRef, { CookedRecipes: recipesArrCopy });
@@ -132,6 +131,9 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
         showsVerticalScrollIndicator={false}
         style={{ marginBottom: 90 }}
       >
+        <TouchableOpacity style={styles.refresh} onPress={refresh}>
+          <MaterialIcons name="refresh" size={30} />
+        </TouchableOpacity>
         {bookmarkScreenBookmarks ? (
           bookmarkScreenBookmarks.BookmarkedRecipes.map((recipe, index) => (
             <View key={index}>
@@ -143,6 +145,7 @@ const BookmarkScreen = ({ navigation, loggedInUser }) => {
                 updateBookmarks={bookmarkPressed}
                 updateCooked={foodPressed}
                 bookmarks={bookmarks}
+                refresh={refresh}
               />
             </View>
           ))
@@ -302,6 +305,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(230, 230, 230, 0.716)",
     flex: 1,
     justifyContent: "center",
+  },
+  refresh: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginRight: 25,
+    marginTop: 10,
   },
   // imageContainer: {
   //   marginTop: 20,

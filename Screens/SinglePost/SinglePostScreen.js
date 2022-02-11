@@ -212,13 +212,13 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             />
           </View>
           <View style={styles.icons}>
-            <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
+            {/* <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
               <MaterialCommunityIcons
                 name="food-fork-drink"
                 size={40}
                 color={cooked ? "red" : "black"}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => bookmarkPressed(route.params.recipe)}
             >
