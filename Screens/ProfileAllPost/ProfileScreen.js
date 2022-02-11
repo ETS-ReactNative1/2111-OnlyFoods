@@ -35,7 +35,7 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
         snapshot.docs.forEach((doc) => {
           snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
-        console.log("fromprofile",snapRecipes);
+        // console.log("fromprofile",snapRecipes);
         setRecipes(snapRecipes);
       })
       .catch((error) => console.log(error));

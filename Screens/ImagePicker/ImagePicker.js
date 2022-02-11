@@ -21,14 +21,14 @@ import {
 //import * as Progress from 'react-native-progress';
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
-import { ImageManipulator } from 'expo';
+import { ImageManipulator } from "expo";
 import CachedImage from "react-native-expo-cached-image";
 
 export default function PhotoUpload({ setImageUrlCallback, url }) {
   const uploadOrTakePic = [
     {
-      label: 'Select photo option...',
-      value: ""
+      label: "Select photo option...",
+      value: "",
     },
     {
       label: "Select Image From Library",
@@ -46,18 +46,17 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [cameraPermission, setCameraPermission] = useState(null);
-  const [galleryPermission, setGalleryPermission] = useState(null)
+  const [galleryPermission, setGalleryPermission] = useState(null);
 
   const closeImageEdit = () => {
     setImageUrlCallback(imageUrl);
   };
 
-
   useEffect(async () => {
-    setCameraPermission( await ImagePicker.getCameraPermissionsAsync())
-    if(url) {
-      setImage({ uri: url })
-      setImageUrl(url)
+    setCameraPermission(await ImagePicker.getCameraPermissionsAsync());
+    if (url) {
+      setImage({ uri: url });
+      setImageUrl(url);
     }
   }, []);
 
@@ -75,7 +74,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
-      quality: .3,
+      quality: 0.3,
     });
 
     if (!result.cancelled) {
@@ -84,15 +83,14 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   };
 
   const takePicture = async () => {
-
-    if (cameraPermission.status !== 'granted') {
+    if (cameraPermission.status !== "granted") {
       const newPermission = await ImagePicker.requestCameraPermissionsAsync();
 
       setCameraPermission(newPermission);
 
-      if (newPermission.status !== 'granted') {
-        alert('Permission for media access needed.');
-        return
+      if (newPermission.status !== "granted") {
+        alert("Permission for media access needed.");
+        return;
       }
     }
 
@@ -146,12 +144,11 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cam}>
-
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={selectImage} style={{paddingRight: 10}}>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={selectImage} style={{ paddingRight: 10 }}>
             <FontAwesome name="picture-o" size={50} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={takePicture} style={{paddingLeft: 10}}>
+          <TouchableOpacity onPress={takePicture} style={{ paddingLeft: 10 }}>
             <MaterialIcons name="add-a-photo" size={50} />
           </TouchableOpacity>
         </View>
@@ -179,7 +176,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
         </View> */}
 
         {image !== null ? (
-          <CachedImage source={{ uri: image.uri }} style={styles.imageBox} />
+          <Image source={{ uri: image.uri }} style={styles.imageBox} />
         ) : null}
         {!image ? null : (
           <View style={styles.confirm}>
