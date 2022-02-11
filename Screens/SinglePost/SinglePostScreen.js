@@ -30,11 +30,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { BookmarksContext } from "../../App";
-import CachedImage from 'react-native-expo-cached-image';
+import CachedImage from "react-native-expo-cached-image";
 
 const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
   //console.log("routeAddAPost",route.params)
-  if(!route.params.recipe) {
+  console.log("ROUTE", route.params);
+  if (!route.params.recipe) {
     const recipe = {
       CreatedAt: route.params.CreatedAt,
       Creator: route.params.Creator,
@@ -46,7 +47,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       RecipeName: route.params.RecipeName,
       Public: route.params.Public,
       Time: route.params.Time,
-    }
+    };
   }
 
   const [cooked, setCooked] = useState(false);
@@ -93,9 +94,10 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
   };
 
   const foodPressed = (recipe) => {
-    let recipesArrCopy = []
+    let recipesArrCopy = [];
 
-    if(bookmarks.CookedRecipes) recipesArrCopy = bookmarks.CookedRecipes.slice();
+    if (bookmarks.CookedRecipes)
+      recipesArrCopy = bookmarks.CookedRecipes.slice();
 
     const hasRecipe = recipesArrCopy.some((bookmark) => {
       return (
@@ -114,16 +116,14 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
 
       updateDoc(userBookmarksRef, { CookedRecipes: unCook });
       setBookmarks({ ...bookmarks, CookedRecipes: unCook });
-      if (route.params.setRecipeCardCooked)
-        route.params.setRecipeCardCooked();
+      if (route.params.setRecipeCardCooked) route.params.setRecipeCardCooked();
       //route.params.setRecipeCardBookmark()
       setCooked(!cooked);
     } else {
       recipesArrCopy.push(recipe);
       updateDoc(userBookmarksRef, { CookedRecipes: recipesArrCopy });
       setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
-      if (route.params.setRecipeCardCooked)
-        route.params.setRecipeCardCooked();
+      if (route.params.setRecipeCardCooked) route.params.setRecipeCardCooked();
       //route.params.setRecipeCardBookmark()
       setCooked(!cooked);
     }
@@ -142,33 +142,35 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       });
     });
 
-    if(route.params.bookmarked !== undefined) {
-      setBookmarked(route.params.bookmarked)
-    } else if(bookmarks){
+    if (route.params.bookmarked !== undefined) {
+      setBookmarked(route.params.bookmarked);
+    } else if (bookmarks) {
       const hasRecipe = bookmarks.BookmarkedRecipes.some((bookmark) => {
         return (
-          bookmark.CreatedAt.nanoseconds === route.params.recipe.CreatedAt.nanoseconds &&
+          bookmark.CreatedAt.nanoseconds ===
+            route.params.recipe.CreatedAt.nanoseconds &&
           bookmark.Creator === route.params.recipe.Creator
         );
       });
 
-      if(hasRecipe){
-        setBookmarked(true)
+      if (hasRecipe) {
+        setBookmarked(true);
       }
     }
 
-    if(route.params.cooked !== undefined) {
-      setCooked(route.params.cooked)
-    } else if(bookmarks){
+    if (route.params.cooked !== undefined) {
+      setCooked(route.params.cooked);
+    } else if (bookmarks) {
       const hasRecipe = bookmarks.CookedRecipes.some((bookmark) => {
         return (
-          bookmark.CreatedAt.nanoseconds === route.params.recipe.CreatedAt.nanoseconds &&
+          bookmark.CreatedAt.nanoseconds ===
+            route.params.recipe.CreatedAt.nanoseconds &&
           bookmark.Creator === route.params.recipe.Creator
         );
       });
 
-      if(hasRecipe) {
-        setCooked(true)
+      if (hasRecipe) {
+        setCooked(true);
       }
     }
   }, []);
@@ -190,8 +192,10 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             </View>
             <View style={styles.edit}>
               {route.params.LoggedInUser === route.params.RecipeUsername ? (
-                <TouchableOpacity onPress={()=> navigation.navigate("EditPost", route.params)}>
-                <Feather name="edit-2" size={24}/>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("EditPost", route.params)}
+                >
+                  <Feather name="edit-2" size={24} />
                 </TouchableOpacity>
               ) : null}
             </View>
@@ -200,17 +204,19 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           <View style={styles.imageAndEdit}>
             <CachedImage
               style={styles.image}
-              source={route.params.recipe.ImageURL ? {uri: route.params.recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
+              source={
+                route.params.recipe.ImageURL
+                  ? { uri: route.params.recipe.ImageURL }
+                  : { uri: "https://i.imgur.com/tIrGgMa.png" }
+              }
             />
           </View>
           <View style={styles.icons}>
-            <TouchableOpacity
-              onPress={() => foodPressed(route.params.recipe)}
-            >
+            <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
               <MaterialCommunityIcons
                 name="food-fork-drink"
                 size={40}
-                color={cooked ? 'red' : 'black'}
+                color={cooked ? "red" : "black"}
               />
             </TouchableOpacity>
             <TouchableOpacity

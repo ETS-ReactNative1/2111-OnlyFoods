@@ -39,9 +39,9 @@ const HomeScreen = ({
   refresh,
   //recipes,
   bookmarkPressed,
-  loadMoreRecipes
+  loadMoreRecipes,
 }) => {
-  const {recipes, setRecipes} = useContext(BKRefContext)
+  const { recipes, setRecipes } = useContext(BKRefContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,10 +67,14 @@ const HomeScreen = ({
               ))
             : null}
         </View>
-        <TouchableOpacity style={styles.loadMore} onPress={loadMoreRecipes}>
-          <Text style={{color: 'dodgerblue', fontWeight: 'bold'}}>Load More Posts</Text>
-          {/* <MaterialIcons name="refresh" size={30} /> */}
-        </TouchableOpacity>
+        {recipes.length % 10 === 0 ? (
+          <TouchableOpacity style={styles.loadMore} onPress={loadMoreRecipes}>
+            <Text style={{ color: "dodgerblue", fontWeight: "bold" }}>
+              Load More Posts
+            </Text>
+            {/* <MaterialIcons name="refresh" size={30} /> */}
+          </TouchableOpacity>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
