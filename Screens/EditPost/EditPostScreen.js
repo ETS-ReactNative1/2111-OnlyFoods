@@ -35,12 +35,10 @@ import { MaterialIcons, Entypo } from "react-native-vector-icons";
 
 function EditPostScreen({  navigation: { goBack }, navigation, route}) {
   const user = auth.currentUser;
-  console.log("AddPost-EditPostParams", route.params)
+  //console.log("AddPost-EditPostParams", route.params)
   const recipesRef = collection(db, "recipes");
   const docId = route.params.docId
   const recipeRef = doc(db, "recipes", docId)
-  //console.log("recipe",recipeRef)
-  //get current recipe
 
   const publicOrNot = [
     {

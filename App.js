@@ -27,12 +27,12 @@ LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 export const BookmarksContext = createContext("bookmarks");
-console.log("bookmarkscontext", BookmarksContext);
+//console.log("bookmarkscontext", BookmarksContext);
 
 function App() {
   const [bookmarks, setBookmarks] = useState(null);
   const value = { bookmarks, setBookmarks };
-  console.log("value", value)
+  //console.log("value", value)
 
   return (
     <>
@@ -65,11 +65,6 @@ function App() {
               name="EditProfileScreen"
               component={EditProfileScreen}
             />
-            {/* <Stack.Screen
-              options={{ headerShown: false }}
-              name="ProfileScreen"
-              component={ProfileScreen}
-            /> */}
             <Stack.Screen
               options={{ headerShown: false }}
               name="EditPost"

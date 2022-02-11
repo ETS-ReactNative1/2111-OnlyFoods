@@ -27,15 +27,6 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
 
   const [recipes, setRecipes] = useState([]);
 
-  // getDocs(recipesQuery)
-  // .then((snapshot) => {
-  //   let myRecipes = [];
-  //   snapshot.docs.forEach((doc) => {
-  //     myRecipes.push({ ...doc.data(), docId: doc.id});
-  //   });
-  //   console.log(myRecipes);
-  // })
-
   const refresh = () => {
     getDocs(recipesQuery)
       .then((snapshot) => {

@@ -32,7 +32,7 @@ import {
 import { BookmarksContext } from "../../App";
 
 const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
-  console.log("routeAddAPost",route.params)
+  //console.log("routeAddAPost",route.params)
   if(!route.params.recipe) {
     const recipe = {
       CreatedAt: route.params.CreatedAt,
@@ -127,11 +127,6 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       setCooked(!cooked);
     }
   };
-
-
-  // const foodPressed = () => {
-  //   setFoodColor(!foodColor);
-  // };
 
   useEffect(() => {
     getDocs(

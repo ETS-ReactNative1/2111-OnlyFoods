@@ -66,7 +66,7 @@ const Navigator = () => {
         snapshot.docs.forEach((doc) => {
           snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
-        console.log("fromhome", snapRecipes)
+        //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
       })
       .catch((error) => console.log(error));

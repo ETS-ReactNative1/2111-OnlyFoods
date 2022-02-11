@@ -23,7 +23,7 @@ import {
 } from "firebase/auth";
 
 const EditProfileScreen = ({ navigation, route }) => {
-  console.log(route.params);
+  //console.log(route.params);
   const { colors } = useTheme();
 
   const handleLogOut = () => {
