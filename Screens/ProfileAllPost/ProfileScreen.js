@@ -14,6 +14,7 @@ import { db } from "../../firebase_config";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StackRouter } from "react-navigation";
+import CachedImage from "react-native-expo-cached-image";
 // import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
@@ -95,13 +96,12 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                   Description: recipe.Description,
                   Ingredients: recipe.Ingredients,
                   Instructions: recipe.Instructions,
-                  ImageURL: recipe.ImageURL,
                   recipe,
                   loggedInUser,
                 })
               }
             >
-              <Image style={styles.img} source={{ uri: recipe.ImageURL }} />
+              <CachedImage style={styles.img} source={recipe.ImageURL ? {uri: recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}} />
             </Pressable>
           ))}
         </View>
