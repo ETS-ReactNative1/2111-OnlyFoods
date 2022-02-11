@@ -33,25 +33,24 @@ import {
 } from "@expo/vector-icons";
 import { BookmarksContext } from "../../App";
 import { BKRefContext } from "../../Navigation/Navigator";
-import CachedImage from 'react-native-expo-cached-image';
+import CachedImage from "react-native-expo-cached-image";
 
 const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
-
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
   const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
-  //const [ImageURL, setImageURL] = useState("");
+  // const [ImageURL, setImageURL] = useState("");
 
   const foodPressed = () => {
-    let recipesArrCopy = []
+    let recipesArrCopy = [];
 
-    if(recipeCardBookmarks.CookedRecipes) {
-      recipesArrCopy = recipeCardBookmarks.CookedRecipes.slice()
+    if (recipeCardBookmarks.CookedRecipes) {
+      recipesArrCopy = recipeCardBookmarks.CookedRecipes.slice();
     }
 
-    if(cooked) {
+    if (cooked) {
       const unCooked = recipesArrCopy.filter((cooked) => {
         return (
           cooked.CreatedAt.nanoseconds !== recipe.CreatedAt.nanoseconds ||
@@ -62,7 +61,6 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       updateDoc(BKRef, { CookedRecipes: unCooked });
       setRecipeCardBookmarks({ ...bookmarks, CookedRecipess: unCooked });
       setBookmarks({ ...bookmarks, CookedRecipes: unCooked });
-
     } else {
       recipesArrCopy.push(recipe);
       updateDoc(BKRef, { CookedRecipes: recipesArrCopy });
@@ -108,9 +106,9 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       setRecipeCardBookmarks(bookmarks);
       const recipesArrCopy = bookmarks.BookmarkedRecipes.slice();
 
-      let cookedRecs = []
-      if(bookmarks.CookedRecipes) {
-        cookedRecs = bookmarks.CookedRecipes.slice()
+      let cookedRecs = [];
+      if (bookmarks.CookedRecipes) {
+        cookedRecs = bookmarks.CookedRecipes.slice();
       }
 
       const hasRecipe = recipesArrCopy.some((bookmark) => {
@@ -128,7 +126,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       });
 
       if (hasRecipe) setBookmarked(true);
-      if (cookedRecipe) setCooked(true)
+      if (cookedRecipe) setCooked(true);
 
       // if (recipe.ImageURL === "") {
       //   setImageURL("https://i.imgur.com/tIrGgMa.png");
@@ -153,7 +151,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 Description: recipe.Description,
                 Ingredients: recipe.Ingredients,
                 Instructions: recipe.Instructions,
-                bookmarked,
+                ImageURL: recipe.ImageURL,
                 Public: recipe.Public,
                 docId: recipe.docId,
                 cooked,
@@ -163,7 +161,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 bookmarks,
                 loggedInUser,
                 setRecipeCardBookmark: () => setBookmarked(!bookmarked),
-                setRecipeCardCooked: () => setCooked(!cooked)
+                setRecipeCardCooked: () => setCooked(!cooked),
               })
             }
           >
@@ -180,7 +178,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
             <View style={styles.imageAndEdit}>
               <CachedImage
                 style={styles.image}
-                source={recipe.ImageURL ? {uri: recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
+                source={
+                  recipe.ImageURL
+                    ? { uri: recipe.ImageURL }
+                    : { uri: "https://i.imgur.com/tIrGgMa.png" }
+                }
               />
             </View>
             <View style={styles.icons}>
@@ -202,7 +204,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 <MaterialCommunityIcons
                   name="food-fork-drink"
                   size={30}
-                  color={cooked ? "red": "black"}
+                  color={cooked ? "red" : "black"}
                 />
               </TouchableOpacity>
               <TouchableOpacity
