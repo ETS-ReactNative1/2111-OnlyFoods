@@ -46,14 +46,10 @@ function LoginScreen({ navigation }) {
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.logo}>
-            {/* <Image
-              source={{
-                uri: "https://uspto.report/TM/90307472/mark.png",
-                height: 150,
-                width: 220,
-              }}
-            /> */}
-            <Text style={styles.name}>{`  ONLY\nFOODS`}</Text>
+            <Image
+              source={require("../../Assets/LOGO.png")}
+              style={{ width: 150, height: 150 }}
+            />
           </View>
 
           <View>
@@ -116,6 +112,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
+    marginBottom: 10,
   },
   container: {
     backgroundColor: "rgba(230, 230, 230, 0.716)",
