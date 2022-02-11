@@ -33,14 +33,16 @@ import {
 } from "@expo/vector-icons";
 import { BookmarksContext } from "../../App";
 import { BKRefContext } from "../../Navigation/Navigator";
+import CachedImage from 'react-native-expo-cached-image';
 
 const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
+
   const { bookmarks, setBookmarks } = useContext(BookmarksContext);
   const { BKRef, setBKRef } = useContext(BKRefContext);
   const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
-  const [ImageURL, setImageURL] = useState("");
+  //const [ImageURL, setImageURL] = useState("");
 
   const foodPressed = () => {
     let recipesArrCopy = []
@@ -128,11 +130,11 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
       if (hasRecipe) setBookmarked(true);
       if (cookedRecipe) setCooked(true)
 
-      if (recipe.ImageURL === "") {
-        setImageURL("https://i.imgur.com/tIrGgMa.png");
-      } else {
-        setImageURL(recipe.ImageURL);
-      }
+      // if (recipe.ImageURL === "") {
+      //   setImageURL("https://i.imgur.com/tIrGgMa.png");
+      // } else {
+      //   setImageURL(recipe.ImageURL);
+      // }
     }
   }, [bookmarks]);
 
@@ -147,13 +149,13 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 LoggedInUser: loggedInUser.Username,
                 RecipeUsername: recipe.CreatorUsername,
                 RecipeName: recipe.Name,
-                TimeHrs: recipe.Time.Hours,
-                TimeMins: recipe.Time.Minutes,
+                Time: recipe.Time,
                 Description: recipe.Description,
                 Ingredients: recipe.Ingredients,
                 Instructions: recipe.Instructions,
-                ImageURL: ImageURL,
                 bookmarked,
+                Public: recipe.Public,
+                docId: recipe.docId,
                 cooked,
                 //bookmarkPressed: bookmarkPressed,
                 //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
@@ -176,11 +178,9 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
             </View>
 
             <View style={styles.imageAndEdit}>
-              <Image
+              <CachedImage
                 style={styles.image}
-                source={{
-                  uri: ImageURL,
-                }}
+                source={recipe.ImageURL ? {uri: recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}}
               />
             </View>
             <View style={styles.icons}>

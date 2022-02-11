@@ -84,8 +84,9 @@ const Navigator = () => {
       .then((snapshot) => {
         let snapRecipes = [];
         snapshot.docs.forEach((doc) => {
-          snapRecipes.push(doc.data());
+          snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
+        //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
 
         lastVisible = snapshot.docs[snapshot.docs.length-1];
@@ -123,7 +124,7 @@ const Navigator = () => {
     getDocs(userQuery)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          setLoggedInUser(doc.data());
+          setLoggedInUser({ ...doc.data(), docId: doc.id});
         });
       })
       .catch((error) => console.log(error));

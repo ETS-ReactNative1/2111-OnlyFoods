@@ -43,12 +43,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageBox: {
-    width: 200,
-    height: 200,
-    paddingTop: 20
+    width: 300,
+    height: 300,
   },
   bottomSpaceAdjust: {
-    marginTop: 80,
+    marginTop: 40,
+  },
+  topSpaceAdjust: {
+    marginTop: 20,
+  },
+  back: {
+    alignItems: "flex-start",
+    marginLeft: 20,
+    marginTop: 20,
   },
 });
 

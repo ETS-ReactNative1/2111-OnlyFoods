@@ -21,15 +21,18 @@ import ProfileScreen from "./Screens/ProfileAllPost/ProfileScreen";
 import SinglePostScreen from "./Screens/SinglePost/SinglePostScreen";
 import HomeScreen from "./Screens/HomeFeed/HomeScreen";
 import EditProfileScreen from "./Screens/EditProfile/EditProfileScreen";
+import EditPostScreen from "./Screens/EditPost/EditPostScreen";
 
 LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 export const BookmarksContext = createContext("bookmarks");
+//console.log("bookmarkscontext", BookmarksContext);
 
 function App() {
   const [bookmarks, setBookmarks] = useState(null);
   const value = { bookmarks, setBookmarks };
+  //console.log("value", value)
 
   return (
     <>
@@ -64,8 +67,8 @@ function App() {
             />
             <Stack.Screen
               options={{ headerShown: false }}
-              name="ProfileScreen"
-              component={ProfileScreen}
+              name="EditPost"
+              component={EditPostScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -13,14 +13,18 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-import styles from "./AddScreenStyle";
+import styles from "./EditPostStyle";
 import { firebase, auth, db } from "../../firebase_config";
 import {
   collection,
   getDocs,
   doc,
-  addDoc,
+  setDoc,
+  query,
+  where,
+  updateDoc,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import { Picker } from "react-native";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
@@ -29,11 +33,13 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
-import CachedImage from "react-native-expo-cached-image";
 
-function AddPostScreen({ navigation, loggedInUser }) {
-  //const user = auth.currentUser;
+function EditPostScreen({  navigation: { goBack }, navigation, route}) {
+  const user = auth.currentUser;
+  //console.log("AddPost-EditPostParams", route.params)
   const recipesRef = collection(db, "recipes");
+  const docId = route.params.docId
+  const recipeRef = doc(db, "recipes", docId)
 
   const publicOrNot = [
     {
@@ -45,7 +51,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
       value: false,
     },
   ];
-
   const measurementUnits = [
     {
       label: "g",
@@ -88,59 +93,66 @@ function AddPostScreen({ navigation, loggedInUser }) {
       value: "Quart",
     },
   ];
+  const [name, setName] = useState(route.params.RecipeName);
+  const [description, setDescription] = useState(route.params.Description);
+  const [publicSetting, setPublicSetting] = useState(route.params.Public);
+  const [time, setTime] = useState({ Hours: route.params.Time.Hours, Minutes: route.params.Time.Minutes });
+  const [instructions, setInstructions] = useState(route.params.Instructions);
+  const [ingredients, setIngredients] = useState(route.params.Ingredients);
+  const [editTime, setEditTime] = useState(true);
+  const [editIngredients, setEditIngredients] = useState(true);
+  const [editInstructions, setEditInstructions] = useState(true);
+  const [addPhoto, setAddPhoto] = useState(true);
+  const [imageUrl, setImageUrl] = useState(route.params.ImageURL);
+  //const [bookmarked, setBookmarked] = useState(route.params.bookmarked);
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [publicSetting, setPublicSetting] = useState(false);
-  const [time, setTime] = useState({ Hours: "0", Minutes: "0" });
-  const [instructions, setInstructions] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [editTime, setEditTime] = useState(false);
-  const [editIngredients, setEditIngredients] = useState(false);
-  const [editInstructions, setEditInstructions] = useState(false);
-  const [addPhoto, setAddPhoto] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
 
   const setImageUrlCallback = (url) => {
     setImageUrl(url);
     setAddPhoto(false);
   };
-
   const addIngredient = () => {
     setIngredients([...ingredients, { Name: "", Unit: "", Quantity: "" }]);
   };
-
   const deleteIngredient = (index) => {
     const updatedIngredients = ingredients.slice();
     updatedIngredients.splice(index, 1);
     setIngredients([...updatedIngredients]);
   };
-
   const addInstruction = () => {
     setInstructions([...instructions, ""]);
   };
-
   const deleteInstruction = (index) => {
     const updatedInstructions = instructions.slice();
     updatedInstructions.splice(index, 1);
     setInstructions([...updatedInstructions]);
   };
-
-  const handlePost = async () => {
+  const handleUpdatePost = async () => {
     const filteredIngredients = ingredients
       .slice()
       .filter((item) => item.Name !== "");
     const filteredInstructions = instructions
       .slice()
       .filter((item) => item !== "");
+    let imageUrlCheck = imageUrl;
 
-    const newRecipe = {
+    if (imageUrl === "") {
+      await getDownloadURL(ref(getStorage(), `images/default.jpg`))
+        .then((url) => {
+          imageUrlCheck = url;
+        })
+        .catch((error) => {
+          // Handle any errors
+        });
+    }
+
+    const updatedRecipe = {
       Name: name,
       Description: description,
       CreatedAt: serverTimestamp(),
-      Creator: loggedInUser.UserId,
-      CreatorUsername: loggedInUser.Username,
-      ImageURL: imageUrl,
+      Creator: user.uid,
+      CreatorUsername: route.params.LoggedInUser,
+      ImageURL: imageUrlCheck,
       Ingredients: filteredIngredients,
       Public: publicSetting,
       Instructions: filteredInstructions,
@@ -151,35 +163,14 @@ function AddPostScreen({ navigation, loggedInUser }) {
       name === "" ||
       description === "" ||
       !ingredients.length ||
-      !instructions.length ||
-      !imageUrl
+      !ingredients.length
     ) {
-      let missingInfo = "";
-      if (!name) missingInfo += "Recipe name";
-      if (!description) {
-        if (missingInfo.length > 0) missingInfo += ", description";
-        else missingInfo += "Description";
-      }
-      if (!ingredients.length) {
-        if (missingInfo.length > 0) missingInfo += ", ingredients";
-        else missingInfo += "Ingredients";
-      }
-      if (!instructions.length) {
-        if (missingInfo.length > 0) missingInfo += ", instructions";
-        else missingInfo += "Instructions";
-      }
-      if (!imageUrl) {
-        if (missingInfo.length > 0) missingInfo += ", picture";
-        else missingInfo += "Picture";
-      }
-      Alert.alert(
-        "Missing fields",
-        `Please fill all mandatory fields: \n \n${missingInfo}`,
-        [{ text: "Back" }]
-      );
+      Alert.alert("Missing fields", "Please fill all mandatory fields", [
+        { text: "Back" },
+      ]);
     } else {
-      const newdoc = await addDoc(recipesRef, newRecipe)
-        .then((newdoc) => {
+      setDoc(recipeRef, updatedRecipe)
+        .then(() => {
           setName("");
           setDescription("");
           setPublicSetting(false);
@@ -190,61 +181,45 @@ function AddPostScreen({ navigation, loggedInUser }) {
           setEditInstructions(false);
           setEditIngredients(false);
           setImageUrl("");
-          navigation.navigate("Home");
-          // CreatedAt: newRecipe.CreatedAt,
-          // Creator: loggedInUser.UserId,
-          // LoggedInUser: loggedInUser.Username,
-          // Description: description,
-          // ImageURL: imageUrlCheck,
-          // Ingredients: filteredIngredients,
-          // Instructions: filteredInstructions,
-          // RecipeUsername: loggedInUser.Username,
-          // RecipeName: name,
-          // Public: publicSetting,
-          // Time: time,
-          // loggedInUser: loggedInUser,
-          // bookmarked: false,
-          // docId: newdoc.id });
+          navigation.navigate("Profile");
         })
         .catch((error) => console.log(error));
     }
   };
 
+  const deletePost = (docId) => {
+    // console.log(docId)
+    // console.log(doc(db, "recipes", docId))
+    deleteDoc(doc(db, "recipes", docId))
+    .then(() => {
+      navigation.navigate("Profile");
+    })
+    .catch((error)=> console.log(error))
+  }
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView
         style={{ flex: 1, width: "100%", height: "80%" }}
-        // keyboardShouldPersistTaps="always"
-        // keyboardVerticalOffset={useHeaderHeight() + 20}
       >
+        <View style={styles.topSpaceAdjust}></View>
+        <TouchableOpacity style={styles.back}>
+            <Button onPress={() => goBack()} title="Back" />
+        </TouchableOpacity>
+        {/* Add/Edit Image: Camera Option */}
         <View>
           {!addPhoto ? (
             <View>
               <View style={styles.imageContainer}>
-                {/* <TouchableOpacity
+                {imageUrl !== "" ? (
+                  <Image source={{ uri: imageUrl }} style={styles.imageBox} />
+                ) : null}
+                <TouchableOpacity
                   onPress={() => setAddPhoto(true)}
                   style={{ paddingTop: 30, paddingBottom: 20 }}
                 >
                   <MaterialIcons name="camera-alt" size={50} />
-                </TouchableOpacity> */}
-                {imageUrl !== "" ? (
-                  <TouchableOpacity
-                    onPress={() => setAddPhoto(true)}
-                    style={{ paddingTop: 30, paddingBottom: 20 }}
-                  >
-                    <CachedImage
-                      source={{ uri: imageUrl }}
-                      style={styles.imageBox}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => setAddPhoto(true)}
-                    style={{ paddingTop: 30, paddingBottom: 20 }}
-                  >
-                    <MaterialIcons name="camera-alt" size={50} />
-                  </TouchableOpacity>
-                )}
+                </TouchableOpacity>
               </View>
             </View>
           ) : (
@@ -254,7 +229,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
             />
           )}
         </View>
-
+          {/* Update RecipeName */}
         <View style={styles.wrapper}>
           <Text>Recipe Name</Text>
           <View style={styles.input}>
@@ -267,7 +242,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
               textContentType="none"
               autoFocus={true}
             />
-
             <View />
           </View>
         </View>
@@ -284,7 +258,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
         </View>
 
         {/* Cook Time Input */}
-
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 0.8 }}>
             <Text>Cook Time (Optional)</Text>
@@ -313,7 +286,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
             )}
           </View>
         </View>
-
         {editTime ? (
           <View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -455,6 +427,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
                             value={ingredients[index].Quantity}
                             autoCapitalize="none"
                             textContentType="none"
+                            keyboardType="number-pad"
                           />
                         </View>
                       </View>
@@ -531,7 +504,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
         </View>
 
         {/* Instructions Input */}
-
         <View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={{ flex: 0.8 }}>
@@ -650,7 +622,7 @@ function AddPostScreen({ navigation, loggedInUser }) {
             })
           )}
         </View>
-
+        {/* Privacy Settings */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 0.7 }}>
             <Text style={{ paddingTop: 10 }}>Privacy Setting</Text>
@@ -667,15 +639,17 @@ function AddPostScreen({ navigation, loggedInUser }) {
             />
           </View>
         </View>
-
-        <Pressable titleSize={20} style={styles.button} onPress={handlePost}>
-          <Text style={styles.buttonText}> Post! </Text>
+        <Pressable titleSize={20} style={styles.button} onPress={() => deletePost(docId)}>
+          <Text style={styles.buttonText}> Delete </Text>
         </Pressable>
-
+        <Pressable titleSize={20} style={styles.button} onPress={handleUpdatePost}>
+          <Text style={styles.buttonText}> Update </Text>
+        </Pressable>
         <View style={styles.bottomSpaceAdjust}></View>
+
       </KeyboardAvoidingView>
     </ScrollView>
   );
 }
 
-export default AddPostScreen;
+export default EditPostScreen;

@@ -21,12 +21,17 @@ import {
 //import * as Progress from 'react-native-progress';
 import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
-import { ImageManipulator } from 'expo';
+import { ImageManipulator } from "expo";
+import CachedImage from "react-native-expo-cached-image";
 
 export default function PhotoUpload({ setImageUrlCallback, url }) {
   const uploadOrTakePic = [
     {
-      label: "Select Image",
+      label: "Select photo option...",
+      value: "",
+    },
+    {
+      label: "Select Image From Library",
       value: false,
     },
     {
@@ -40,13 +45,19 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [cameraPermission, setCameraPermission] = useState(null);
+  const [galleryPermission, setGalleryPermission] = useState(null);
 
   const closeImageEdit = () => {
     setImageUrlCallback(imageUrl);
   };
 
-  useEffect(() => {
-    if (url !== "") setImage({ uri: url });
+  useEffect(async () => {
+    setCameraPermission(await ImagePicker.getCameraPermissionsAsync());
+    if (url) {
+      setImage({ uri: url });
+      setImageUrl(url);
+    }
   }, []);
 
   const selectImage = async () => {
@@ -63,7 +74,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
-      quality: .3,
+      quality: 0.3,
     });
 
     if (!result.cancelled) {
@@ -72,6 +83,17 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   };
 
   const takePicture = async () => {
+    if (cameraPermission.status !== "granted") {
+      const newPermission = await ImagePicker.requestCameraPermissionsAsync();
+
+      setCameraPermission(newPermission);
+
+      if (newPermission.status !== "granted") {
+        alert("Permission for media access needed.");
+        return;
+      }
+    }
+
     const options = {
       maxWidth: 200,
       maxHeight: 200,
@@ -122,22 +144,24 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cam}>
-        {/* <TouchableOpacity onPress={selectImage}>
-          <FontAwesome name="picture-o" size={50} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={takePicture}>
-          <MaterialIcons name="add-a-photo" size={50} />
-        </TouchableOpacity> */}
-        <View style={styles.picker}>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={selectImage} style={{ paddingRight: 10 }}>
+            <FontAwesome name="picture-o" size={50} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={takePicture} style={{ paddingLeft: 10 }}>
+            <MaterialIcons name="add-a-photo" size={50} />
+          </TouchableOpacity>
+        </View>
+        {/* <View>
           <RNPickerSelect
             placeholder={{}}
             items={uploadOrTakePic}
             onValueChange={(value) => {
-              value ? takePicture(value) : selectImage(value);
+              value ? takePicture() : selectImage();
             }}
-            value={true ? imageSetting : upload}
+            value={''}
           />
-        </View>
+        </View> */}
         {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 0.5 }}>
             <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
@@ -176,7 +200,7 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
