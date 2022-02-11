@@ -24,7 +24,7 @@ import {
   orderBy,
   updateDoc,
   limit,
-  startAfter
+  startAfter,
 } from "firebase/firestore";
 import Cam from "../Camera";
 import { BookmarksContext } from "../App";
@@ -59,7 +59,7 @@ const Navigator = () => {
     limit(10)
   );
 
-  const [lastVisible, setLastVisible] = useState({})
+  const [lastVisible, setLastVisible] = useState({});
 
   /*
   // Query the first page of docs
@@ -83,13 +83,13 @@ const Navigator = () => {
       .then((snapshot) => {
         let snapRecipes = [];
         snapshot.docs.forEach((doc) => {
-          snapRecipes.push({ ...doc.data(), docId: doc.id});
+          snapRecipes.push({ ...doc.data(), docId: doc.id });
         });
         //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
         //console.log(snapshot.docs[snapshot.docs.length-1])
-        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
-        })
+        setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+      })
       .catch((error) => console.log(error));
   };
 
@@ -123,7 +123,7 @@ const Navigator = () => {
     getDocs(userQuery)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          setLoggedInUser({ ...doc.data(), docId: doc.id});
+          setLoggedInUser({ ...doc.data(), docId: doc.id });
         });
       })
       .catch((error) => console.log(error));
@@ -135,6 +135,7 @@ const Navigator = () => {
             addDoc(bookmarksRef, {
               UserID: user.uid,
               BookmarkedRecipes: [],
+              CookedRecipes: [],
             }).then((newBookmarkRef) => {
               setBookmarks(newBookmarkRef);
               getDoc(newBookmarkRef).then((snap) => {
@@ -155,7 +156,7 @@ const Navigator = () => {
   };
 
   const loadMoreRecipes = () => {
-    console.log(recipes.length)
+    console.log(recipes.length);
     //console.log(lastVisible)
 
     const nextQuery = query(
@@ -174,10 +175,10 @@ const Navigator = () => {
         });
         setRecipes([...recipes, ...snapRecipes]);
 
-        setLastVisible(snapshot.docs[snapshot.docs.length-1]);
-        })
+        setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+      })
       .catch((error) => console.log(error));
-  }
+  };
 
   useEffect(() => {
     refresh();
