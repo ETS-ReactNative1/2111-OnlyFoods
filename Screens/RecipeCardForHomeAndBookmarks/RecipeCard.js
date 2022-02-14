@@ -200,22 +200,29 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                   {recipe.Name}
                 </Text>
               </View>
-              <TouchableOpacity onPress={() => foodPressed()}>
-                <MaterialCommunityIcons
-                  name="food-fork-drink"
-                  size={30}
-                  color={cooked ? "red" : "black"}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => bookmarkPressedRecipeCard(recipe)}
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
               >
-                <Fontisto
-                  name="bookmark-alt"
-                  size={35}
-                  color={bookmarked ? "red" : "black"}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => foodPressed()}>
+                  <MaterialCommunityIcons
+                    name="food-fork-drink"
+                    size={40}
+                    color={cooked ? "#4db4d7" : "black"}
+                    style={{ paddingRight: 20 }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => bookmarkPressedRecipeCard(recipe)}
+                >
+                  <Fontisto
+                    name="bookmark-alt"
+                    size={40}
+                    color={bookmarked ? "#ef6666" : "black"}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.recipe}>
               {/* <View style={styles.recipeInfo}></View> */}
@@ -234,10 +241,10 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
   userinfo: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     justifyContent: "flex-start",
     flexDirection: "column",
     marginHorizontal: 20,
@@ -250,9 +257,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   image: {
-    marginLeft: 30,
-    width: 330,
-    height: 200,
+    // marginLeft: 30,
+    width: 360,
+    height: 300,
+    justifyContent: "center",
+    marginHorizontal: 30,
     // borderBottomWidth: 1,
     // borderTopWidth: 1,
     // borderLeftWidth: 1,

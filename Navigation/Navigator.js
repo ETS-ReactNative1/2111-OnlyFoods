@@ -200,6 +200,14 @@ const Navigator = () => {
             backgroundColor: "black",
             height: 90,
           },
+          headerStyle: {
+            backgroundColor: "rgba(230, 230, 230, 0.716)",
+          },
+          headerTintColor: "rgba(230, 230, 230, 0.716)",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "rgba(230, 230, 230, 0.716)",
+          },
         }}
       >
         <Tab.Screen

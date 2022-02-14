@@ -131,6 +131,7 @@ const BookmarkScreenCard = ({
                   recipe,
                   bookmarks,
                   loggedInUser,
+                  Time: recipe.Time,
                   //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
                 })
               }
@@ -152,21 +153,23 @@ const BookmarkScreenCard = ({
             color={heartColor ? "red" : "black"}
           />
         </TouchableOpacity>*/}
-            <TouchableOpacity onPress={() => foodPressed()}>
-              <MaterialCommunityIcons
-                name="food-fork-drink"
-                size={35}
-                color={cooked ? "red" : "black"}
-              />
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity onPress={() => foodPressed()}>
+                <MaterialCommunityIcons
+                  name="food-fork-drink"
+                  size={40}
+                  color={cooked ? "#afebdc" : "black"}
+                />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               onPress={() => bookmarkPressed(recipe)}
               style={{ flex: 0.3 }}
             >
               <Fontisto
                 name="bookmark-alt"
-                size={35}
-                color={bookmarkColor ? "red" : "black"}
+                size={40}
+                color={bookmarkColor ? "#d4877d" : "black"}
               />
             </TouchableOpacity>
           </View>
@@ -192,7 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "black",
     borderBottomWidth: 1,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     marginHorizontal: 10,
     // borderTopWidth: 2,
     // borderRightWidth: 2,
@@ -236,7 +239,8 @@ const styles = StyleSheet.create({
     marginLeft: -15,
   },
   icons: {
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginHorizontal: 10,
     // paddingLeft: 20,
   },

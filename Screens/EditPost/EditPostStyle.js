@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     paddingHorizontal: 20,
     marginBottom: 10,
   },

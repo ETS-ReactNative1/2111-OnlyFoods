@@ -8,6 +8,7 @@ import {
   Pressable,
   Image,
   KeyboardAvoidingView,
+  ImageBackground,
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebase } from "../../firebase_config";
@@ -43,58 +44,69 @@ function LoginScreen({ navigation }) {
       }}
       keyboardShouldPersistTaps="always"
     >
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <View style={styles.logo}>
-            <Image
-              source={require("../../Assets/LOGO.png")}
-              style={{ width: 150, height: 150 }}
-            />
-          </View>
+      <ImageBackground
+        source={require("../../Assets/background.png")}
+        resizeMode="cover"
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          width: "100%",
+          height: "95%",
+        }}
+      >
+        <View style={styles.container}>
+          <View style={styles.wrapper}>
+            <View style={styles.logo}>
+              <Image
+                source={require("../../Assets/LOGO.png")}
+                style={{ width: 150, height: 150 }}
+              />
+            </View>
 
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="#444"
+                placeholder="Email"
+                autoCapitalize="none"
+                onChangeText={(text) => setEmail(text)}
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoFocus={true}
+              />
+            </View>
+          </View>
           <View>
             <TextInput
               style={styles.input}
               placeholderTextColor="#444"
-              placeholder="Email"
+              placeholder="Password: Min 6 characters"
+              onChangeText={(text) => setPassword(text)}
               autoCapitalize="none"
-              onChangeText={(text) => setEmail(text)}
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              autoFocus={true}
+              autoCorrect={false}
+              secureTextEntry={true}
+              textContentType="password"
             />
           </View>
-        </View>
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#444"
-            placeholder="Password: Min 6 characters"
-            onChangeText={(text) => setPassword(text)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={true}
-            textContentType="password"
-          />
-        </View>
 
-        <Pressable titleSize={20} style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}> Log In </Text>
-        </Pressable>
-
-        <View style={styles.signupContainer}>
-          <Text>Don't have an account?</Text>
-          <Pressable>
-            <Text
-              style={{ fontWeight: "bold", color: "dodgerblue" }}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              {" "}
-              Sign Up
-            </Text>
+          <Pressable titleSize={20} style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}> Log In </Text>
           </Pressable>
+
+          <View style={styles.signupContainer}>
+            <Text>Don't have an account?</Text>
+            <Pressable>
+              <Text
+                style={{ fontWeight: "bold", color: "dodgerblue" }}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                {" "}
+                Sign Up
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
@@ -106,7 +118,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 30,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   logo: {
     alignItems: "center",
@@ -115,15 +126,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
-    paddingTop: 50,
+    marginTop: -60,
     paddingHorizontal: 20,
     justifyContent: "center",
-    marginTop: 110,
-  },
-  wrapper: {
-    marginTop: 80,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    // marginTop: 110,
+    flex: 1,
   },
   input: {
     borderRadius: 6,
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   button: {
-    backgroundColor: "#0096F6",
+    backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
     minHeight: 42,

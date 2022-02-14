@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
   userinfo: {
     justifyContent: "flex-start",
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 75,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
 
   refresh: {

@@ -10,6 +10,7 @@ import {
   Image,
   KeyboardAvoidingView,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import { BookmarksContext } from "../../App";
 
@@ -60,69 +61,84 @@ function SignupScreen({ navigation }) {
       }}
       keyboardShouldPersistTaps="always"
     >
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <View style={styles.logo}>
-            <Image
-              style={{ width: 150, height: 150, marginBottom: 30 }}
-              source={require("../../Assets/LOGO.png")}
-            />
+      <ImageBackground
+        source={require("../../Assets/background.png")}
+        resizeMode="cover"
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          width: "100%",
+          height: "95%",
+        }}
+      >
+        <View style={styles.container}>
+          <View style={styles.wrapper}>
+            <View style={styles.logo}>
+              <Image
+                style={{ width: 150, height: 150, marginBottom: 30 }}
+                source={require("../../Assets/LOGO.png")}
+              />
+            </View>
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="#444"
+                placeholder="Username: Max 8 characters"
+                onChangeText={(text) => setUsername(text)}
+                autoCapitalize="none"
+                keyboardType="default"
+                textContentType="username"
+                autoFocus={true}
+                maxLength={8}
+              />
+            </View>
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="#444"
+                placeholder="Email"
+                onChangeText={(text) => setEmail(text)}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoFocus={true}
+              />
+            </View>
           </View>
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="#444"
-              placeholder="Username: Max 8 characters"
-              onChangeText={(text) => setUsername(text)}
-              autoCapitalize="none"
-              keyboardType="default"
-              textContentType="username"
-              autoFocus={true}
-              maxLength={8}
-            />
-          </View>
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="#444"
-              placeholder="Email"
-              onChangeText={(text) => setEmail(text)}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              autoFocus={true}
-            />
-          </View>
-        </View>
 
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#444"
-            placeholder="Password: Min 6 characters"
-            autoCapitalize="none"
-            onChangeText={(text) => setPassword(text)}
-            autoCorrect={false}
-            secureTextEntry={true}
-            textContentType="password"
-          />
-        </View>
-        <Pressable titleSize={20} style={styles.button} onPress={handleSignup}>
-          <Text style={styles.buttonText}> Sign up </Text>
-        </Pressable>
-        <View style={styles.signupContainer}>
-          <Text>Already have an account?</Text>
-          <Pressable>
-            <Text
-              style={{ fontWeight: "bold", color: "dodgerblue" }}
-              onPress={() => navigation.navigate("Login")}
-            >
-              {" "}
-              Login
-            </Text>
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="#444"
+              placeholder="Password: Min 6 characters"
+              autoCapitalize="none"
+              onChangeText={(text) => setPassword(text)}
+              autoCorrect={false}
+              secureTextEntry={true}
+              textContentType="password"
+            />
+          </View>
+          <Pressable
+            titleSize={20}
+            style={styles.button}
+            onPress={handleSignup}
+          >
+            <Text style={styles.buttonText}> Sign up </Text>
           </Pressable>
+          <View style={styles.signupContainer}>
+            <Text>Already have an account?</Text>
+            <Pressable>
+              <Text
+                style={{ fontWeight: "bold", color: "dodgerblue" }}
+                onPress={() => navigation.navigate("Login")}
+              >
+                {" "}
+                Login
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
@@ -134,7 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 20,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   logo: {
     alignItems: "center",
@@ -143,10 +158,9 @@ const styles = StyleSheet.create({
     marginBottom: -10,
   },
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
-    paddingTop: 30,
-    paddingHorizontal: 20,
-    marginTop: 40,
+    paddingTop: 10,
+    paddingHorizontal: 30,
+    marginTop: -120,
   },
   wrapper: {
     marginTop: 80,
@@ -159,7 +173,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   button: {
-    backgroundColor: "#0096F6",
+    backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
     minHeight: 42,
