@@ -302,7 +302,7 @@ export default BookmarkScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     flex: 1,
     justifyContent: "center",
   },

@@ -18,7 +18,6 @@ import CachedImage from "react-native-expo-cached-image";
 // import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
-
   const recipesRef = collection(db, "recipes");
   const recipesQuery = query(
     recipesRef,
@@ -33,7 +32,7 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
       .then((snapshot) => {
         let snapRecipes = [];
         snapshot.docs.forEach((doc) => {
-          snapRecipes.push({ ...doc.data(), docId: doc.id});
+          snapRecipes.push({ ...doc.data(), docId: doc.id });
         });
         // console.log("fromprofile",snapRecipes);
         setRecipes(snapRecipes);
@@ -44,7 +43,7 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
   useEffect(() => refresh(), []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "rgba(230, 230, 230, 0.716)" }}>
+    <View style={{ flex: 1, backgroundColor: "rgb(240, 216, 206)" }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <TouchableOpacity style={styles.refresh} onPress={refresh}>
           <MaterialIcons name="refresh" size={30} />
@@ -103,7 +102,14 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
                 })
               }
             >
-              <CachedImage style={styles.img} source={recipe.ImageURL ? {uri: recipe.ImageURL} : { uri: "https://i.imgur.com/tIrGgMa.png"}} />
+              <CachedImage
+                style={styles.img}
+                source={
+                  recipe.ImageURL
+                    ? { uri: recipe.ImageURL }
+                    : { uri: "https://i.imgur.com/tIrGgMa.png" }
+                }
+              />
             </Pressable>
           ))}
         </View>
@@ -116,9 +122,9 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
-    marginHorizontal: 30,
-    marginTop: 20,
+    backgroundColor: "rgb(240, 216, 206)",
+    marginHorizontal: 20,
+    marginTop: 10,
   },
   userImg: {
     height: 100,
@@ -136,6 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     justifyContent: "center",
+    marginBottom: 10,
   },
   userInfoItem: {
     flexDirection: "column",
@@ -166,23 +173,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     //justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 5,
     // borderBottomWidth: 1,
     // borderTopWidth: 1,
     // borderRightWidth: 1,
     // borderLeftWidth: 1,
-    marginHorizontal: 6,
+    marginHorizontal: 7,
     borderColor: "gray",
   },
   img: {
-    height: 100,
-    width: 100,
-    marginBottom: 0,
+    height: 110,
+    width: 110,
   },
 
   refresh: {
     alignItems: "flex-end",
-    marginRight: 25,
+    marginRight: 5,
     justifyContent: "center",
   },
 });

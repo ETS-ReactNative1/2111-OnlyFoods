@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   container: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     paddingHorizontal: 20,
     marginBottom: 10,
   },
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   imageBox: {
     width: 200,
     height: 200,
-    paddingTop: 20
+    paddingTop: 20,
   },
   bottomSpaceAdjust: {
     marginTop: 80,

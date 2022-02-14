@@ -212,20 +212,20 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             />
           </View>
           <View style={styles.icons}>
-            {/* <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
+            <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
               <MaterialCommunityIcons
                 name="food-fork-drink"
                 size={40}
-                color={cooked ? "red" : "black"}
+                color={cooked ? "#4db4d7" : "black"}
               />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => bookmarkPressed(route.params.recipe)}
             >
               <Fontisto
                 name="bookmark-alt"
-                size={35}
-                color={bookmarked ? "red" : "black"}
+                size={40}
+                color={bookmarked ? "#ef6666" : "black"}
               />
             </TouchableOpacity>
           </View>
@@ -295,10 +295,10 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
   userinfo: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     justifyContent: "flex-start",
     flexDirection: "column",
     marginHorizontal: 20,
@@ -311,15 +311,16 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   image: {
-    marginLeft: 30,
-    width: 300,
-    height: 200,
+    width: 360,
+    height: 300,
+    marginHorizontal: 30,
+    justifyContent: "center",
   },
   icons: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginLeft: 23,
-    marginRight: 52,
+    marginRight: 30,
     marginTop: 20,
   },
   imageAndEdit: {
