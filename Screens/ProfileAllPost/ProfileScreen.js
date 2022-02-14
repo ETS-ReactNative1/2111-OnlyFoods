@@ -15,7 +15,6 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StackRouter } from "react-navigation";
 import CachedImage from "react-native-expo-cached-image";
-// import EditProfileScreen from "../EditProfile/EditProfileScreen";
 
 const ProfileScreen = ({ navigation, loggedInUser }) => {
 
@@ -35,7 +34,6 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
         snapshot.docs.forEach((doc) => {
           snapRecipes.push({ ...doc.data(), docId: doc.id});
         });
-        // console.log("fromprofile",snapRecipes);
         setRecipes(snapRecipes);
       })
       .catch((error) => console.log(error));
@@ -154,23 +152,11 @@ const styles = StyleSheet.create({
   images: {
     flexDirection: "row",
     flexWrap: "wrap",
-    //justifyContent: "space-between",
-    // marginVertical: 20,
-    // marginHorizontal: 3,
-    // borderBottomWidth: 1,
-    // borderTopWidth: 1,
-    // borderRightWidth: 1,
-    // borderLeftWidth: 1,
   },
   singleImage: {
     flexDirection: "row",
     flexWrap: "wrap",
-    //justifyContent: "space-between",
     marginVertical: 10,
-    // borderBottomWidth: 1,
-    // borderTopWidth: 1,
-    // borderRightWidth: 1,
-    // borderLeftWidth: 1,
     marginHorizontal: 6,
     borderColor: "gray",
   },

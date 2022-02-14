@@ -31,12 +31,10 @@ import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import PhotoUpload, { imageUrl } from "../ImagePicker/ImagePicker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
-//import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
 
 function EditPostScreen({ navigation: { goBack }, navigation, route }) {
   const user = auth.currentUser;
-  //console.log("AddPost-EditPostParams", route.params)
   const recipesRef = collection(db, "recipes");
   const docId = route.params.docId;
   const recipeRef = doc(db, "recipes", docId);
@@ -107,7 +105,6 @@ function EditPostScreen({ navigation: { goBack }, navigation, route }) {
   const [editInstructions, setEditInstructions] = useState(true);
   const [addPhoto, setAddPhoto] = useState(true);
   const [imageUrl, setImageUrl] = useState(route.params.ImageURL);
-  //const [bookmarked, setBookmarked] = useState(route.params.bookmarked);
 
   const setImageUrlCallback = (url) => {
     setImageUrl(url);
@@ -144,7 +141,7 @@ function EditPostScreen({ navigation: { goBack }, navigation, route }) {
           imageUrlCheck = url;
         })
         .catch((error) => {
-          // Handle any errors
+          console.log(error)
         });
     }
 
@@ -190,8 +187,6 @@ function EditPostScreen({ navigation: { goBack }, navigation, route }) {
   };
 
   const deletePost = (docId) => {
-    // console.log(docId)
-    // console.log(doc(db, "recipes", docId))
     deleteDoc(doc(db, "recipes", docId))
       .then(() => {
         navigation.navigate("Profile");

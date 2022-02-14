@@ -23,7 +23,6 @@ import {
 } from "firebase/auth";
 
 const EditProfileScreen = ({ navigation, route }) => {
-  //console.log(route.params);
   const { colors } = useTheme();
 
   const handleLogOut = () => {
@@ -64,59 +63,19 @@ const EditProfileScreen = ({ navigation, route }) => {
               {route.params.LoggedInUsername}
             </Text>
           </View>
-
-          <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Username"
-              placeholderTextColor="black"
-              autoCorrect={false}
-              style={
-                (styles.textInput,
-                {
-                  color: colors.text,
-                  marginLeft: 5,
-                })
-              }
-            />
-          </View>
           <View style={styles.action}>
             <FontAwesome name="envelope-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor="black"
-              keyboardType="email-address"
-              autoCorrect={false}
-              autoCorrect={false}
+            <Text
               style={
                 (styles.textInput,
                 {
                   color: colors.text,
                   marginLeft: 5,
                 })
-              }
-            />
+              }>{route.params.LoggedInEmail} </Text>
           </View>
-          <View style={styles.action}>
-            <Feather name="lock" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor="black"
-              autoCorrect={false}
-              style={
-                (styles.textInput,
-                {
-                  color: colors.text,
-                  marginLeft: 5,
-                })
-              }
-            />
-          </View>
-          <TouchableOpacity style={styles.commandBtnOne} onPress={() => {}}>
-            <Text style={styles.panelBtnTitleOne}>Update</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.commandBtnTwo} onPress={handleLogOut}>
-            <Text style={styles.panelBtnTitleTwo}>Log Out</Text>
+          <TouchableOpacity style={styles.commandBtnOne} onPress={handleLogOut}>
+            <Text style={styles.panelBtnTitleOne}>Log Out</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -137,8 +96,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     alignItems: "center",
     marginTop: 10,
-    // width: 100,
-    // height: 40,
   },
   commandBtnTwo: {
     padding: 10,
@@ -149,9 +106,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1.5,
     borderBottomWidth: 1.5,
     borderRightWidth: 1.5,
-    borderColor: "red",
-    // width: 100,
-    // height: 40,
+    borderColor: "red"
   },
   panel: {
     padding: 20,

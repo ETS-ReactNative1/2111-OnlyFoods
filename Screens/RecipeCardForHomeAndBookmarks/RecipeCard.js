@@ -41,7 +41,6 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
   const [cooked, setCooked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [recipeCardBookmarks, setRecipeCardBookmarks] = useState(null);
-  // const [ImageURL, setImageURL] = useState("");
 
   const foodPressed = () => {
     let recipesArrCopy = [];
@@ -127,12 +126,6 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
 
       if (hasRecipe) setBookmarked(true);
       if (cookedRecipe) setCooked(true);
-
-      // if (recipe.ImageURL === "") {
-      //   setImageURL("https://i.imgur.com/tIrGgMa.png");
-      // } else {
-      //   setImageURL(recipe.ImageURL);
-      // }
     }
   }, [bookmarks]);
 
@@ -155,8 +148,6 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 Public: recipe.Public,
                 docId: recipe.docId,
                 cooked,
-                //bookmarkPressed: bookmarkPressed,
-                //updateBookmarks: ()=>bookmarkPressedRecipeCard (recipe),
                 recipe,
                 bookmarks,
                 loggedInUser,
@@ -218,7 +209,6 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
               </TouchableOpacity>
             </View>
             <View style={styles.recipe}>
-              {/* <View style={styles.recipeInfo}></View> */}
             </View>
           </Pressable>
         </View>
@@ -232,8 +222,6 @@ export default RecipeCard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "rgba(230, 230, 230, 0.716)",
   },
   userinfo: {
@@ -253,10 +241,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: 330,
     height: 200,
-    // borderBottomWidth: 1,
-    // borderTopWidth: 1,
-    // borderLeftWidth: 1,
-    // borderRightWidth: 1,
   },
   icons: {
     flexDirection: "row",

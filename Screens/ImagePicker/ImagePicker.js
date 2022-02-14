@@ -121,11 +121,8 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
     const uploadUri = Platform.OS === "ios" ? uri.replace("file://", "") : uri;
 
     const storage = getStorage();
-    //const ref = ref(storage, filename);
     const storageRef = ref(storage, `images/${filename}`);
 
-    //convert image to array of bytes
-    // const img = await fetch(image.uri);
     const img = await fetch(uploadUri);
     const bytes = await img.blob();
     await uploadBytesResumable(storageRef, bytes);
@@ -152,28 +149,6 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
             <MaterialIcons name="add-a-photo" size={50} />
           </TouchableOpacity>
         </View>
-        {/* <View>
-          <RNPickerSelect
-            placeholder={{}}
-            items={uploadOrTakePic}
-            onValueChange={(value) => {
-              value ? takePicture() : selectImage();
-            }}
-            value={''}
-          />
-        </View> */}
-        {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View style={{ flex: 0.5 }}>
-            <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
-              <Text style={styles.buttonText}>Pick an image</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 0.5 }}>
-            <TouchableOpacity style={styles.selectButton} onPress={takePicture}>
-              <Text style={styles.buttonText}>Take a Picture</Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
 
         {image !== null ? (
           <Image source={{ uri: image.uri }} style={styles.imageBox} />
@@ -200,18 +175,9 @@ export default function PhotoUpload({ setImageUrlCallback, url }) {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  // imageContainer: {
-  //   marginTop: 30,
-  //   marginBottom: 20,
-  //   alignItems: "center",
-  // },
-  // progressBarContainer: {
-  //   marginTop: 20,
-  // },
   imageBox: {
     width: 300,
     height: 300,
