@@ -83,7 +83,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+<<<<<<< HEAD
     backgroundColor: "rgba(230, 230, 230, 0.716)",
+=======
+    // alignItems: "center",
+    // justifyContent: "center",
+    backgroundColor: "rgb(240, 216, 206)",
+>>>>>>> main
   },
   userinfo: {
     justifyContent: "flex-start",
@@ -137,7 +143,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 75,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
 
   refresh: {

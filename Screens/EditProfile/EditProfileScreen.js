@@ -88,7 +88,7 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
   },
   commandBtnOne: {
     padding: 10,
@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
   },
   panel: {
     padding: 20,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     paddingTop: 20,
   },
   header: {
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     shadowColor: "black",
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     marginBottom: 10,
   },
   panelTitle: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   panelBtn: {
     padding: 30,
     borderRadius: 10,
-    backgroundColor: "rgba(230, 230, 230, 0.716)",
+    backgroundColor: "rgb(240, 216, 206)",
     alignItems: "center",
     marginVertical: 7,
   },
