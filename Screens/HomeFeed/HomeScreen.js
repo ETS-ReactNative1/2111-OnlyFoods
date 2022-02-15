@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
-    // marginHorizontal: 10,
-    // marginVertical: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   image: {
     marginLeft: 30,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   recipe: {
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
     marginTop: 10,
     marginBottom: 20,
     flexDirection: "column",

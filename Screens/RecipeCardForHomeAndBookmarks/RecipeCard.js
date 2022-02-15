@@ -176,14 +176,15 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
             </View>
 
             <View style={styles.imageAndEdit}>
-              <CachedImage
-                style={styles.image}
-                source={
-                  recipe.ImageURL
-                    ? { uri: recipe.ImageURL }
-                    : { uri: "https://i.imgur.com/tIrGgMa.png" }
-                }
-              />
+              <View style={styles.image}>
+                <CachedImage
+                  source={
+                    recipe.ImageURL
+                      ? { uri: recipe.ImageURL }
+                      : { uri: "https://i.imgur.com/tIrGgMa.png" }
+                  }
+                />
+              </View>
             </View>
             <View style={styles.icons}>
               <View style={{ justifyContent: "center" }}>
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flexDirection: "column",
     alignContent: "center",
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
     marginTop: 10,
   },
   username: {
@@ -259,10 +260,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // marginLeft: 30,
-    width: 360,
-    height: 300,
     justifyContent: "center",
-    marginHorizontal: 20,
+    width: 360,
+    height: 350,
     // borderBottomWidth: 1,
     // borderTopWidth: 1,
     // borderLeftWidth: 1,
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   recipe: {
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
     marginTop: 10,
     marginBottom: 10,
     flexDirection: "column",
