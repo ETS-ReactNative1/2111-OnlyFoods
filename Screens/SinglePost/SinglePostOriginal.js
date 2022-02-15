@@ -10,14 +10,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 // import { CheckBox } from "@react-native-community/checkbox";
-
 import {
   Octicons,
   MaterialCommunityIcons,
   Feather,
   Fontisto,
   MaterialIcons,
-  Ionicons,
 } from "@expo/vector-icons";
 import { db } from "../../firebase_config";
 import {
@@ -36,7 +34,7 @@ import CachedImage from "react-native-expo-cached-image";
 
 const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
   //console.log("routeAddAPost",route.params)
-  // console.log("ROUTE", route.params);
+  console.log("ROUTE", route.params);
   if (!route.params.recipe) {
     const recipe = {
       CreatedAt: route.params.CreatedAt,
@@ -179,173 +177,112 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
 
   return (
     <>
-      <View
-        style={{
-          // position: "absolute",
-          backgroundColor: "#fae1dd",
-          height: 90,
-          flexDirection: "row",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          paddingBottom: 10,
-        }}
-      >
-        <TouchableOpacity
-          style={styles.back}
-          onPress={() => goBack()}
-          title="Back"
-        >
-          <Ionicons name="ios-arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            alignItems: "center",
-            textTransform: "capitalize",
-            fontWeight: "bold",
-            fontSize: 20,
-          }}
-        >
-          {route.params.RecipeName}
-        </Text>
-        <View>
-          {route.params.LoggedInUser === route.params.RecipeUsername ? (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditPost", route.params)}
-            >
-              <Feather name="edit-2" size={24} />
-            </TouchableOpacity>
-          ) : null}
-        </View>
-      </View>
-      <View
-        style={{ alignItems: "center", backgroundColor: "rgb(240, 216, 206)" }}
-      >
-        <CachedImage
-          style={styles.image}
-          source={
-            route.params.recipe.ImageURL
-              ? { uri: route.params.recipe.ImageURL }
-              : { uri: "https://i.imgur.com/tIrGgMa.png" }
-          }
-        />
-      </View>
-      <View style={styles.imageAndUsername}>
-        <Image
-          style={styles.userImg}
-          source={require("../../Assets/Cook1.png")}
-        />
-        <View
-          style={{
-            marginVertical: 10,
-            marginHorizontal: 10,
-            backgroundColor: "#fae1dd",
-          }}
-        >
-          <Text style={{ color: "gray" }}>Recipe By:</Text>
-          <Text style={{ fontWeight: "bold" }}>
-            {route.params.RecipeUsername}
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            marginHorizontal: 80,
-            marginVertical: 10,
-            paddingLeft: 90,
-            backgroundColor: "#fae1dd",
-          }}
-        >
-          <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
-            <MaterialCommunityIcons
-              name="food-fork-drink"
-              size={35}
-              color={cooked ? "#2d6a45" : "black"}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => bookmarkPressed(route.params.recipe)}
-            style={{ paddingHorizontal: 20 }}
-          >
-            <Fontisto
-              name="bookmark-alt"
-              size={33}
-              color={bookmarked ? "#c9184a" : "black"}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.ingredients}>
-            <View style={styles.listTitle}>
-              <Text style={styles.textTitle}>Description:</Text>
-              <View
+          <TouchableOpacity style={styles.back}>
+            <Button onPress={() => goBack()} title="Back" />
+          </TouchableOpacity>
+          <View style={styles.userinfo}>
+            <Image
+              style={styles.userImg}
+              source={require("../../Assets/Cook1.png")}
+            />
+            <View style={styles.username}>
+              <Text> {route.params.RecipeUsername} </Text>
+            </View>
+            <View style={styles.edit}>
+              {route.params.LoggedInUser === route.params.RecipeUsername ? (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("EditPost", route.params)}
+                >
+                  <Feather name="edit-2" size={24} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </View>
+
+          <View style={styles.imageAndEdit}>
+            <CachedImage
+              style={styles.image}
+              source={
+                route.params.recipe.ImageURL
+                  ? { uri: route.params.recipe.ImageURL }
+                  : { uri: "https://i.imgur.com/tIrGgMa.png" }
+              }
+            />
+          </View>
+          <View style={styles.icons}>
+            <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
+              <MaterialCommunityIcons
+                name="food-fork-drink"
+                size={40}
+                color={cooked ? "#4db4d7" : "black"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => bookmarkPressed(route.params.recipe)}
+            >
+              <Fontisto
+                name="bookmark-alt"
+                size={40}
+                color={bookmarked ? "#ef6666" : "black"}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.recipe}>
+            <View style={styles.recipeInfo}>
+              <Text
                 style={{
-                  // flexDirection: "flex-start",
-                  // justifyContent: "space-between",
-                  paddingRight: 90,
+                  alignItems: "center",
+                  textTransform: "capitalize",
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  paddingTop: 15,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 15,
-                    textTransform: "capitalize",
-                    flexWrap: "wrap",
-                    marginRight: 90,
-                    paddingTop: 2,
-                  }}
-                >
-                  {route.params.Description}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.ingredients}>
-            <View style={styles.listTitle}>
-              <Text style={styles.textTitle}>Ingredients:</Text>
-
-              <Text style={{ fontSize: 17, color: "gray" }}>
-                {route.params.Ingredients.length} Items
+                {route.params.RecipeName}
               </Text>
             </View>
-            {route.params.Ingredients.map((ingredient) => (
-              <View style={styles.list}>
+            <View style={styles.recipeInfo}>
+              <Text>
+                Cook Time: {route.params.Time.Hours}hrs{" "}
+                {route.params.Time.Minutes}mins
+              </Text>
+            </View>
+            <View style={styles.recipeInfo}>
+              <Text style={{ textTransform: "capitalize" }}>
+                Description: {route.params.Description}
+              </Text>
+            </View>
+            <View style={styles.recipeInfo}>
+              <Text>Ingredients:</Text>
+              {route.params.Ingredients.map((ingredient) => (
                 <Text
                   key={route.params.Ingredients.indexOf(ingredient)}
-                  style={styles.text}
+                  style={{ textTransform: "capitalize" }}
                 >
+                  {/* Checkbox instead of view line 99*/}
+                  <View /> {ingredient.Quantity} {ingredient.Unit}{" "}
                   {ingredient.Name}
                 </Text>
-                <Text style={styles.text}>
-                  {ingredient.Quantity} {ingredient.Unit}
-                </Text>
-              </View>
-            ))}
-          </View>
-          <View style={styles.ingredients}>
-            <View style={styles.listTitle}>
-              <Text style={styles.textTitle}>Directions:</Text>
-              <Text style={{ fontSize: 17, color: "gray" }}>
-                {route.params.Instructions.length} Steps
-              </Text>
+              ))}
             </View>
-            {route.params.Instructions.map((instruction) => (
-              <View style={styles.list}>
+            <View style={styles.recipeInfo}>
+              <Text>Directions:</Text>
+              {route.params.Instructions.map((instruction) => (
                 <Text
                   key={route.params.Instructions.indexOf(instruction)}
-                  style={styles.text}
+                  style={{ flexDirection: "row", textTransform: "capitalize" }}
                 >
-                  <Text style={{ textDecorationLine: "underline" }}>
-                    Step {route.params.Instructions.indexOf(instruction) + 1}:
-                  </Text>
                   <Text>
-                    {"  "} {instruction}
+                    {/* Checkbox instead of view line 113*/}
+                    <View /> Step{" "}
+                    {route.params.Instructions.indexOf(instruction) + 1}:{" "}
+                    {instruction}
                   </Text>
                 </Text>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -358,9 +295,10 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fae1dd",
+    backgroundColor: "rgb(240, 216, 206)",
   },
   userinfo: {
+    backgroundColor: "rgb(240, 216, 206)",
     justifyContent: "flex-start",
     flexDirection: "column",
     marginHorizontal: 20,
@@ -369,22 +307,14 @@ const styles = StyleSheet.create({
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
-    alignContent: "center",
     marginHorizontal: 10,
-    marginVertical: 0,
+    marginVertical: 10,
   },
   image: {
-    width: "100%",
-    height: 350,
+    width: 360,
+    height: 300,
+    marginHorizontal: 30,
     justifyContent: "center",
-    // transform: [
-    //   {
-    //     translateY: scrollY.interpolate({
-    //       inputRange: [-350, 0, 350],
-    //       outputRange: [-350 / 2, 0, 350 * 0.75],
-    //     }),
-    //   },
-    // ],
   },
   icons: {
     flexDirection: "row",
@@ -430,55 +360,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   userImg: {
-    height: 50,
-    width: 50,
+    height: 80,
+    width: 80,
     borderRadius: 75,
-    marginTop: 5,
   },
   back: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 35,
-    width: 35,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: "gray",
-  },
-  ingredients: {
-    marginHorizontal: 10,
-    borderWidth: 1,
-  },
-  listTitle: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    textTransform: "capitalize",
-    marginBottom: 5,
-    marginHorizontal: 5,
-  },
-  list: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 5,
-  },
-  text: {
-    fontSize: 17,
-    textTransform: "capitalize",
-    paddingBottom: 10,
-    marginHorizontal: 5,
-  },
-  textTitle: {
-    fontSize: 17,
-    textTransform: "capitalize",
-    fontWeight: "bold",
-    paddingBottom: 5,
-    marginHorizontal: 5,
-  },
-  imageAndUsername: {
-    flexDirection: "row",
-    // borderBottomWidth: 1,
-    marginBottom: 0,
-    backgroundColor: "#fae1dd",
-    paddingLeft: 10,
-    paddingBottom: 10,
+    alignItems: "flex-start",
+    marginLeft: 20,
+    marginTop: 20,
   },
 });

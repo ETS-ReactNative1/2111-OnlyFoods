@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   userInfoItem: {
     flexDirection: "column",
     justifyContent: "center",
-    marginLeft: 70,
+    marginLeft: 90,
   },
   userHeader: {
     flexDirection: "row",
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   icon: {
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: 60,
+    marginLeft: 80,
     alignItems: "center",
   },
   images: {

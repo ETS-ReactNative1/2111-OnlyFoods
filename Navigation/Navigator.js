@@ -206,7 +206,7 @@ const Navigator = () => {
           headerTintColor: "black",
           headerTitleStyle: {
             fontWeight: "bold",
-            fontSize: 14,
+            fontSize: 20,
             color: "black",
           },
         }}

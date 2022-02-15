@@ -165,51 +165,25 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
               })
             }
           >
-            <View style={styles.userinfo}>
-              <Image
-                style={styles.userImg}
-                source={require("../../Assets/Cook1.png")}
-              />
-              <View style={styles.username}>
-                <Text> {recipe.CreatorUsername} </Text>
-              </View>
-            </View>
-
-            <View style={styles.imageAndEdit}>
-              <View style={styles.image}>
-                <CachedImage
-                  source={
-                    recipe.ImageURL
-                      ? { uri: recipe.ImageURL }
-                      : { uri: "https://i.imgur.com/tIrGgMa.png" }
-                  }
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <View style={styles.userinfo}>
+                <Image
+                  style={styles.userImg}
+                  source={require("../../Assets/Cook1.png")}
                 />
+                <View style={styles.username}>
+                  <Text> {recipe.CreatorUsername} </Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.icons}>
-              <View style={{ justifyContent: "center" }}>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    textTransform: "capitalize",
-                    fontSize: 16,
-                    justifyContent: "center",
-                    alignContent: "center",
-                    marginLeft: 5,
-                  }}
-                >
-                  {recipe.Name}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                }}
-              >
+              <View style={styles.btn}>
                 <TouchableOpacity onPress={() => foodPressed()}>
                   <MaterialCommunityIcons
                     name="food-fork-drink"
-                    size={40}
+                    size={35}
                     color={cooked ? "#2d6a45" : "black"}
                     style={{ paddingRight: 20 }}
                   />
@@ -219,10 +193,38 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                 >
                   <Fontisto
                     name="bookmark-alt"
-                    size={40}
+                    size={35}
                     color={bookmarked ? "#c9184a" : "black"}
                   />
                 </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.imageAndEdit}>
+              <CachedImage
+                style={styles.image}
+                source={
+                  recipe.ImageURL
+                    ? { uri: recipe.ImageURL }
+                    : { uri: "https://i.imgur.com/tIrGgMa.png" }
+                }
+              />
+            </View>
+
+            <View style={styles.icons}>
+              <View style={{ justifyContent: "center" }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "capitalize",
+                    fontSize: 23,
+                    justifyContent: "center",
+                    alignContent: "center",
+                    marginLeft: -5,
+                  }}
+                >
+                  {recipe.Name}
+                </Text>
               </View>
             </View>
             <View style={styles.recipe}>
@@ -247,22 +249,23 @@ const styles = StyleSheet.create({
   userinfo: {
     backgroundColor: "#fae1dd",
     justifyContent: "flex-start",
-    flexDirection: "column",
+    // flexDirection: "column",
     alignContent: "center",
-    // marginHorizontal: 20,
+    marginHorizontal: 20,
     marginTop: 10,
   },
   username: {
     flexDirection: "column",
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
     marginVertical: 10,
+    marginBottom: 20,
   },
   image: {
-    // marginLeft: 30,
     justifyContent: "center",
-    width: 360,
+    width: 450,
     height: 350,
+    marginHorizontal: 0,
     // borderBottomWidth: 1,
     // borderTopWidth: 1,
     // borderLeftWidth: 1,
@@ -280,12 +283,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   recipe: {
-    // marginHorizontal: 30,
-    marginTop: 10,
+    marginHorizontal: 0,
+    marginTop: 25,
     marginBottom: 10,
+    alignContent: "center",
     flexDirection: "column",
     justifyContent: "flex-start",
-    borderBottomColor: "gray",
+    borderBottomColor: "#d3c7c5",
     borderBottomWidth: 1,
   },
   title: {
@@ -300,10 +304,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userImg: {
-    height: 60,
-    width: 60,
+    height: 70,
+    width: 70,
     borderRadius: 75,
     marginLeft: 0,
     marginBottom: -10,
+  },
+  btn: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingLeft: 200,
   },
 });

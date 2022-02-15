@@ -71,9 +71,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   back: {
-    alignItems: "flex-start",
     marginLeft: 20,
-    marginTop: 20,
+    marginTop: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 35,
+    width: 35,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "gray",
   },
 });
 

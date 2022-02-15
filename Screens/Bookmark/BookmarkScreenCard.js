@@ -157,7 +157,7 @@ const BookmarkScreenCard = ({
               <TouchableOpacity onPress={() => foodPressed()}>
                 <MaterialCommunityIcons
                   name="food-fork-drink"
-                  size={40}
+                  size={35}
                   color={cooked ? "#2d6a45" : "black"}
                 />
               </TouchableOpacity>
@@ -168,7 +168,7 @@ const BookmarkScreenCard = ({
             >
               <Fontisto
                 name="bookmark-alt"
-                size={40}
+                size={35}
                 color={bookmarkColor ? "#c9184a" : "black"}
               />
             </TouchableOpacity>
@@ -206,19 +206,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   img: {
-    height: 120,
-    width: 110,
+    height: 110,
+    width: 100,
     marginBottom: 0,
-    marginLeft: 13,
+    marginLeft: 10,
     borderRadius: 3,
-    marginVertical: 10,
-    marginBottom: 10,
+    marginVertical: 8,
+    marginBottom: 8,
     // justifyContent: "flex-start",
   },
   iconContainer: {
     alignItems: "center",
     justifyContent: "center",
     // marginHorizontal: 60,
+    marginVertical: 20,
   },
 
   titleAndDescription: {
