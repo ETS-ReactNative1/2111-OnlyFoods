@@ -182,7 +182,9 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       <View
         style={{
           // position: "absolute",
-          // backgroundColor: "rgb(240, 216, 206)",
+
+          backgroundColor: "#fae1dd",
+
           height: 90,
           flexDirection: "row",
           alignItems: "flex-end",
@@ -235,7 +237,14 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           style={styles.userImg}
           source={require("../../Assets/Cook1.png")}
         />
-        <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
+        <View
+          style={{
+            marginVertical: 10,
+            marginHorizontal: 10,
+            backgroundColor: "#fae1dd",
+          }}
+        >
+
           <Text style={{ color: "gray" }}>Recipe By:</Text>
           <Text style={{ fontWeight: "bold" }}>
             {route.params.RecipeUsername}
@@ -245,26 +254,35 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           style={{
             flexDirection: "row",
             justifyContent: "flex-end",
-            marginHorizontal: 10,
+
+            marginHorizontal: 80,
             marginVertical: 10,
             paddingLeft: 90,
+            backgroundColor: "#fae1dd",
+
           }}
         >
           <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
             <MaterialCommunityIcons
               name="food-fork-drink"
               size={35}
-              color={cooked ? "#4db4d7" : "black"}
+
+              color={cooked ? "#2d6a45" : "black"}
+
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => bookmarkPressed(route.params.recipe)}
-            style={{ paddingHorizontal: 40 }}
+
+            style={{ paddingHorizontal: 20 }}
+
           >
             <Fontisto
               name="bookmark-alt"
               size={33}
-              color={bookmarked ? "#ef6666" : "black"}
+
+              color={bookmarked ? "#c9184a" : "black"}
+
             />
           </TouchableOpacity>
         </View>
@@ -274,9 +292,27 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           <View style={styles.ingredients}>
             <View style={styles.listTitle}>
               <Text style={styles.textTitle}>Description:</Text>
-              <Text style={{ fontSize: 15, textTransform: "capitalize" }}>
-                {route.params.Description}
-              </Text>
+
+              <View
+                style={{
+                  // flexDirection: "flex-start",
+                  // justifyContent: "space-between",
+                  paddingRight: 90,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textTransform: "capitalize",
+                    flexWrap: "wrap",
+                    marginRight: 90,
+                    paddingTop: 2,
+                  }}
+                >
+                  {route.params.Description}
+                </Text>
+              </View>
+
             </View>
           </View>
           <View style={styles.ingredients}>
@@ -335,6 +371,9 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    backgroundColor: "#fae1dd",
+
   },
   userinfo: {
     justifyContent: "flex-start",
@@ -345,8 +384,9 @@ const styles = StyleSheet.create({
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
+    alignContent: "center",
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 0,
   },
   image: {
     width: "100%",
@@ -408,6 +448,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 75,
+    marginTop: 5,
   },
   back: {
     alignItems: "center",
@@ -427,26 +468,40 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     textTransform: "capitalize",
     marginBottom: 5,
+
+    marginHorizontal: 5,
+
   },
   list: {
     flexDirection: "row",
     justifyContent: "space-between",
+
+    marginHorizontal: 5,
+
   },
   text: {
     fontSize: 17,
     textTransform: "capitalize",
     paddingBottom: 10,
+
+    marginHorizontal: 5,
+
   },
   textTitle: {
     fontSize: 17,
     textTransform: "capitalize",
     fontWeight: "bold",
     paddingBottom: 5,
+
+    marginHorizontal: 5,
   },
   imageAndUsername: {
     flexDirection: "row",
-    marginHorizontal: 20,
     // borderBottomWidth: 1,
-    marginBottom: 10,
+    marginBottom: 0,
+    backgroundColor: "#fae1dd",
+    paddingLeft: 10,
+    paddingBottom: 10,
+
   },
 });

@@ -12,9 +12,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   container: {
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     paddingHorizontal: 20,
     marginBottom: 10,
+    borderTopWidth: 2,
+    borderTopColor: "#8a5a44",
   },
   wrapper: {
     marginTop: 10,

@@ -157,8 +157,8 @@ const BookmarkScreenCard = ({
               <TouchableOpacity onPress={() => foodPressed()}>
                 <MaterialCommunityIcons
                   name="food-fork-drink"
-                  size={40}
-                  color={cooked ? "#afebdc" : "black"}
+                  size={35}
+                  color={cooked ? "#2d6a45" : "black"}
                 />
               </TouchableOpacity>
             </View>
@@ -168,8 +168,8 @@ const BookmarkScreenCard = ({
             >
               <Fontisto
                 name="bookmark-alt"
-                size={40}
-                color={bookmarkColor ? "#d4877d" : "black"}
+                size={35}
+                color={bookmarkColor ? "#c9184a" : "black"}
               />
             </TouchableOpacity>
           </View>
@@ -187,38 +187,45 @@ const styles = StyleSheet.create({
   //   justifyContent: "center",
   // },
   imageContainer: {
-    paddingBottom: 10,
-    marginBottom: 10,
-    marginTop: 10,
-    paddingLeft: 10,
+    paddingBottom: 0,
+    marginBottom: 0,
+    marginTop: 5,
+    paddingLeft: 0,
     flexDirection: "row",
-    borderRadius: 5,
-    borderColor: "black",
+    borderColor: "#b07d62",
     borderBottomWidth: 1,
-    backgroundColor: "rgb(240, 216, 206)",
-    marginHorizontal: 10,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    backgroundColor: "#fff1e6",
+    marginHorizontal: 0,
     // borderTopWidth: 2,
     // borderRightWidth: 2,
     // borderLeftWidth: 2,
+    marginHorizontal: 10,
+    borderRadius: 5,
   },
   img: {
-    height: 100,
+    height: 110,
     width: 100,
-    marginBottom: 10,
-    marginLeft: 5,
-    borderRadius: 5,
+    marginBottom: 0,
+    marginLeft: 10,
+    borderRadius: 3,
+    marginVertical: 8,
+    marginBottom: 8,
     // justifyContent: "flex-start",
   },
   iconContainer: {
     alignItems: "center",
     justifyContent: "center",
     // marginHorizontal: 60,
+    marginVertical: 20,
   },
 
   titleAndDescription: {
     justifyContent: "center",
-    marginHorizontal: 5,
-    paddingLeft: 10,
+    marginHorizontal: 0,
+    paddingLeft: 25,
   },
 
   title: {
@@ -235,7 +242,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flexDirection: "row",
     textTransform: "capitalize",
-    fontSize: 18,
+    fontSize: 14,
     marginLeft: -15,
   },
   icons: {

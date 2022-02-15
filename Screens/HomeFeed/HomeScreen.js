@@ -87,7 +87,9 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: "rgb(240, 216, 206)",
+    borderTopWidth: 2,
+    borderTopColor: "#8a5a44",
+    backgroundColor: "#fae1dd",
   },
   userinfo: {
     justifyContent: "flex-start",
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   recipe: {
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
     marginTop: 10,
     marginBottom: 20,
     flexDirection: "column",
@@ -138,17 +140,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userImg: {
-    height: 80,
-    width: 80,
+    height: 50,
+    width: 50,
     borderRadius: 75,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
   },
 
   refresh: {
     alignItems: "flex-end",
     justifyContent: "center",
-    marginRight: 25,
-    marginTop: 10,
+    marginRight: 10,
+    marginTop: 15,
   },
   loadMore: {
     alignItems: "center",
