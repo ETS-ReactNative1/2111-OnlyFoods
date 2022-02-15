@@ -32,7 +32,7 @@ import PhotoUpload, { imageUrl } from "../ImagePicker/ImagePicker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
 //import { useHeaderHeight } from 'react-navigation-stack';
-import { MaterialIcons, Entypo } from "react-native-vector-icons";
+import { MaterialIcons, Entypo, Ionicons } from "react-native-vector-icons";
 
 function EditPostScreen({ navigation: { goBack }, navigation, route }) {
   const user = auth.currentUser;
@@ -203,8 +203,12 @@ function EditPostScreen({ navigation: { goBack }, navigation, route }) {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView style={{ flex: 1, width: "100%", height: "80%" }}>
         <View style={styles.topSpaceAdjust}></View>
-        <TouchableOpacity style={styles.back}>
-          <Button onPress={() => goBack()} title="Back" />
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => goBack()}
+          title="Back"
+        >
+          <Ionicons name="ios-arrow-back" size={24} color="black" />
         </TouchableOpacity>
         {/* Add/Edit Image: Camera Option */}
         <View>
