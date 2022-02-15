@@ -24,7 +24,6 @@ import {
 
 const EditProfileScreen = ({ navigation, route }) => {
   //console.log(route.params);
-  const { colors } = useTheme();
 
   const handleLogOut = () => {
     const auth = getAuth();
@@ -66,7 +65,7 @@ const EditProfileScreen = ({ navigation, route }) => {
           </View>
 
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="user-o" size={20} />
             <TextInput
               placeholder="Username"
               placeholderTextColor="black"
@@ -74,14 +73,13 @@ const EditProfileScreen = ({ navigation, route }) => {
               style={
                 (styles.textInput,
                 {
-                  color: colors.text,
                   marginLeft: 5,
                 })
               }
             />
           </View>
           <View style={styles.action}>
-            <FontAwesome name="envelope-o" color={colors.text} size={20} />
+            <FontAwesome name="envelope-o" size={20} />
             <TextInput
               placeholder="Email"
               placeholderTextColor="black"
@@ -91,14 +89,13 @@ const EditProfileScreen = ({ navigation, route }) => {
               style={
                 (styles.textInput,
                 {
-                  color: colors.text,
                   marginLeft: 5,
                 })
               }
             />
           </View>
           <View style={styles.action}>
-            <Feather name="lock" color={colors.text} size={20} />
+            <Feather name="lock" size={20} />
             <TextInput
               placeholder="Password"
               placeholderTextColor="black"
@@ -106,7 +103,6 @@ const EditProfileScreen = ({ navigation, route }) => {
               style={
                 (styles.textInput,
                 {
-                  color: colors.text,
                   marginLeft: 5,
                 })
               }
@@ -129,7 +125,7 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "red",
   },
   commandBtnOne: {
     padding: 10,
@@ -155,11 +151,11 @@ const styles = StyleSheet.create({
   },
   panel: {
     padding: 20,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     paddingTop: 20,
   },
   header: {
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     shadowColor: "black",
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
@@ -175,7 +171,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     marginBottom: 10,
   },
   panelTitle: {
@@ -191,7 +187,7 @@ const styles = StyleSheet.create({
   panelBtn: {
     padding: 30,
     borderRadius: 10,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     alignItems: "center",
     marginVertical: 7,
   },

@@ -57,12 +57,12 @@ function SignupScreen({ navigation }) {
       style={{
         flex: 1,
         width: "100%",
-        backgroundColor: "rgba(230, 230, 230, 0.716)",
+        backgroundColor: "#d0eaf6",
       }}
       keyboardShouldPersistTaps="always"
     >
       <ImageBackground
-        source={require("../../Assets/background.png")}
+        source={require("../../Assets/background.gif")}
         resizeMode="cover"
         style={{
           flex: 1,

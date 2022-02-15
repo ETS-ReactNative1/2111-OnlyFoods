@@ -201,12 +201,13 @@ const Navigator = () => {
             height: 90,
           },
           headerStyle: {
-            backgroundColor: "rgba(230, 230, 230, 0.716)",
+            backgroundColor: "#f08080",
           },
-          headerTintColor: "rgba(230, 230, 230, 0.716)",
+          headerTintColor: "black",
           headerTitleStyle: {
             fontWeight: "bold",
-            color: "rgba(230, 230, 230, 0.716)",
+            fontSize: 14,
+            color: "black",
           },
         }}
       >

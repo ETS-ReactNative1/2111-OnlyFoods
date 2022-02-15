@@ -216,7 +216,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
               <MaterialCommunityIcons
                 name="food-fork-drink"
                 size={40}
-                color={cooked ? "#4db4d7" : "black"}
+                color={cooked ? "#2d6a45" : "black"}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -225,7 +225,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
               <Fontisto
                 name="bookmark-alt"
                 size={40}
-                color={bookmarked ? "#ef6666" : "black"}
+                color={bookmarked ? "#c9184a" : "black"}
               />
             </TouchableOpacity>
           </View>
@@ -295,10 +295,10 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
   },
   userinfo: {
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     justifyContent: "flex-start",
     flexDirection: "column",
     marginHorizontal: 20,
@@ -307,8 +307,9 @@ const styles = StyleSheet.create({
   username: {
     flexDirection: "column",
     justifyContent: "flex-end",
+    alignContent: "center",
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 0,
   },
   image: {
     width: 360,

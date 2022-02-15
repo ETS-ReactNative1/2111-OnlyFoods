@@ -43,7 +43,7 @@ const ProfileScreen = ({ navigation, loggedInUser }) => {
   useEffect(() => refresh(), []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "rgb(240, 216, 206)" }}>
+    <View style={{ flex: 1, backgroundColor: "#fae1dd" }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <TouchableOpacity style={styles.refresh} onPress={refresh}>
           <MaterialIcons name="refresh" size={30} />
@@ -122,13 +122,16 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(240, 216, 206)",
-    marginHorizontal: 20,
-    marginTop: 10,
+    borderTopWidth: 2,
+    borderTopColor: "#8a5a44",
+    backgroundColor: "#fae1dd",
+    marginHorizontal: 0,
+    marginTop: 0,
+    paddingLeft: 15,
   },
   userImg: {
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 80,
     borderRadius: 75,
   },
   userInfo: {
@@ -139,10 +142,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 10,
     marginTop: 5,
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   userInfoItem: {
     flexDirection: "column",
@@ -182,13 +185,14 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
   img: {
-    height: 110,
-    width: 110,
+    height: 120,
+    width: 115,
   },
 
   refresh: {
     alignItems: "flex-end",
-    marginRight: 5,
+    marginRight: 10,
     justifyContent: "center",
+    marginTop: 15,
   },
 });

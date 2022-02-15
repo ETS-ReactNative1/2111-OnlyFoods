@@ -209,7 +209,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                   <MaterialCommunityIcons
                     name="food-fork-drink"
                     size={40}
-                    color={cooked ? "#4db4d7" : "black"}
+                    color={cooked ? "#2d6a45" : "black"}
                     style={{ paddingRight: 20 }}
                   />
                 </TouchableOpacity>
@@ -219,7 +219,7 @@ const RecipeCard = ({ navigation, recipe, index, loggedInUser }) => {
                   <Fontisto
                     name="bookmark-alt"
                     size={40}
-                    color={bookmarked ? "#ef6666" : "black"}
+                    color={bookmarked ? "#c9184a" : "black"}
                   />
                 </TouchableOpacity>
               </View>
@@ -241,19 +241,20 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
   },
   userinfo: {
-    backgroundColor: "rgb(240, 216, 206)",
+    backgroundColor: "#fae1dd",
     justifyContent: "flex-start",
     flexDirection: "column",
+    alignContent: "center",
     marginHorizontal: 20,
     marginTop: 10,
   },
   username: {
     flexDirection: "column",
-    justifyContent: "flex-end",
-    marginHorizontal: 10,
+    justifyContent: "center",
+    alignContent: "center",
     marginVertical: 10,
   },
   image: {
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
     width: 360,
     height: 300,
     justifyContent: "center",
-    marginHorizontal: 30,
+    marginHorizontal: 20,
     // borderBottomWidth: 1,
     // borderTopWidth: 1,
     // borderLeftWidth: 1,
@@ -298,10 +299,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-
   userImg: {
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
     borderRadius: 75,
+    marginLeft: 0,
+    marginBottom: -10,
   },
 });
