@@ -27,7 +27,7 @@ import {
   updateUserWithEmailAndPassword,
 } from "firebase/auth";
 
-const EditProfileScreen = ({ navigation, route }) => {
+const EditProfileScreen = ({ navigation: { goBack }, route }) => {
   //console.log(route.params);
 
   const handleLogOut = () => {
@@ -44,7 +44,9 @@ const EditProfileScreen = ({ navigation, route }) => {
       <View>
         <TouchableOpacity
           style={styles.back}
+
           onPress={() => navigation.goBack()}
+
           title="Back"
         >
           <Ionicons name="ios-arrow-back" size={24} color="black" />

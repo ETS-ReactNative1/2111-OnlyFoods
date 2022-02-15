@@ -182,7 +182,9 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       <View
         style={{
           // position: "absolute",
+
           backgroundColor: "#fae1dd",
+
           height: 90,
           flexDirection: "row",
           alignItems: "flex-end",
@@ -242,6 +244,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
             backgroundColor: "#fae1dd",
           }}
         >
+
           <Text style={{ color: "gray" }}>Recipe By:</Text>
           <Text style={{ fontWeight: "bold" }}>
             {route.params.RecipeUsername}
@@ -251,27 +254,35 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           style={{
             flexDirection: "row",
             justifyContent: "flex-end",
+
             marginHorizontal: 80,
             marginVertical: 10,
             paddingLeft: 90,
             backgroundColor: "#fae1dd",
+
           }}
         >
           <TouchableOpacity onPress={() => foodPressed(route.params.recipe)}>
             <MaterialCommunityIcons
               name="food-fork-drink"
               size={35}
+
               color={cooked ? "#2d6a45" : "black"}
+
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => bookmarkPressed(route.params.recipe)}
+
             style={{ paddingHorizontal: 20 }}
+
           >
             <Fontisto
               name="bookmark-alt"
               size={33}
+
               color={bookmarked ? "#c9184a" : "black"}
+
             />
           </TouchableOpacity>
         </View>
@@ -281,6 +292,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
           <View style={styles.ingredients}>
             <View style={styles.listTitle}>
               <Text style={styles.textTitle}>Description:</Text>
+
               <View
                 style={{
                   // flexDirection: "flex-start",
@@ -300,6 +312,7 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
                   {route.params.Description}
                 </Text>
               </View>
+
             </View>
           </View>
           <View style={styles.ingredients}>
@@ -358,7 +371,9 @@ export default SinglePostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: "#fae1dd",
+
   },
   userinfo: {
     justifyContent: "flex-start",
@@ -453,24 +468,31 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     textTransform: "capitalize",
     marginBottom: 5,
+
     marginHorizontal: 5,
+
   },
   list: {
     flexDirection: "row",
     justifyContent: "space-between",
+
     marginHorizontal: 5,
+
   },
   text: {
     fontSize: 17,
     textTransform: "capitalize",
     paddingBottom: 10,
+
     marginHorizontal: 5,
+
   },
   textTitle: {
     fontSize: 17,
     textTransform: "capitalize",
     fontWeight: "bold",
     paddingBottom: 5,
+
     marginHorizontal: 5,
   },
   imageAndUsername: {
@@ -480,5 +502,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fae1dd",
     paddingLeft: 10,
     paddingBottom: 10,
+
   },
 });
