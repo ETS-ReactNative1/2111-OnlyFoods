@@ -9,7 +9,12 @@ import {
   TextInput,
   SafeAreaView,
 } from "react-native";
-import { FontAwesome, Feather, Icons } from "react-native-vector-icons";
+import {
+  FontAwesome,
+  Feather,
+  Icons,
+  Ionicons,
+} from "react-native-vector-icons";
 import React from "react";
 import { useTheme } from "react-native-paper";
 import { auth, db } from "../../firebase_config";
@@ -22,7 +27,7 @@ import {
   updateUserWithEmailAndPassword,
 } from "firebase/auth";
 
-const EditProfileScreen = ({ navigation, route }) => {
+const EditProfileScreen = ({ navigation: { goBack }, route }) => {
   //console.log(route.params);
   const { colors } = useTheme();
 
@@ -38,8 +43,12 @@ const EditProfileScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView styles={styles.container}>
       <View>
-        <TouchableOpacity style={styles.back}>
-          <Button onPress={() => navigation.goBack()} title="Back" />
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => goBack()}
+          title="Back"
+        >
+          <Ionicons name="ios-arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <View style={{ margin: 20 }}>
           <View style={{ alignItems: "center" }}>
@@ -227,8 +236,14 @@ const styles = StyleSheet.create({
     color: "brown",
   },
   back: {
-    alignItems: "flex-start",
     marginLeft: 20,
     marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 35,
+    width: 35,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "gray",
   },
 });
