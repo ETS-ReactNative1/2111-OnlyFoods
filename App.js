@@ -27,12 +27,10 @@ LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 export const BookmarksContext = createContext("bookmarks");
-//console.log("bookmarkscontext", BookmarksContext);
 
 function App() {
   const [bookmarks, setBookmarks] = useState(null);
   const value = { bookmarks, setBookmarks };
-  //console.log("value", value)
 
   return (
     <>

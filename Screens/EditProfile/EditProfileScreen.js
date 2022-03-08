@@ -28,7 +28,6 @@ import {
 } from "firebase/auth";
 
 const EditProfileScreen = ({ navigation: { goBack }, route }) => {
-  //console.log(route.params);
 
   const handleLogOut = () => {
     const auth = getAuth();
@@ -144,8 +143,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     alignItems: "center",
     marginTop: 10,
-    // width: 100,
-    // height: 40,
   },
   commandBtnTwo: {
     padding: 10,
@@ -157,8 +154,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     borderRightWidth: 1.5,
     borderColor: "red",
-    // width: 100,
-    // height: 40,
   },
   panel: {
     padding: 20,

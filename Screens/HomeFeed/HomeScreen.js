@@ -37,7 +37,6 @@ const HomeScreen = ({
   navigation,
   loggedInUser,
   refresh,
-  //recipes,
   bookmarkPressed,
   loadMoreRecipes,
 }) => {
@@ -72,7 +71,6 @@ const HomeScreen = ({
             <Text style={{ color: "dodgerblue", fontWeight: "bold" }}>
               Load More Posts
             </Text>
-            {/* <MaterialIcons name="refresh" size={30} /> */}
           </TouchableOpacity>
         ) : null}
       </ScrollView>
@@ -85,8 +83,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     borderTopWidth: 2,
     borderTopColor: "#8a5a44",
     backgroundColor: "#fae1dd",
@@ -120,7 +116,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   recipe: {
-    // marginHorizontal: 30,
     marginTop: 10,
     marginBottom: 20,
     flexDirection: "column",

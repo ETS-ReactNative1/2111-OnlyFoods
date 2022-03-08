@@ -4,9 +4,6 @@
 <p align="center" style="font-style:italic">
 Social media application that strives to connect people, one recipe at a time.
 </p>
-<!-- <h1 align="center">
-<img width="750px" style="border-radius: 15px" src="assets/phone-mockup.jpg" alt="Tingle Mockups">
-</h1> -->
 
 ## Table of Contents
 

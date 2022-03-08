@@ -52,7 +52,6 @@ const BookmarkScreenCard = ({
   };
 
   const bookmarkPressed = (recipe) => {
-    // setBookmarkColor(!bookmarkColor);
     updateBookmarks(recipe);
   };
 
@@ -92,8 +91,7 @@ const BookmarkScreenCard = ({
                 recipe,
                 bookmarks,
                 loggedInUser,
-                setRecipeCardCooked: () => setCooked(!cooked),
-                // setRecipeCardBookmark: () => setBookmarkColor(!bookmarkColor)
+                setRecipeCardCooked: () => setCooked(!cooked)
               })
             }
           >
@@ -131,8 +129,7 @@ const BookmarkScreenCard = ({
                   recipe,
                   bookmarks,
                   loggedInUser,
-                  Time: recipe.Time,
-                  //setRecipeCardBookmark: () => setBookmarked(!bookmarked)
+                  Time: recipe.Time
                 })
               }
             >
@@ -140,19 +137,11 @@ const BookmarkScreenCard = ({
             </Pressable>
 
             <Text style={styles.username}>{recipe.CreatorUsername}</Text>
-            {/* <Text style={styles.duration}>RECIPE TIME</Text> */}
           </View>
         </View>
 
         <View style={styles.iconContainer}>
           <View style={styles.icons}>
-            {/* <TouchableOpacity onPress={() => heartPressed()}>
-          <Ionicons
-            name="heart-outline"
-            size={35}
-            color={heartColor ? "red" : "black"}
-          />
-        </TouchableOpacity>*/}
             <View>
               <TouchableOpacity onPress={() => foodPressed()}>
                 <MaterialCommunityIcons
@@ -182,10 +171,6 @@ const BookmarkScreenCard = ({
 export default BookmarkScreenCard;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  // },
   imageContainer: {
     paddingBottom: 0,
     marginBottom: 0,
@@ -198,27 +183,20 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderLeftWidth: 1,
     backgroundColor: "#fff1e6",
-    marginHorizontal: 0,
-    // borderTopWidth: 2,
-    // borderRightWidth: 2,
-    // borderLeftWidth: 2,
     marginHorizontal: 10,
     borderRadius: 5,
   },
   img: {
     height: 110,
     width: 100,
-    marginBottom: 0,
     marginLeft: 10,
     borderRadius: 3,
     marginVertical: 8,
     marginBottom: 8,
-    // justifyContent: "flex-start",
   },
   iconContainer: {
     alignItems: "center",
     justifyContent: "center",
-    // marginHorizontal: 60,
     marginVertical: 20,
   },
 
@@ -248,7 +226,6 @@ const styles = StyleSheet.create({
   icons: {
     justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: 10,
-    // paddingLeft: 20,
+    marginHorizontal: 10
   },
 });
