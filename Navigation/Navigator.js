@@ -61,23 +61,6 @@ const Navigator = () => {
 
   const [lastVisible, setLastVisible] = useState({});
 
-  /*
-  // Query the first page of docs
-  const first = query(collection(db, "cities"), orderBy("population"), limit(25));
-  const documentSnapshots = await getDocs(first);
-
-  // Get the last visible document
-  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-  console.log("last", lastVisible);
-
-  // Construct a new query starting at this document,
-  // get the next 25 cities.
-  const next = query(collection(db, "cities"),
-      orderBy("population"),
-      startAfter(lastVisible),
-      limit(25));
-  */
-
   const refreshHomePage = () => {
     getDocs(recipesQuery)
       .then((snapshot) => {
@@ -85,9 +68,7 @@ const Navigator = () => {
         snapshot.docs.forEach((doc) => {
           snapRecipes.push({ ...doc.data(), docId: doc.id });
         });
-        //console.log("fromhome", snapRecipes)
         setRecipes(snapRecipes);
-        //console.log(snapshot.docs[snapshot.docs.length-1])
         setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
       })
       .catch((error) => console.log(error));
@@ -156,8 +137,6 @@ const Navigator = () => {
   };
 
   const loadMoreRecipes = () => {
-    console.log(recipes.length);
-    //console.log(lastVisible)
 
     const nextQuery = query(
       recipesRef,
@@ -223,7 +202,6 @@ const Navigator = () => {
               loadMoreRecipes={loadMoreRecipes}
             />
           )}
-          // component={HomeScreen}
           options={{
             unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
@@ -248,7 +226,6 @@ const Navigator = () => {
               refresh={refresh}
             />
           )}
-          // component={BookmarkScreen}
           options={{
             unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
@@ -269,7 +246,6 @@ const Navigator = () => {
               bookmarks={bookmarks}
             />
           )}
-          // component={AddScreen}
           options={{
             unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
@@ -290,7 +266,6 @@ const Navigator = () => {
               bookmarks={bookmarks}
             />
           )}
-          // component={ProfileScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign

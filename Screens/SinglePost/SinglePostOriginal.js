@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-// import { CheckBox } from "@react-native-community/checkbox";
 import {
   Octicons,
   MaterialCommunityIcons,
@@ -33,8 +32,6 @@ import { BookmarksContext } from "../../App";
 import CachedImage from "react-native-expo-cached-image";
 
 const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
-  //console.log("routeAddAPost",route.params)
-  console.log("ROUTE", route.params);
   if (!route.params.recipe) {
     const recipe = {
       CreatedAt: route.params.CreatedAt,
@@ -80,7 +77,6 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       setBookmarks({ ...bookmarks, BookmarkedRecipes: unBookmark });
       if (route.params.setRecipeCardBookmark)
         route.params.setRecipeCardBookmark();
-      //route.params.setRecipeCardBookmark()
       setBookmarked(!bookmarked);
     } else {
       recipesArrCopy.push(recipe);
@@ -88,7 +84,6 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       setBookmarks({ ...bookmarks, BookmarkedRecipes: recipesArrCopy });
       if (route.params.setRecipeCardBookmark)
         route.params.setRecipeCardBookmark();
-      //route.params.setRecipeCardBookmark()
       setBookmarked(!bookmarked);
     }
   };
@@ -117,14 +112,12 @@ const SinglePostScreen = ({ navigation: { goBack }, navigation, route }) => {
       updateDoc(userBookmarksRef, { CookedRecipes: unCook });
       setBookmarks({ ...bookmarks, CookedRecipes: unCook });
       if (route.params.setRecipeCardCooked) route.params.setRecipeCardCooked();
-      //route.params.setRecipeCardBookmark()
       setCooked(!cooked);
     } else {
       recipesArrCopy.push(recipe);
       updateDoc(userBookmarksRef, { CookedRecipes: recipesArrCopy });
       setBookmarks({ ...bookmarks, CookedRecipes: recipesArrCopy });
       if (route.params.setRecipeCardCooked) route.params.setRecipeCardCooked();
-      //route.params.setRecipeCardBookmark()
       setCooked(!cooked);
     }
   };
@@ -354,7 +347,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   edit: {
-    // marginLeft: 70,
     marginBottom: 10,
     alignItems: "flex-end",
     marginRight: 30,

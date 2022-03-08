@@ -1,42 +1,99 @@
-# ONLY FOODS
+<h1 align="center">
+<img width="250px" src="Assets/LOGO.png" alt="OnlyFoods logo">
+</h1>
+<p align="center" style="font-style:italic">
+Social media application that strives to connect people, one recipe at a time.
+</p>
 
-## Tier 1: MVP User Experience
+## Table of Contents
 
-### As a user, I want to be able to:
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Next Steps](#next-steps)
+- [Developers](#developers)
 
-- create an account so I can have a logged-in/logged-out experience
-- view all feeds so I can browse through a variety of recipes
-- view single post so I can see more details/ recipe
-- post a recipe on my account
-- edit my recipe on my account
-  - delete my recipe/post
-- view all MY post
-- have persistent bookmark page
-- settings
-  - change my information
-- be able to mark the recipes the user made
-- have the option of making my post public or private
+## Introduction
 
-### As an engineer, I want to be able to:
+Don’t know what to eat? Get inspired! OnlyFoods is a social media app that has recipes from people all around the world. Bookmark what looks best to you and make it your own. Share your favorite recipes with friends near and far.
 
-- have a well-seeded database so that I am able to simulate a number of different scenarios for the user stories below
-- ser data to be secure so that no one can unrightfully manipulate information
+Watch our demo video [here](https://www.youtube.com/watch?v=VGSq_mDjHcE&list=PLx0iOsdUOUmnZ41wPTSftv8Mpk-PiZqaR&index=15)!
 
-## Tier 2: Social Media Essentials
+## Getting Started
 
-### As a user, I want to be able to:
+Fork and clone this repo. Then, `npm install`.
 
-- write notes in bookmark page under respective recipe
-- use a built in camera feature
-- post a comment on the post
-- upload profile picture
-- view a display to know when content is loading or there is an error so that I can manage my expectations
-- landing page
+Create a Firebase config file:
 
-## Tier 3: Extra Features
+`touch firebase_config.js`
 
-### As a user, I want to be able to:
+Add your Firebase configuration into `firebase_config.js`:
 
-- following/followers feature
-- adding and removing friends(following/followers)
-- chat feature
+```
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore, collection, getDocs } from "firebase/firestore"
+
+const firebaseConfig = {
+  apiKey: 'YOUR_KEY_HERE_AIzaSyAOWH',
+  authDomain: 'your-auth-domain-b1234.firebaseapp.com',
+  databaseURL: 'https://your-database-name.firebaseio.com',
+  projectId: 'your-project-id-1234',
+  storageBucket: 'your-project-id-1234.appspot.com',
+  messagingSenderId: '12345-insert-yourse',
+  appId: 'insert yours: 1:1234:web:ee873bd1234c0deb7eba61ce',
+};
+
+// Initialize Firebase
+let firebase
+
+getApps().length === 0 ? firebase = initializeApp(firebaseConfig) : firebase = getApp();
+
+//get auth
+const auth = getAuth(firebase)
+
+//init firestore services
+const db = getFirestore()
+
+export { firebase, auth, db }
+```
+
+Run `expo start`.
+
+## Tech Stack
+
+- React Native
+- Redux
+- Firebase (Cloud Firestore & Authentication)
+- Expo
+
+## Features
+
+### App Features
+
+- Persistent Login: Through Firebase Authentication
+- Home page: Browse all recipes listed as public from other OnlyFoods users
+- Bookmarks: Save recipes to return to later
+- User page: Keep track of all logged in user's recipes, public and private
+- Upload Recipes: Add photos, ingredients, instructions for recipes, with the option to have the recipe public (shared) or private (only viewable by recipe creator)
+- Edit Recipe: Recipe creators have the option to update any aspect of their posted recipes
+
+### Technical Features
+
+- Registration with E-mail & Password
+- Writing to & reading from Firestore Database
+- React Navigation with nested stack & bottom tab navigators
+
+## Next Steps
+
+The next steps for OnlyFoods include adding the ability to view other users' recipes page, follow specific users and their recipe posts, and a search feature to browse for specific types of recipes.
+
+## Developers
+
+Meet the team behind OnlyFoods!
+
+- Tenzin Choetsu - [Github](https://github.com/10zchoe) | [LinkedIn](https://www.linkedin.com/in/10zinchoetso/)
+- Rachel Kim - [Github](https://github.com/rmk0305) | [LinkedIn](https://www.linkedin.com/in/rachel-minjae-kim/)
+- Melissa Moy - [Github](https://github.com/melissaemoy) | [LinkedIn](https://www.linkedin.com/in/melissamoy8/)
+- Seldon Tselung - [Github](https://github.com/SeldonTselung) | [LinkedIn](https://www.linkedin.com/in/seldontselung/)

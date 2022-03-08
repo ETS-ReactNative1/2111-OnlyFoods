@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
     marginTop: -60,
     paddingHorizontal: 20,
     justifyContent: "center",
-    // marginTop: 110,
     flex: 1,
   },
   input: {

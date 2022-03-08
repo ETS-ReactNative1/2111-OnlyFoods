@@ -27,12 +27,10 @@ import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import PhotoUpload, { imageUrl } from "../ImagePicker/ImagePicker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { set } from "core-js/core/dict";
-//import { useHeaderHeight } from 'react-navigation-stack';
 import { MaterialIcons, Entypo } from "react-native-vector-icons";
 import CachedImage from "react-native-expo-cached-image";
 
 function AddPostScreen({ navigation, loggedInUser }) {
-  //const user = auth.currentUser;
   const recipesRef = collection(db, "recipes");
 
   const publicOrNot = [
@@ -191,20 +189,6 @@ function AddPostScreen({ navigation, loggedInUser }) {
           setEditIngredients(false);
           setImageUrl("");
           navigation.navigate("Home");
-          // CreatedAt: newRecipe.CreatedAt,
-          // Creator: loggedInUser.UserId,
-          // LoggedInUser: loggedInUser.Username,
-          // Description: description,
-          // ImageURL: imageUrlCheck,
-          // Ingredients: filteredIngredients,
-          // Instructions: filteredInstructions,
-          // RecipeUsername: loggedInUser.Username,
-          // RecipeName: name,
-          // Public: publicSetting,
-          // Time: time,
-          // loggedInUser: loggedInUser,
-          // bookmarked: false,
-          // docId: newdoc.id });
         })
         .catch((error) => console.log(error));
     }
@@ -214,19 +198,11 @@ function AddPostScreen({ navigation, loggedInUser }) {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView
         style={{ flex: 1, width: "100%", height: "80%" }}
-        // keyboardShouldPersistTaps="always"
-        // keyboardVerticalOffset={useHeaderHeight() + 20}
       >
         <View>
           {!addPhoto ? (
             <View>
               <View style={styles.imageContainer}>
-                {/* <TouchableOpacity
-                  onPress={() => setAddPhoto(true)}
-                  style={{ paddingTop: 30, paddingBottom: 20 }}
-                >
-                  <MaterialIcons name="camera-alt" size={50} />
-                </TouchableOpacity> */}
                 {imageUrl !== "" ? (
                   <TouchableOpacity
                     onPress={() => setAddPhoto(true)}
