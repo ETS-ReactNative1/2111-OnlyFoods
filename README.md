@@ -64,7 +64,6 @@ Run `expo start`.
 ## Tech Stack
 
 - React Native
-- Redux
 - Firebase (Cloud Firestore & Authentication)
 - Expo
 
